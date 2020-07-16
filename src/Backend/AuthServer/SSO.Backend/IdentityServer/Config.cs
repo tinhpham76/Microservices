@@ -28,7 +28,12 @@ namespace SSO.BackendIdentityServer
                 {
                     ApiSecrets = { new Secret("secret".Sha256()) },
                     Scopes = { "AUTH-SERVER" }
-                }                
+                },
+                new ApiResource("ADMIN-API", "Admin API Resources")
+                {
+                    ApiSecrets = { new Secret("secret".Sha256()) },
+                    Scopes = { "ADMIN-API" }
+                }
             };
         }
 
@@ -37,8 +42,10 @@ namespace SSO.BackendIdentityServer
             return new List<ApiScope>
             {
                 // backward compat
-                new ApiScope("AUTH-SERVER")               
+                new ApiScope("AUTH-SERVER"),
+                new ApiScope("ADMIN-API")
             };
+            
         }
 
         public static IEnumerable<Client> GetClients()
@@ -46,8 +53,8 @@ namespace SSO.BackendIdentityServer
             return new List<Client> {
                 new Client
                 {
-                    ClientId = "swagger_admin",
-                    ClientName = "Swagger Admin",
+                    ClientId = "swagger-auth-server",
+                    ClientName = "Swagger Auth Server",
 
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
@@ -61,6 +68,27 @@ namespace SSO.BackendIdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
+                        "AUTH-SERVER"
+                    }
+                },
+                 new Client
+                {
+                    ClientId = "swagger-admin-api",
+                    ClientName = "Swagger Admin Api",
+
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+
+                    RedirectUris =           { "https://localhost:5002/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { "https://localhost:5002/swagger" },
+                    AllowedCorsOrigins =     { "https://localhost:5002" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "ADMIN-API",
                         "AUTH-SERVER"
                     }
                 }

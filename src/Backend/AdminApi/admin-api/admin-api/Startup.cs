@@ -1,15 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using admin_api.Data;
+using admin_api.Services;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -33,8 +39,52 @@ namespace admin_api
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
+            // Config http client
+            services.AddHttpClient("BackendApi").ConfigurePrimaryHttpMessageHandler(() =>
+            {
+                var handler = new HttpClientHandler();
+                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+                //if (environment == Environments.Development)
+                //{
+                //    handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+                //}
+
+
+                handler.ServerCertificateCustomValidationCallback += (message, cert, chain, errors) => { return true; };
+                return handler;
+
+
+            });
+            
             services.AddControllers();
 
+            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
+
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+
+            })
+            .AddIdentityServerAuthentication(options =>
+            {
+                options.Authority = Configuration["Authority"];
+                options.ApiSecret = "secret";
+                options.ApiName = "ADMIN-API";
+                options.ApiName = "AUTH-SERVER";
+
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("myPolicy", builder =>
+                {
+                    // require scope1
+                    builder.RequireScope("ADMIN-API");
+                    builder.RequireScope("AUTH-SERVER");
+                });
+            });          
 
             // Config swagger
             services.AddSwaggerGen(c =>
@@ -49,7 +99,7 @@ namespace admin_api
                         Implicit = new OpenApiOAuthFlow
                         {
                             AuthorizationUrl = new Uri(Configuration["SwaggerAuthorityUrl"] + "/connect/authorize"),
-                            Scopes = new Dictionary<string, string> { { "ADMIN-API", "ADMIN API" } }
+                            Scopes = new Dictionary<string, string> { { "ADMIN-API", "Admin API Resources" }, { "AUTH-SERVER", "Auth Server API Resources" } }
                         },
                     },
                 });
@@ -60,10 +110,16 @@ namespace admin_api
                         {
                             Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
                         },
-                        new List<string>{ "ADMIN-API" }
+                        new List<string>{ "ADMIN-API", "AUTH-SERVER" }
                     }
                 });
             });
+
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            //Declare DI containers
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IClientApiClient, ClientApiClient>();
 
         }
 
@@ -73,11 +129,13 @@ namespace admin_api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
+            }                      
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
@@ -90,7 +148,7 @@ namespace admin_api
 
             app.UseSwaggerUI(c =>
             {
-                c.OAuthClientId("swagger_admin");
+                c.OAuthClientId("swagger-admin-api");
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "SSO API V1");
             });
         }

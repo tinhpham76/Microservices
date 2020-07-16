@@ -197,7 +197,7 @@ namespace SSO.Backend
 
             app.UseSwaggerUI(c =>
             {
-                c.OAuthClientId("swagger_admin");
+                c.OAuthClientId("swagger-auth-server");
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "SSO API V1");
             });
 
