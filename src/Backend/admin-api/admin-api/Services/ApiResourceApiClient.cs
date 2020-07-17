@@ -45,7 +45,7 @@ namespace admin_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PostAsync($"/api/apiResources", data);
+            var response = await client.PostAsync($"/api/ApiResources", data);
             return response.IsSuccessStatusCode;
         }
     }

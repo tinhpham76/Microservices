@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace admin_services.RequestModels
+namespace auth_services.RequestModel
 {
     public class ApiResourceRequestModel
     {

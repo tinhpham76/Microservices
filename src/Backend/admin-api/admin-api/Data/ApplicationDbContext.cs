@@ -24,7 +24,13 @@ namespace admin_api.Data
         public DbSet<ClientProperty> ClientProperties { get; set; }
 
         public DbSet<IdentityResource> IdentityResources { get; set; }
+
+        // Dbset Api resources
         public DbSet<ApiResource> ApiResources { get; set; }
+        public DbSet<ApiResourceClaim> ApiResourceClaims { get; set; }
+        public DbSet<ApiResourceSecret> ApiResourceSecrets { get; set; }
+        public DbSet<ApiResourceProperty> ApiResourceProperties { get; set; }
+        public DbSet<ApiResourceScope> ApiResourceScopes { get; set; }
         public DbSet<ApiScope> ApiScopes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

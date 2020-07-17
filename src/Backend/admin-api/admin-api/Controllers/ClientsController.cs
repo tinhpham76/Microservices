@@ -61,7 +61,9 @@ namespace admin_api.Controllers
         {
             var result = await _clientApiClient.PostClient(request);
             if (result == true)
+            {
                 return Ok($"Client {request.ClientName} already created!");
+            }                
             return BadRequest($"Client {request.ClientName} can't created!");
         }
 
@@ -70,8 +72,10 @@ namespace admin_api.Controllers
         {
             var result = await _clientApiClient.DeleteClient(clientId);
             if (result == true)
-                return Ok($"Client {clientId} already deleted!");
-            return BadRequest($"Client {clientId} can't deleted!");
+            {
+                return Ok($"Delete success client {clientId}!");
+            }                
+            return BadRequest($"Delete error client {clientId}!");
         }
         #endregion
 
@@ -83,7 +87,7 @@ namespace admin_api.Controllers
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
             {
-                return NotFound();
+                return NotFound($"Can't found clientId {clientId} in database!");
             }
             var origins = await _context.ClientCorsOrigins
                    .Where(x => x.ClientId == client.Id)
@@ -106,7 +110,7 @@ namespace admin_api.Controllers
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
             {
-                return NotFound();
+                return NotFound($"Can't found clientId {clientId} in database!");
             }
             client.Description = request.Description;
             client.ClientUri = request.ClientUri;
@@ -157,7 +161,7 @@ namespace admin_api.Controllers
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
             {
-                return NotFound();
+                return NotFound($"Can't found clientId {clientId} in database!");
             }
             var allowedScopes = await _context.ClientScopes
                 .Where(x => x.ClientId == client.Id)
@@ -192,7 +196,7 @@ namespace admin_api.Controllers
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
             {
-                return NotFound();
+                return NotFound($"Can't found clientId {clientId} in database!");
             }
             client.Enabled = request.Enabled;
             client.RequireConsent = request.RequireConsent;
@@ -296,7 +300,7 @@ namespace admin_api.Controllers
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
-                return NotFound();
+                return NotFound($"Can't found clientId {clientId} in database!");
             var query = _context.ClientSecrets.Where(x => x.ClientId.Equals(client.Id));
             var clientSecrets = await query.Select(x => new ClientSecretViewModels()
             {
@@ -317,7 +321,7 @@ namespace admin_api.Controllers
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
             {
-                return BadRequest($"Can't found client {clientId} in database!");
+                return NotFound($"Can't found client {clientId} in database!");
             }
             var clientSecret = new ClientSecret()
             {
@@ -328,16 +332,15 @@ namespace admin_api.Controllers
                 Expiration = request.Expiration,
                 Created = DateTime.UtcNow
             };
+            client.Updated = DateTime.UtcNow;
+            _context.Clients.Update(client);
             _context.ClientSecrets.Add(clientSecret);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                client.Updated = DateTime.UtcNow;
-                _context.Clients.Update(client);
-                await _context.SaveChangesAsync();
-                return Ok();
+                return Ok($"Update success {client.ClientName}!");
             }
-            return BadRequest();
+            return BadRequest($"Update error {client.ClientName}!");
         }
 
         //Delete client secret
@@ -346,10 +349,10 @@ namespace admin_api.Controllers
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
-                return NotFound();
+                return NotFound($"Can't found client {clientId} in database!");
             var clientSecret = await _context.ClientSecrets.FirstOrDefaultAsync(x => x.ClientId == client.Id && x.Id == secretId);
             if (clientSecret == null)
-                return NotFound();
+                return NotFound($"Can't found secret of client {clientId} in database!");
 
             _context.ClientSecrets.Remove(clientSecret);
             client.Updated = DateTime.UtcNow;
@@ -357,18 +360,18 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok();
+                return Ok($"Delete success secret of client {client.ClientName}!");
             }
-            return BadRequest();
+            return BadRequest($"Delete error of client {client.ClientName}!");
         }
 
         // Client Properties
-        [HttpGet("{clientId}/settings/clientProperties")]
+        [HttpGet("{clientId}/settings/properties")]
         public async Task<IActionResult> GetClientProperties(string clientId)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
-                return NotFound();
+                return NotFound($"Can't found client {clientId} in database!");
             var query = _context.ClientProperties.Where(x => x.ClientId.Equals(client.Id));
             var clientProperties = await query.Select(x => new ClientPropertyViewModels()
             {
@@ -376,46 +379,50 @@ namespace admin_api.Controllers
                 Key = x.Key,
                 Value = x.Value
             }).ToListAsync();
-
             return Ok(clientProperties);
         }
 
         // Post client Property
-        [HttpPost("{clientId}/settings/clientProperties")]
+        [HttpPost("{clientId}/settings/properties")]
         public async Task<IActionResult> PostClientProperty(string clientId, [FromBody] ClientPropertyRequestModel request)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
             {
-                return BadRequest($"Can't found client {clientId} in database!");
+                return NotFound($"Can't found client {clientId} in database!");
             }
-            var clientProperty = new ClientProperty()
+            var clientProperty = await _context.ClientProperties.FirstOrDefaultAsync(x => x.Key == request.Key && x.ClientId == client.Id);
+            if (clientProperty != null)
+            {
+                return BadRequest($"Client porperty key of client {clientId} already exist!");
+            }
+            var clientPropertyRequest = new ClientProperty()
             {
                 Key = request.Key,
                 Value = request.Value,
                 ClientId = client.Id
             };
-            _context.ClientProperties.Add(clientProperty);
+            _context.ClientProperties.Add(clientPropertyRequest);
             client.Updated = DateTime.UtcNow;
             _context.Clients.Update(client);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok();
+                return Ok($"Update success {client.ClientName}!");
             }
-            return BadRequest();
+            return BadRequest($"Update error {client.ClientName}!");
         }
 
         //Delete client secret
-        [HttpDelete("{clientId}/settings/clientProperties/{propertyId}")]
-        public async Task<IActionResult> DeleteClientProperty(string clientId, int propertyId)
+        [HttpDelete("{clientId}/settings/properties/{propertyKey}")]
+        public async Task<IActionResult> DeleteClientProperty(string clientId, string propertyKey)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
-                return NotFound();
-            var clientProperty = await _context.ClientProperties.FirstOrDefaultAsync(x => x.ClientId == client.Id && x.Id == propertyId);
+                return NotFound($"Can't found client {clientId} in database!");
+            var clientProperty = await _context.ClientProperties.FirstOrDefaultAsync(x => x.ClientId == client.Id && x.Key == propertyKey);
             if (clientProperty == null)
-                return NotFound();
+                return NotFound($"Can't found property key of client {clientId} in database!");
 
             _context.ClientProperties.Remove(clientProperty);
             client.Updated = DateTime.UtcNow;
@@ -423,9 +430,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok();
+                return Ok($"Delete success {client.ClientName}!");
             }
-            return BadRequest();
+            return BadRequest($"Delete success {client.ClientName}!");
         }
         #endregion
 
@@ -437,7 +444,7 @@ namespace admin_api.Controllers
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
             {
-                return NotFound();
+                return NotFound($"Can't found client {clientId} in database!");
             }
             var postLogoutRedirectUris = await _context.ClientPostLogoutRedirectUris
                     .Where(x => x.ClientId == client.Id)
@@ -462,7 +469,7 @@ namespace admin_api.Controllers
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
             {
-                return NotFound();
+                return NotFound($"Can't found client {clientId} in database!");
             }
             client.EnableLocalLogin = request.EnableLocalLogin;
             client.FrontChannelLogoutUri = request.FrontChannelLogoutUri;
@@ -515,7 +522,7 @@ namespace admin_api.Controllers
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
             {
-                return NotFound();
+                return NotFound($"Can't found client {clientId} in database!");
             }
             var clientToken = new ClientTokenViewModel()
             {
@@ -543,7 +550,7 @@ namespace admin_api.Controllers
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
             {
-                return NotFound();
+                return NotFound($"Can't found client {clientId} in database!");
             }
             client.IdentityTokenLifetime = request.IdentityTokenLifetime;
             client.AccessTokenLifetime = request.AccessTokenLifetime;
@@ -561,7 +568,7 @@ namespace admin_api.Controllers
             client.ClientClaimsPrefix = request.ClientClaimsPrefix;
             client.Updated = DateTime.UtcNow;
             _context.Clients.Update(client);
-           
+
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
@@ -577,7 +584,7 @@ namespace admin_api.Controllers
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
-                return NotFound();
+                return NotFound($"Can't found client {clientId} in database!");
             var query = _context.ClientClaims.Where(x => x.ClientId.Equals(client.Id));
             var clientClaims = await query.Select(x => new ClientClaimViewModel()
             {
@@ -596,9 +603,14 @@ namespace admin_api.Controllers
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
             {
-                return BadRequest($"Can't found client {clientId} in database!");
+                return NotFound($"Can't found client {clientId} in database!");
             }
-            var clientClaim = new ClientClaim()
+            var clientClaim = await _context.ClientClaims.FirstOrDefaultAsync(x => x.Type == request.Type && x.ClientId == client.Id);
+            if (clientClaim != null)
+            {
+                return BadRequest($"Client claim type of client {clientId} already exist!");
+            }
+            var clientClaimRequest = new ClientClaim()
             {
                 Type = request.Type,
                 Value = request.Value,
@@ -610,9 +622,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok();
+                return Ok($"Update success {client.ClientName}!");
             }
-            return BadRequest();
+            return BadRequest($"Update error {client.ClientName}!");
         }
 
         //Delete client claim
@@ -621,22 +633,20 @@ namespace admin_api.Controllers
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
-                return NotFound();
+                return NotFound($"Can't found client {clientId} in database!");
             var clientClaim = await _context.ClientClaims.FirstOrDefaultAsync(x => x.ClientId == client.Id && x.Id == claimId);
             if (clientClaim == null)
-                return NotFound();
+                return NotFound($"Can't found client claim type of client {clientId} in database!");
             _context.ClientClaims.Remove(clientClaim);
             client.Updated = DateTime.UtcNow;
             _context.Clients.Update(client);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok();
+                return Ok($"Delete success client claim type of client {client.ClientName}!");
             }
-            return BadRequest();
+            return BadRequest($"Delete error client claim type of client {client.ClientName}!");
         }
-
-
         #endregion
 
         #region Device Flow Setting
@@ -647,7 +657,7 @@ namespace admin_api.Controllers
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
             {
-                return NotFound();
+                return NotFound($"Can't found client {clientId} in database!");
             }
             var clientDeviceFlow = new ClientDeviceFlowViewModel()
             {
@@ -657,12 +667,12 @@ namespace admin_api.Controllers
             return Ok(clientDeviceFlow);
         }
 
-        [HttpPut("{clientId}/deviceFlows")]       
+        [HttpPut("{clientId}/deviceFlows")]
         public async Task<IActionResult> PutClientDeviceFlow(string clientId, [FromBody] ClientDeviceFlowRequestModel request)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
-                return NotFound();
+                return NotFound($"Can't found client {clientId} in database!");
             client.UserCodeType = request.UserCodeType;
             client.DeviceCodeLifetime = client.DeviceCodeLifetime;
             client.Updated = DateTime.UtcNow;

@@ -120,7 +120,7 @@ namespace admin_api
             //Declare DI containers
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IClientApiClient, ClientApiClient>();
-
+            services.AddTransient<IApiResourceApiClient, ApiResourceApiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

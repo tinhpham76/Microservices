@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace admin_services.RequestModels
+namespace admin_services.ViewModels
 {
-    public class ApiResourceRequestModel
+    public class ApiResourceViewModel
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
