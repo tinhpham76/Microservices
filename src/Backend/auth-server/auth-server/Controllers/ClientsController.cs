@@ -23,7 +23,7 @@ namespace auth_server.Controllers
 
         //Post client
         [HttpPost]
-        public async Task<IActionResult> PostClient([FromBody] ClientRequest request)
+        public async Task<IActionResult> PostClient([FromBody] ClientRequestModel request)
         {
             var client = await _configurationDbContext.Clients.FirstOrDefaultAsync(x => x.ClientName == request.ClientName);
             if (client != null)
@@ -45,7 +45,7 @@ namespace auth_server.Controllers
                     : request.ClientType.Equals("device") ? GrantTypes.DeviceFlow : GrantTypes.Implicit,
 
             };
-            _configurationDbContext.Add(clientRequest.ToEntity());
+            _configurationDbContext.Clients.Add(clientRequest.ToEntity());
             var result = await _configurationDbContext.SaveChangesAsync();
             if (result > 0)
             {

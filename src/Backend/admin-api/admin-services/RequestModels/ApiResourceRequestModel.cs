@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace admin_services.RequestModels
 {
@@ -12,7 +10,7 @@ namespace admin_services.RequestModels
         public bool Enabled { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
         public string AllowedAccessTokenSigningAlgorithms { get; set; }
-        public List<string> UserClaim { get; set; }
+        public List<string> UserClaims { get; set; }
         public List<string> Scope { get; set; }
     }
 }

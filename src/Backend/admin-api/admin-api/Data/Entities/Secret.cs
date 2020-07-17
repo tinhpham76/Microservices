@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace admin_api.Data.Entities
 {
@@ -11,7 +8,7 @@ namespace admin_api.Data.Entities
         public string Description { get; set; }
         public string Value { get; set; }
         public DateTime? Expiration { get; set; }
-        public string Type { get; set; } 
+        public string Type { get; set; }
         public DateTime Created { get; set; }
     }
 }

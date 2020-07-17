@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using admin_api.Data;
+﻿using admin_api.Data;
 using admin_api.Data.Entities;
 using admin_api.Services;
 using admin_services;
 using admin_services.RequestModels;
 using admin_services.ViewModels;
 using IdentityModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace admin_api.Controllers
 {
@@ -63,7 +61,7 @@ namespace admin_api.Controllers
             if (result == true)
             {
                 return Ok($"Client {request.ClientName} already created!");
-            }                
+            }
             return BadRequest($"Client {request.ClientName} can't created!");
         }
 
@@ -74,7 +72,7 @@ namespace admin_api.Controllers
             if (result == true)
             {
                 return Ok($"Delete success client {clientId}!");
-            }                
+            }
             return BadRequest($"Delete error client {clientId}!");
         }
         #endregion
@@ -145,9 +143,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success {client.ClientName}!");
+                return Ok($"Update success client {client.ClientName}!");
             }
-            return BadRequest($"Update error {client.ClientName}!");
+            return BadRequest($"Update error client {client.ClientName}!");
 
         }
 
@@ -288,9 +286,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success {client.ClientName}!");
+                return Ok($"Update success client {client.ClientName}!");
             }
-            return BadRequest($"Update error {client.ClientName}!");
+            return BadRequest($"Update error client {client.ClientName}!");
 
         }
 
@@ -338,9 +336,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success {client.ClientName}!");
+                return Ok($"Update success client {client.ClientName}!");
             }
-            return BadRequest($"Update error {client.ClientName}!");
+            return BadRequest($"Update error client {client.ClientName}!");
         }
 
         //Delete client secret
@@ -408,12 +406,12 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success {client.ClientName}!");
+                return Ok($"Update success client {client.ClientName}!");
             }
-            return BadRequest($"Update error {client.ClientName}!");
+            return BadRequest($"Update error client {client.ClientName}!");
         }
 
-        //Delete client secret
+        //Delete client property
         [HttpDelete("{clientId}/settings/properties/{propertyKey}")]
         public async Task<IActionResult> DeleteClientProperty(string clientId, string propertyKey)
         {
@@ -430,9 +428,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Delete success {client.ClientName}!");
+                return Ok($"Delete success client property key for client {client.ClientName}!");
             }
-            return BadRequest($"Delete success {client.ClientName}!");
+            return BadRequest($"Delete error client property key for client {client.ClientName}!");
         }
         #endregion
 
@@ -507,9 +505,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success {client.ClientName}!");
+                return Ok($"Update success client {client.ClientName}!");
             }
-            return BadRequest($"Update error {client.ClientName}!");
+            return BadRequest($"Update error client {client.ClientName}!");
         }
 
         #endregion       
@@ -572,9 +570,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success {client.ClientName}!");
+                return Ok($"Update success client {client.ClientName}!");
             }
-            return BadRequest($"Update error {client.ClientName}!");
+            return BadRequest($"Update error client {client.ClientName}!");
 
         }
 
@@ -622,9 +620,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success {client.ClientName}!");
+                return Ok($"Update success client {client.ClientName}!");
             }
-            return BadRequest($"Update error {client.ClientName}!");
+            return BadRequest($"Update error client {client.ClientName}!");
         }
 
         //Delete client claim
@@ -679,8 +677,8 @@ namespace admin_api.Controllers
             _context.Clients.Update(client);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
-                return Ok($"Update success {client.ClientName}!");
-            return BadRequest($"Update error {client.ClientName}!");
+                return Ok($"Update success client {client.ClientName}!");
+            return BadRequest($"Update error client {client.ClientName}!");
         }
         #endregion            
     }

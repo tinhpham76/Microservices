@@ -1,13 +1,9 @@
 ﻿using admin_api.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace admin_api.Data
 {
-    public class ApplicationDbContext: DbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -23,7 +19,10 @@ namespace admin_api.Data
         public DbSet<ClientClaim> ClientClaims { get; set; }
         public DbSet<ClientProperty> ClientProperties { get; set; }
 
+        // Dbset Identity resource
         public DbSet<IdentityResource> IdentityResources { get; set; }
+        public DbSet<IdentityResourceClaim> IdentityResourceClaims { get; set; }
+        public DbSet<IdentityResourceProperty> IdentityResourceProperties { get; set; }
 
         // Dbset Api resources
         public DbSet<ApiResource> ApiResources { get; set; }
@@ -31,7 +30,11 @@ namespace admin_api.Data
         public DbSet<ApiResourceSecret> ApiResourceSecrets { get; set; }
         public DbSet<ApiResourceProperty> ApiResourceProperties { get; set; }
         public DbSet<ApiResourceScope> ApiResourceScopes { get; set; }
+
+        // Dbset Api scope
         public DbSet<ApiScope> ApiScopes { get; set; }
+        public DbSet<ApiScopeClaim> ApiScopeClaims { get; set; }
+        public DbSet<ApiScopeProperty> ApiScopeProperties { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

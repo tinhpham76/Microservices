@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace admin_api.Data.Entities
 {
@@ -17,7 +15,7 @@ namespace admin_api.Data.Entities
         public bool ShowInDiscoveryDocument { get; set; }
         public List<IdentityResourceClaim> UserClaims { get; set; }
         public List<IdentityResourceProperty> Properties { get; set; }
-        public DateTime Created { get; set; } 
+        public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
         public bool NonEditable { get; set; }
     }

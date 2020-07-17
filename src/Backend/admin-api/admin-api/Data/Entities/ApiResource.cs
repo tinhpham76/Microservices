@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace admin_api.Data.Entities
 {
@@ -18,7 +16,7 @@ namespace admin_api.Data.Entities
         public List<ApiResourceScope> Scopes { get; set; }
         public List<ApiResourceClaim> UserClaims { get; set; }
         public List<ApiResourceProperty> Properties { get; set; }
-        public DateTime Created { get; set; } 
+        public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
         public DateTime? LastAccessed { get; set; }
         public bool NonEditable { get; set; }

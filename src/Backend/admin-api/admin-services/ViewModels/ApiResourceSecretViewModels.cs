@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace admin_services.ViewModels
+﻿namespace admin_services.ViewModels
 {
     public class ApiResourceSecretViewModels
     {

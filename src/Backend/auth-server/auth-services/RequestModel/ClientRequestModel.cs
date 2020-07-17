@@ -4,7 +4,7 @@ using System.Text;
 
 namespace auth_services.RequestModel
 {
-    public class ClientRequest
+    public class ClientRequestModel
     {
         public string ClientName { get; set; }
         public string Description { get; set; }

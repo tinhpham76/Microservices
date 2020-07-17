@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using admin_api.Data;
 using admin_api.Services;
 using IdentityServer4.AccessTokenValidation;
@@ -10,15 +5,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
 
 namespace admin_api
 {
@@ -56,7 +51,7 @@ namespace admin_api
 
 
             });
-            
+
             services.AddControllers();
 
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
@@ -84,7 +79,7 @@ namespace admin_api
                     builder.RequireScope("ADMIN-API");
                     builder.RequireScope("AUTH-SERVER");
                 });
-            });          
+            });
 
             // Config swagger
             services.AddSwaggerGen(c =>
@@ -121,6 +116,8 @@ namespace admin_api
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IClientApiClient, ClientApiClient>();
             services.AddTransient<IApiResourceApiClient, ApiResourceApiClient>();
+            services.AddTransient<IIdentityResourceApiClient, IdentityResourceApiClient>();
+            services.AddTransient<IApiScopeApiClient, ApiScopeApiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -129,9 +126,15 @@ namespace admin_api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }                      
+            }
 
             app.UseHttpsRedirection();
+
+            app.UseCors(corsPolicyBuilder =>
+            corsPolicyBuilder.WithOrigins(Configuration["AllowOrigin"])
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+           );
 
             app.UseRouting();
 
