@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using auth_services.RequestModel;
+﻿using auth_services.RequestModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
-using IdentityServer4.Stores;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace auth_server.Controllers
 {
     public class ClientsController : BaseController
     {
-        private readonly ConfigurationDbContext _configurationDbContext;      
+        private readonly ConfigurationDbContext _configurationDbContext;
         public ClientsController(ConfigurationDbContext configurationDbContext)
         {
-            _configurationDbContext = configurationDbContext;           
+            _configurationDbContext = configurationDbContext;
         }
 
         //Post client

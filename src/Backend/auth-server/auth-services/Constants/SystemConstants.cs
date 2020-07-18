@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace auth_services.Constants
+﻿namespace auth_services.Constants
 {
     public class SystemConstants
     {

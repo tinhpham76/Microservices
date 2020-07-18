@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using auth_server.Data.Entities;
+﻿using auth_server.Data.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace auth_server.Areas.Identity.Pages.Account.Manage
 {
@@ -74,7 +74,7 @@ namespace auth_server.Areas.Identity.Pages.Account.Manage
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
             // Request a redirect to the external login provider to link a login for the current user
             var redirectUrl = Url.Page("./ExternalLogins", pageHandler: "LinkLoginCallback");
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl,  _userManager.GetUserId(User));
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
             return new ChallengeResult(provider, properties);
         }
 

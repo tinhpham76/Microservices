@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace auth_services
+﻿namespace auth_services
 {
     public class ErrorViewModel
     {

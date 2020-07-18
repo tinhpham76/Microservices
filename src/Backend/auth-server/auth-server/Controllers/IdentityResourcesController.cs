@@ -4,9 +4,6 @@ using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace auth_server.Controllers
@@ -20,10 +17,10 @@ namespace auth_server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostIdentityResource([FromBody]IdentityResourceRequestModel request)
+        public async Task<IActionResult> PostIdentityResource([FromBody] IdentityResourceRequestModel request)
         {
             var identityResource = await _configurationDbContext.IdentityResources.FirstOrDefaultAsync(x => x.Name == request.Name);
-            if(identityResource != null)
+            if (identityResource != null)
             {
                 return BadRequest($"Identity resource {request.Name} already exist!");
             }
@@ -48,7 +45,7 @@ namespace auth_server.Controllers
         }
 
         //Delete Identity Resource
-        [HttpDelete("{identityResourceName}")]        
+        [HttpDelete("{identityResourceName}")]
         public async Task<IActionResult> DeleteIdentityResource(string identityResourceName)
         {
             var identityResource = await _configurationDbContext.IdentityResources.FirstOrDefaultAsync(x => x.Name == identityResourceName);

@@ -4,9 +4,6 @@ using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace auth_server.Controllers
@@ -14,14 +11,14 @@ namespace auth_server.Controllers
     public class ApiResourcesController : BaseController
     {
         private readonly ConfigurationDbContext _configurationDbContext;
-       
+
         public ApiResourcesController(ConfigurationDbContext configurationDbContext)
         {
             _configurationDbContext = configurationDbContext;
         }
 
         //Post basic infor api resource
-        [HttpPost]       
+        [HttpPost]
         public async Task<IActionResult> PostApiResource([FromBody] ApiResourceRequestModel request)
         {
             var apiResource = await _configurationDbContext.ApiResources.FirstOrDefaultAsync(x => x.Name == request.Name);
@@ -36,8 +33,8 @@ namespace auth_server.Controllers
                 AllowedAccessTokenSigningAlgorithms = { request.AllowedAccessTokenSigningAlgorithms },
                 ShowInDiscoveryDocument = request.ShowInDiscoveryDocument,
                 UserClaims = request.UserClaim,
-                Scopes = request.Scope            
-                
+                Scopes = request.Scope
+
             };
             _configurationDbContext.ApiResources.Add(apiResourceRequest.ToEntity());
             var result = await _configurationDbContext.SaveChangesAsync();
@@ -47,7 +44,7 @@ namespace auth_server.Controllers
         }
 
         //Delete api resource
-        [HttpDelete("{apiResourceName}")]      
+        [HttpDelete("{apiResourceName}")]
         public async Task<IActionResult> DeleteApiResource(string apiResourceName)
         {
             var apiResource = await _configurationDbContext.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
