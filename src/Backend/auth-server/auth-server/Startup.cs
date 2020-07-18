@@ -192,7 +192,7 @@ namespace auth_server
             app.UseSwaggerUI(c =>
             {
                 c.OAuthClientId("swagger-auth-server");
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SSO API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AUTH SERVER API V1");
             });
 
         }

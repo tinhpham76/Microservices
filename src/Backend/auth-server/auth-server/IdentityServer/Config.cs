@@ -31,6 +31,11 @@ namespace auth_server.IdentityServer
                 {
                     ApiSecrets = { new Secret("secret".Sha256()) },
                     Scopes = { "ADMIN-API" }
+                },
+                 new ApiResource("USER-API", "User API Resources")
+                {
+                    ApiSecrets = { new Secret("secret".Sha256()) },
+                    Scopes = { "USER-API" }
                 }
             };
         }
@@ -41,7 +46,8 @@ namespace auth_server.IdentityServer
             {
                 // backward compat
                 new ApiScope("AUTH-SERVER"),
-                new ApiScope("ADMIN-API")
+                new ApiScope("ADMIN-API"),
+                 new ApiScope("USER-API")
             };
 
         }
@@ -87,6 +93,27 @@ namespace auth_server.IdentityServer
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         "ADMIN-API",
+                        "AUTH-SERVER"
+                    }
+                },
+                  new Client
+                {
+                    ClientId = "swagger-user-api",
+                    ClientName = "Swagger User Api",
+
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+
+                    RedirectUris =           { "https://localhost:5004/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { "https://localhost:5004/swagger" },
+                    AllowedCorsOrigins =     { "https://localhost:5004" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "USER-API",
                         "AUTH-SERVER"
                     }
                 }

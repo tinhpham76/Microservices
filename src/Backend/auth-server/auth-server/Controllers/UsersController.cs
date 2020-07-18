@@ -25,7 +25,6 @@ namespace auth_server.Controllers
 
         //Post new user
         [HttpPost]
-
         public async Task<IActionResult> PostUser([FromBody] UserRequestModel request)
         {
             var user = new User()
@@ -253,8 +252,8 @@ namespace auth_server.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("{userId}/roles")]
-        public async Task<IActionResult> RemoveRolesFromUser(string userId, [FromQuery] RoleAssignRequestModel request)
+        [HttpPut("{userId}/roles")]
+        public async Task<IActionResult> RemoveRolesFromUser(string userId, [FromBody] RoleAssignRequestModel request)
         {
             if (request.RoleNames?.Length == 0)
             {

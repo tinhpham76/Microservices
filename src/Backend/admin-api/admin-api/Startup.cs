@@ -152,7 +152,7 @@ namespace admin_api
             app.UseSwaggerUI(c =>
             {
                 c.OAuthClientId("swagger-admin-api");
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SSO API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ADMIN API V1");
             });
         }
     }
