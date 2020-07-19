@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using user_api.Services;
 using user_services.RequestModels;
@@ -18,7 +15,7 @@ namespace user_api.Controllers
             _userApiClient = userApiClient;
         }
 
-        [HttpPost]        
+        [HttpPost]
         public async Task<ActionResult> PostUser([FromBody] UserRequestModel request)
         {
             var result = await _userApiClient.PostUser(request);
@@ -34,14 +31,14 @@ namespace user_api.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{id}")]        
+        [HttpGet("{id}")]
         public async Task<ActionResult> GetUserDetail(string id)
         {
             var user = await _userApiClient.GetById(id);
             return Ok(user);
         }
 
-        [HttpPut("{id}")]       
+        [HttpPut("{id}")]
         public async Task<ActionResult> PutUser(string id, [FromBody] UserRequestModel request)
         {
             var result = await _userApiClient.PutUser(id, request);
@@ -68,7 +65,7 @@ namespace user_api.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("{id}")]        
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(string id)
         {
             var result = await _userApiClient.DeleteUser(id);
@@ -77,7 +74,7 @@ namespace user_api.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("{id}/roles")]        
+        [HttpGet("{id}/roles")]
         public async Task<ActionResult> GetUserRoles(string id)
         {
             var userRoles = await _userApiClient.GetUserRoles(id);

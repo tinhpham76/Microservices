@@ -1,21 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using user_api.Services;
 
 namespace user_api
@@ -54,7 +49,7 @@ namespace user_api
                 options.Cookie.HttpOnly = true;
             });
 
-            services.AddControllersWithViews();                
+            services.AddControllersWithViews();
 
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
 
@@ -117,7 +112,7 @@ namespace user_api
             //Declare DI containers
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IUserApiClient, UserApiClient>();
-
+            services.AddTransient<IRoleApiClient, RoleApiClient>();
 
         }
 
@@ -129,8 +124,8 @@ namespace user_api
                 app.UseDeveloperExceptionPage();
             }
             app.UseSession();
-            
-            app.UseHttpsRedirection();           
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 

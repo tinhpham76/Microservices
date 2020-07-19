@@ -5,6 +5,7 @@ using auth_services.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -35,7 +36,7 @@ namespace auth_server.Controllers
         }
 
         [HttpGet("filter")]
-        public async Task<IActionResult> GetRolePaging(string filter, int pageIndex, int pageSize)
+        public async Task<IActionResult> GetRolesPaging(string filter, int pageIndex, int pageSize)
         {
             var query = _roleManager.Roles;
             if (!string.IsNullOrEmpty(filter))
@@ -69,7 +70,7 @@ namespace auth_server.Controllers
             {
                 Id = request.Id,
                 Name = request.Name,
-                NormalizedName = request.Name.ToUpper()
+                NormalizedName = request.NormalizedName.ToUpper()
             };
             var result = await _roleManager.CreateAsync(roleRequest);
             if (result.Succeeded)
@@ -88,8 +89,8 @@ namespace auth_server.Controllers
                 return NotFound();
 
             role.Name = request.Name;
-            role.NormalizedName = request.Name.ToUpper();
-
+            role.NormalizedName = request.NormalizedName.ToUpper();           
+           
             var result = await _roleManager.UpdateAsync(role);
 
             if (result.Succeeded)
@@ -124,7 +125,13 @@ namespace auth_server.Controllers
             {
                 return NotFound();
             }
-            return Ok(roleClaims);
+            var roleClaimViewModels = roleClaims.Select(x => new RoleClaimViewModels()
+            {
+                Type = x.Type,
+                Value = x.Value
+            }).ToList();
+           
+            return Ok(roleClaimViewModels);
         }
 
         [HttpPost("{roleId}/claims")]
