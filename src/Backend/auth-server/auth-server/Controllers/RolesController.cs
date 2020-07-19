@@ -1,11 +1,9 @@
-﻿using auth_server.Data;
-using auth_services;
+﻿using auth_services;
 using auth_services.RequestModel;
 using auth_services.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -17,7 +15,7 @@ namespace auth_server.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         public RolesController(RoleManager<IdentityRole> roleManager)
         {
-            _roleManager = roleManager;           
+            _roleManager = roleManager;
         }
 
         [HttpGet("{roleId}")]
@@ -89,8 +87,8 @@ namespace auth_server.Controllers
                 return NotFound();
 
             role.Name = request.Name;
-            role.NormalizedName = request.NormalizedName.ToUpper();           
-           
+            role.NormalizedName = request.NormalizedName.ToUpper();
+
             var result = await _roleManager.UpdateAsync(role);
 
             if (result.Succeeded)
@@ -130,7 +128,7 @@ namespace auth_server.Controllers
                 Type = x.Type,
                 Value = x.Value
             }).ToList();
-           
+
             return Ok(roleClaimViewModels);
         }
 

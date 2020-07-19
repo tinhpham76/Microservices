@@ -1,5 +1,4 @@
 ﻿using auth_server.Data.Entities;
-using auth_services.Constants;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
@@ -8,7 +7,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -18,7 +16,7 @@ namespace auth_server.Services
     {
         private readonly IUserClaimsPrincipalFactory<User> _claimsFactory;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;       
+        private readonly RoleManager<IdentityRole> _roleManager;
         public List<string> Permissions = new List<string>();
         public IdentityProfileService(
             IUserClaimsPrincipalFactory<User> claimsFactory,
@@ -43,7 +41,7 @@ namespace auth_server.Services
             var principal = await _claimsFactory.CreateAsync(user);
             var claims = principal.Claims.ToList();
             var userRoles = await _userManager.GetRolesAsync(user);
-            foreach(var userRole in userRoles)
+            foreach (var userRole in userRoles)
             {
                 var role = await _roleManager.FindByIdAsync(userRole);
                 var claim = await _roleManager.GetClaimsAsync(role);

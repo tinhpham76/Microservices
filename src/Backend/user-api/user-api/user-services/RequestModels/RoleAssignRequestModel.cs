@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace user_services.RequestModels
+﻿namespace user_services.RequestModels
 {
     public class RoleAssignRequestModel
     {
