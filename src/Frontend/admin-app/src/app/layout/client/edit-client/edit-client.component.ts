@@ -26,7 +26,7 @@ export class EditClientComponent implements OnInit {
 
   // Tab setting
   public settingForm!: FormGroup;
-  allGrantTypes =[
+  allGrantTypes = [
     'authorization_code',
     'client_credentials',
     'refresh_token',
@@ -44,10 +44,18 @@ export class EditClientComponent implements OnInit {
   inputAllowedGrantTypesVisible = false;
   inputAllowedGrantTypesValue = '';
 
-
-
+  // Tab Authentication
+  public authenticationForm!: FormGroup;
+  postLogoutRedirectUris = [];
+  inputPostLogoutRedirectUrisVisible = false;
+  inputPostLogoutRedirectUrisValue = '';
   @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
 
+  // Tab Token
+  public tokenForm!: FormGroup;
+
+  // Tab Device Flow
+  public deviceFlowForm!: FormGroup;
 
   constructor(private notification: NzNotificationService,
     private route: ActivatedRoute,
@@ -84,9 +92,47 @@ export class EditClientComponent implements OnInit {
       allowedGrantTypes: [null]
     });
 
+    // Init form authentication
+    this.authenticationForm = this.fb.group({
+      enableLocalLogin: [null],
+      postLogoutRedirectUris: [null],
+      frontChannelLogoutUri: [null],
+      frontChannelLogoutSessionRequired: [null],
+      backChannelLogoutUri: [null],
+      backChannelLogoutSessionRequired: [null],
+      userSsoLifetime: [null],
+    });
+
+    // Init form authentication
+    this.tokenForm = this.fb.group({
+      identityTokenLifetime: [null, [Validators.required]],
+      accessTokenLifetime: [null, [Validators.required]],
+      accessTokenType: [null],
+      authorizationCodeLifetime: [null, [Validators.required]],
+      absoluteRefreshTokenLifetime: [null, [Validators.required]],
+      slidingRefreshTokenLifetime: [null, [Validators.required]],
+      refreshTokenUsage: [null],
+      refreshTokenExpiration: [null],
+      updateAccessTokenClaimsOnRefresh: [null],
+      includeJwtId: [null],
+      alwaysSendClientClaims: [null],
+      alwaysIncludeUserClaimsInIdToken: [null],
+      pairWiseSubjectSalt: [null],
+      clientClaimsPrefix: [null],
+    });
+
+    // Init form device flow
+    this.deviceFlowForm = this.fb.group({
+      userCodeType: [null],
+      deviceCodeLifetime: [null, [Validators.required]]
+    });
+
     this.getBasicSetting(this.clientId);
     this.getSettingClient(this.clientId);
     this.getAllScopes();
+    this.getAuthenticationSetting(this.clientId);
+    this.getTokenSetting(this.clientId);
+    this.getDeviceFlowSetting(this.clientId);
   }
 
   // Client setting basic
@@ -136,10 +182,9 @@ export class EditClientComponent implements OnInit {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
           MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_ADD,
+          MessageConstants.NOTIFICATION_UPDATE,
           'bottomRight');
         setTimeout(() => {
-          this.getBasicSetting(this.clientId);
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
@@ -150,7 +195,6 @@ export class EditClientComponent implements OnInit {
           'bottomRight'
         );
         setTimeout(() => {
-          this.ngOnInit();
           this.isSpinning = false;
         }, 500);
       });
@@ -257,7 +301,7 @@ export class EditClientComponent implements OnInit {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
           MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_ADD,
+          MessageConstants.NOTIFICATION_UPDATE,
           'bottomRight');
         setTimeout(() => {
           this.getBasicSetting(this.clientId);
@@ -271,14 +315,13 @@ export class EditClientComponent implements OnInit {
           'bottomRight'
         );
         setTimeout(() => {
-          this.ngOnInit();
           this.isSpinning = false;
         }, 500);
       });
   }
 
   // Allowed Scopes
-  addAllowedScope(scope: string) {   
+  addAllowedScope(scope: string) {
     if (scope && this.allowedScopes.indexOf(scope) === -1) {
       this.allowedScopes = [...this.allowedScopes, scope];
     }
@@ -318,6 +361,226 @@ export class EditClientComponent implements OnInit {
     }
   }
 
+  // Client authentication setting
+  getAuthenticationSetting(clientId: string) {
+    this.isSpinning = true;
+    this.clientServices.getAuthentication(clientId)
+      .subscribe((res: any) => {
+        this.authenticationForm.setValue({
+          enableLocalLogin: res.enableLocalLogin,
+          postLogoutRedirectUris: null,
+          frontChannelLogoutUri: res.frontChannelLogoutUri,
+          frontChannelLogoutSessionRequired: res.frontChannelLogoutSessionRequired,
+          backChannelLogoutUri: res.backChannelLogoutUri,
+          backChannelLogoutSessionRequired: res.backChannelLogoutSessionRequired,
+          userSsoLifetime: res.userSsoLifetime,
+        });
+        this.postLogoutRedirectUris = res.postLogoutRedirectUris;
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      }, errorMessage => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_ERROR,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          errorMessage,
+          'bottomRight'
+        );
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      });
+  }
+
+  submitAuthenticationForm(value:
+    {
+      enableLocalLogin: boolean;
+      postLogoutRedirectUris;
+      frontChannelLogoutUri: string;
+      frontChannelLogoutSessionRequired: boolean;
+      backChannelLogoutUri: string;
+      backChannelLogoutSessionRequired: boolean;
+      userSsoLifetime: number
+    }
+  ): void {
+    value.postLogoutRedirectUris = this.postLogoutRedirectUris;
+    this.isSpinning = true;
+    this.clientServices.putAuthentication(this.clientId, value)
+      .subscribe(() => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_SUCCESS,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.NOTIFICATION_UPDATE,
+          'bottomRight');
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      }, errorMessage => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_ERROR,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          errorMessage,
+          'bottomRight'
+        );
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      });
+  }
+
+  // Cors Origins
+  closeTagPostLogoutRedirectUris(removedTag: {}): void {
+    this.postLogoutRedirectUris = this.postLogoutRedirectUris.filter(tag => tag !== removedTag);
+  }
+
+  inputConfirmPostLogoutRedirectUris(): void {
+    if (this.inputPostLogoutRedirectUrisValue && this.postLogoutRedirectUris.indexOf(this.inputPostLogoutRedirectUrisValue) === -1) {
+      this.postLogoutRedirectUris = [...this.postLogoutRedirectUris, this.inputPostLogoutRedirectUrisValue];
+    }
+    this.inputPostLogoutRedirectUrisValue = '';
+    this.inputPostLogoutRedirectUrisVisible = false;
+  }
+
+  showPostLogoutRedirectUrisInput(): void {
+    this.inputPostLogoutRedirectUrisVisible = true;
+    setTimeout(() => {
+      this.inputElement?.nativeElement.focus();
+    }, 10);
+  }
+
+  // Token setting 
+  getTokenSetting(clientId: string) {
+    this.isSpinning = true;
+    this.clientServices.getToken(clientId)
+      .subscribe((res: any) => {
+        this.tokenForm.setValue({
+          identityTokenLifetime: res.identityTokenLifetime,
+          accessTokenLifetime: res.accessTokenLifetime,
+          accessTokenType: res.accessTokenType,
+          authorizationCodeLifetime: res.authorizationCodeLifetime,
+          absoluteRefreshTokenLifetime: res.absoluteRefreshTokenLifetime,
+          slidingRefreshTokenLifetime: res.slidingRefreshTokenLifetime,
+          refreshTokenUsage: res.refreshTokenUsage,
+          refreshTokenExpiration: res.refreshTokenExpiration,
+          updateAccessTokenClaimsOnRefresh: res.updateAccessTokenClaimsOnRefresh,
+          includeJwtId: res.includeJwtId,
+          alwaysSendClientClaims: res.alwaysSendClientClaims,
+          alwaysIncludeUserClaimsInIdToken: res.alwaysIncludeUserClaimsInIdToken,
+          pairWiseSubjectSalt: res.pairWiseSubjectSalt,
+          clientClaimsPrefix: res.clientClaimsPrefix
+        });
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      }, errorMessage => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_ERROR,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          errorMessage,
+          'bottomRight'
+        );
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      });
+  }
+
+  submitTokenForm(value:
+    {
+      identityTokenLifetime: number;
+      accessTokenLifetime: number;
+      accessTokenType: string;
+      authorizationCodeLifetime: number;
+      absoluteRefreshTokenLifetime: number;
+      slidingRefreshTokenLifetime: number;
+      refreshTokenUsage: string;
+      refreshTokenExpiration: string;
+      updateAccessTokenClaimsOnRefresh: boolean;
+      includeJwtId: boolean;
+      alwaysSendClientClaims: boolean;
+      alwaysIncludeUserClaimsInIdToken: boolean;
+      pairWiseSubjectSalt: string;
+      clientClaimsPrefix: string;
+    }
+  ): void {
+    this.isSpinning = true;
+    this.clientServices.putToken(this.clientId, value)
+      .subscribe(() => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_SUCCESS,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.NOTIFICATION_UPDATE,
+          'bottomRight');
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      }, errorMessage => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_ERROR,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          errorMessage,
+          'bottomRight'
+        );
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      });
+  }
+
+  // Client setting device flow
+  getDeviceFlowSetting(clientId: string) {
+    this.isSpinning = true;
+    this.clientServices.getDeviceFlow(clientId)
+      .subscribe((res: any) => {
+        this.deviceFlowForm.setValue({
+          userCodeType: res.userCodeType,
+          deviceCodeLifetime: res.deviceCodeLifetime
+        });
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      }, errorMessage => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_ERROR,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          errorMessage,
+          'bottomRight'
+        );
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      });
+  }
+
+  submitDeviceFlowForm(value:
+    {
+      userCodeType: string;
+      deviceCodeLifetime: number;
+    }
+  ): void {
+    this.isSpinning = true;
+    this.clientServices.putDeviceFlow(this.clientId, value)
+      .subscribe(() => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_SUCCESS,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.NOTIFICATION_UPDATE,
+          'bottomRight');
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      }, errorMessage => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_ERROR,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          errorMessage,
+          'bottomRight'
+        );
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      });
+  }
 
   // notification
   createNotification(type: string, title: string, content: string, position: NzNotificationPlacement): void {
@@ -328,5 +591,4 @@ export class EditClientComponent implements OnInit {
     const isLongTag = tag.length > 50;
     return isLongTag ? `${tag.slice(0, 50)}...` : tag;
   }
-
 }

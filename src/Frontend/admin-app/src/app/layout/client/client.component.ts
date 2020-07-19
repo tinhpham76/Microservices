@@ -73,6 +73,10 @@ export class ClientComponent implements OnInit {
     this.search();
   }
 
+  handleInputConfirm(): void {
+    this.loadClientData(this.searchValue, this.pageIndex, this.pageSize);
+  }
+
   search(): void {
     this.visible = false;
     this.loadClientData(this.searchValue, this.pageIndex, this.pageSize);

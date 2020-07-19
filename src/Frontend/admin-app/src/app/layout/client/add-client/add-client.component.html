@@ -14,27 +14,37 @@
   <!--Start form add new client-->
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="clientName">Client Name</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid!">
-        <input nz-input formControlName="clientName" id="clientName" />
+      <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Client Name</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="clientNameErrorTpl">
+        <input nz-input formControlName="clientName" placeholder="Client name" />
+        <ng-template #clientNameErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            Please input your Client Name!
+          </ng-container>
+        </ng-template>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description">Description</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid!">
-        <input nz-input formControlName="description" id="description" />
+      <nz-form-label [nzSm]=" 6" [nzXs]="24">Description</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea formControlName="description" nz-input rows="4" placeholder="Write client description..."></textarea>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="clientUri">Client Uri</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
-        <input nz-input formControlName="clientUri" id="clientUri" />
+      <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Client Uri</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="clientUriErrorTpl">
+        <input nz-input formControlName="clientUri" placeholder="Client uri" />
+        <ng-template #clientUriErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            Please input your Client Uri!
+          </ng-container>
+        </ng-template>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="logoUri">Logo Uri</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
-        <input nz-input formControlName="logoUri" id="logoUri" />
+      <nz-form-label [nzSm]=" 6" [nzXs]="24">Logo Uri</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating...">
+        <input nz-input formControlName="logoUri" placeholder="Logo uri" />
       </nz-form-control>
     </nz-form-item>
   </form>
@@ -53,7 +63,7 @@
   </nz-form-item>
   <nz-form-item nz-row class="register-area">
     <nz-form-control [nzSpan]="14" [nzOffset]="6">
-      <button nz-button nzType="default"routerLink='/clients'>Cancel</button>
+      <button nz-button nzType="default" routerLink='/clients'>Cancel</button>
       <button nz-button nzType="primary" (click)='submitForm()'>Create</button>
     </nz-form-control>
   </nz-form-item>

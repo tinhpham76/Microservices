@@ -9,20 +9,29 @@
 </div>
 <button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='add'><i nz-icon
         nzType="desktop"></i>Create new client</button>
+<br><br>
+
+<div nz-row>
+    <div nz-col nzSpan="6">
+        <nz-input-group [nzSuffix]="suffixIconSearch">
+            <input placeholder="Search client with id, name,..." nz-input type="text" [(ngModel)]="searchValue"
+                 (keydown.enter)="handleInputConfirm()" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+            <i nz-icon nzType="search"></i>
+        </ng-template>
+    </div>
+</div>
+
 <!--End welcome clients-->
 <nz-spin [nzSpinning]="isSpinning">
     <!--Start table clients-->
-    <nz-table #clientTable nzBordered [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzTotal]="totalRecords"
-        [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
+    <nz-table #clientTable nzBordered [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items"
+        [nzTotal]="totalRecords" [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
         <thead>
             <tr>
-                <th nzCustomFilter>
-                    Index
-                    <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
-                      <i nz-icon nzType="search"></i>
-                    </nz-filter-trigger>
-                </th>
-                <th>Client Id</th>                
+                <th>Index</th>
+                <th>Client Id</th>
                 <th>Logo</th>
                 <th>Client Name</th>
                 <th>Action</th>
@@ -36,10 +45,11 @@
                 <td>{{ client.clientName }}</td>
                 <td>
                     <div class="table-action">
-                        <a style="text-decoration:underline; margin-right: 5px;" [routerLink]="[client.clientId,'edit']">
+                        <a style="text-decoration:underline; margin-right: 5px;"
+                            [routerLink]="[client.clientId,'edit']">
                             Edit
                         </a>
-                        <a  style="text-decoration:underline" href='javascript:void(0)'
+                        <a style="text-decoration:underline" href='javascript:void(0)'
                             (click)='showDeleteConfirm(client.clientId)'>
                             Delete
                         </a>
@@ -50,14 +60,14 @@
     </nz-table>
     <nz-dropdown-menu #menu="nzDropdownMenu">
         <div class="ant-table-filter-dropdown">
-          <div class="search-box">
-            <input type="text" nz-input placeholder="Search client with name or id .." [(ngModel)]="searchValue" />
-            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
-              Search
-            </button>
-            <button nz-button nzSize="small" (click)="reset()">Reset</button>
-          </div>
+            <div class="search-box">
+                <input type="text" nz-input placeholder="Search client with name or id .." [(ngModel)]="searchValue" />
+                <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
+                    Search
+                </button>
+                <button nz-button nzSize="small" (click)="reset()">Reset</button>
+            </div>
         </div>
-      </nz-dropdown-menu>
+    </nz-dropdown-menu>
     <!--End table clients-->
 </nz-spin>
