@@ -50,8 +50,7 @@ namespace auth_server.Services
             }
 
             //Add more claims like this
-            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
+            claims.Add(new Claim("FullName", user.LastName + " " + user.FirstName));
             claims.Add(new Claim("Role", string.Join(";", userRoles)));
             claims.Add(new Claim("Permissions", JsonConvert.SerializeObject(Permissions)));
 

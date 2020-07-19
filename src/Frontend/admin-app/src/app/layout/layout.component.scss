@@ -28,6 +28,7 @@ nz-footer {
   text-align: center;
 }
 .item{
+  overflow: auto;
   position: fixed;
   width: 200px;
   height: calc(100% - 55px);

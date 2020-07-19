@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 import { throwError } from 'rxjs';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { ClientQuickViews } from '@app/shared/models/views/client-quick-views.model';
 
 @Component({
   selector: 'app-client',
@@ -18,7 +19,7 @@ export class ClientComponent implements OnInit {
   public filter = '';
   public pageIndex = 1;
   public pageSize = 10;
-  public items: any[];
+  public items: ClientQuickViews[];
   public totalRecords: number;
 
   // Spin
@@ -27,20 +28,22 @@ export class ClientComponent implements OnInit {
   // Confirm delete client
   public confirmDeleteModal?: NzModalRef;
 
-
+  // Search
+  searchValue = '';
+  visible = false;
 
   constructor(private clientServices: ClientServices,
     private notification: NzNotificationService,
     private modal: NzModalService) { }
 
   ngOnInit(): void {
-    this.loadClientData(this.pageIndex, this.pageSize);
+    this.loadClientData(this.filter, this.pageIndex, this.pageSize);
   }
 
   // Load client data
-  loadClientData(pageIndex: number, pageSize: number): void {
+  loadClientData(filter: string, pageIndex: number, pageSize: number): void {
     this.isSpinning = true;
-    this.clientServices.getAllPaging(this.filter, pageIndex, pageSize)
+    this.clientServices.getAllPaging(filter, pageIndex, pageSize)
       .subscribe(res => {
         this.items = res.items;
         this.totalRecords = res.totalRecords;
@@ -62,19 +65,31 @@ export class ClientComponent implements OnInit {
 
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
-    this.loadClientData(pageIndex, pageSize);
+    this.loadClientData(this.filter, pageIndex, pageSize);
+  }
+
+  reset(): void {
+    this.searchValue = '';
+    this.search();
+  }
+
+  search(): void {
+    this.visible = false;
+    this.loadClientData(this.searchValue, this.pageIndex, this.pageSize);
   }
 
   // Delete client
-   delete(clientId: String) {
+  delete(clientId: String) {
     this.isSpinning = true;
     this.clientServices.delete(clientId)
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
           MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_DELETE + clientId + ' !', 'bottomRight');
-        this.ngOnInit();
+          MessageConstants.NOTIFICATION_DELETE,
+          'bottomRight'
+        );
+        this.loadClientData(this.filter, this.pageIndex, this.pageSize);
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,

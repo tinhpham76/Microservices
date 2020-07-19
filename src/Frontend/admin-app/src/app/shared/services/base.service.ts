@@ -14,164 +14,164 @@ export abstract class BaseService {
             // server-side error
             switch (Number(error.status)) {
                 case 0: {
-                    errorMessage = `ERROR CONNECT SEVER: ${error.error}`;
+                    errorMessage = `ERROR CONNECT SEVER`;
                     break;
                 }
                 case 400: {
-                    errorMessage = ` Bad Request: ${error.error}`;
+                    errorMessage = ` Bad Request`;
                     break;
                 }
                 case 401: {
-                    errorMessage = ` Unauthorized: ${error.error}`;
+                    errorMessage = ` Unauthorized`;
                     break;
                 } case 402: {
-                    errorMessage = ` Payment Required: ${error.error}`;
+                    errorMessage = ` Payment Required`;
                     break;
                 }
                 case 403: {
-                    errorMessage = ` Forbidden: ${error.error}`;
+                    errorMessage = ` Forbidden`;
                     break;
                 }
                 case 404: {
-                    errorMessage = ` Not Found: ${error.error}`;
+                    errorMessage = ` Not Found`;
                     break;
                 }
                 case 405: {
-                    errorMessage = ` Method Not Allowed: ${error.error}`;
+                    errorMessage = ` Method Not Allowed`;
                     break;
                 }
                 case 406: {
-                    errorMessage = ` Not Acceptable: ${error.error}`;
+                    errorMessage = ` Not Acceptable`;
                     break;
                 }
                 case 407: {
-                    errorMessage = ` Proxy Authentication Required: ${error.error}`;
+                    errorMessage = ` Proxy Authentication Required`;
                     break;
                 }
                 case 408: {
-                    errorMessage = ` Request Timeout: ${error.error}`;
+                    errorMessage = ` Request Timeout`;
                     break;
                 }
                 case 409: {
-                    errorMessage = ` Conflict: ${error.error}`;
+                    errorMessage = ` Conflict`;
                     break;
                 }
                 case 410: {
-                    errorMessage = ` Gone: ${error.error}`;
+                    errorMessage = ` Gone`;
                     break;
                 }
                 case 411: {
-                    errorMessage = ` Length Required: ${error.error}`;
+                    errorMessage = ` Length Required`;
                     break;
                 }
                 case 412: {
-                    errorMessage = ` Precondition Failed: ${error.error}`;
+                    errorMessage = ` Precondition Failed`;
                     break;
                 }
                 case 413: {
-                    errorMessage = ` Payload Too Large: ${error.error}`;
+                    errorMessage = ` Payload Too Large`;
                     break;
                 }
                 case 414: {
-                    errorMessage = ` URI Too Long: ${error.error}`;
+                    errorMessage = ` URI Too Long`;
                     break;
                 }
                 case 415: {
-                    errorMessage = ` Unsupported Media Type: ${error.error}`;
+                    errorMessage = ` Unsupported Media Type`;
                     break;
                 }
                 case 416: {
-                    errorMessage = ` Range Not Satisfiable: ${error.error}`;
+                    errorMessage = ` Range Not Satisfiable`;
                     break;
                 }
                 case 418: {
-                    errorMessage = ` I'm a teapot: ${error.error}`;
+                    errorMessage = ` I'm a teapot`;
                     break;
                 }
                 case 421: {
-                    errorMessage = ` Misdirected Request: ${error.error}`;
+                    errorMessage = ` Misdirected Request`;
                     break;
                 }
                 case 422: {
-                    errorMessage = ` Unprocessable Entity (WebDAV): ${error.error}`;
+                    errorMessage = ` Unprocessable Entity (WebDAV)`;
                     break;
                 }
                 case 423: {
-                    errorMessage = ` Locked (WebDAV): ${error.error}`;
+                    errorMessage = ` Locked (WebDAV)`;
                     break;
                 }
                 case 424: {
-                    errorMessage = ` Failed Dependency: ${error.error}`;
+                    errorMessage = ` Failed Dependency`;
                     break;
                 }
                 case 425: {
-                    errorMessage = ` Too Early: ${error.error}`;
+                    errorMessage = ` Too Early`;
                     break;
                 }
                 case 426: {
-                    errorMessage = ` Upgrade Required: ${error.error}`;
+                    errorMessage = ` Upgrade Required`;
                     break;
                 }
                 case 428: {
-                    errorMessage = ` Precondition Required: ${error.error}`;
+                    errorMessage = ` Precondition Required`;
                     break;
                 }
                 case 429: {
-                    errorMessage = ` Too Many Requests: ${error.error}`;
+                    errorMessage = ` Too Many Requests`;
                     break;
                 }
                 case 431: {
-                    errorMessage = ` Request Header Fields Too Large: ${error.error}`;
+                    errorMessage = ` Request Header Fields Too Large`;
                     break;
                 }
                 case 451: {
-                    errorMessage = ` Unavailable For Legal Reasons: ${error.error}`;
+                    errorMessage = ` Unavailable For Legal Reasons`;
                     break;
                 }
 
                 // Server
                 case 500: {
-                    errorMessage = ` Internal Server Error: ${error.error}`;
+                    errorMessage = ` Internal Server Error`;
                     break;
                 }
                 case 501: {
-                    errorMessage = ` Not Implemented: ${error.error}`;
+                    errorMessage = ` Not Implemented`;
                     break;
                 }
                 case 502: {
-                    errorMessage = ` Bad Gateway: ${error.error}`;
+                    errorMessage = ` Bad Gateway`;
                     break;
                 }
                 case 503: {
-                    errorMessage = ` Service Unavailable: ${error.error}`;
+                    errorMessage = ` Service Unavailable`;
                     break;
                 }
                 case 504: {
-                    errorMessage = ` Gateway Timeout: ${error.error}`;
+                    errorMessage = ` Gateway Timeout`;
                     break;
                 }
                 case 505: {
-                    errorMessage = ` HTTP Version Not Supported: ${error.error}`;
+                    errorMessage = ` HTTP Version Not Supported`;
                     break;
                 }
                 case 506: {
-                    errorMessage = ` Variant Also Negotiates: ${error.error}`;
+                    errorMessage = ` Variant Also Negotiates`;
                     break;
                 }
                 case 507: {
-                    errorMessage = ` Insufficient Storage (WebDAV): ${error.error}`;
+                    errorMessage = ` Insufficient Storage (WebDAV)`;
                     break;
                 }
                 case 508: {
-                    errorMessage = ` Loop Detected (WebDAV): ${error.error}`;
+                    errorMessage = ` Loop Detected (WebDAV)`;
                     break;
                 }
                 case 510: {
-                    errorMessage = ` Not Extended: ${error.error}`;
+                    errorMessage = ` Not Extended`;
                     break;
                 }
                 case 511: {
-                    errorMessage = ` Network Authentication Required: ${error.error}`;
+                    errorMessage = ` Network Authentication Required`;
                     break;
                 }
 

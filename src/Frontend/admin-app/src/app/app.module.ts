@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { AuthGuard } from './shared/guard/auth.guard';
-import { ToastrModule } from 'ngx-toastr';
 import { ServerErrorComponent } from './server-error/server-error.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { NotFoundComponent } from './not-found/not-found.component';

@@ -1,7 +1,7 @@
 ////// Linux container https//////
 //  export const environment = {
 //    production: false,
-//    apiUrl: 'https://localhost:5000',
+//    admin_api_url: 'https://localhost:5000',
 //    authority: 'https://localhost:5000',
 //    client_id: 'angular_admin',
 //    redirect_uri: 'http://localhost:4200/auth-callback',
@@ -12,7 +12,7 @@
 ////// Linux container http//////
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5001',
+  admin_api_url: 'http://localhost:5001',
   authority: 'http://localhost:5001',
   client_id: 'angular_admin',
   redirect_uri: 'http://localhost:4200/auth-callback',
@@ -23,7 +23,7 @@ export const environment = {
 ////// Linux host 172.16.80.54 linux container http//////
 // export const environment = {
 //   production: false,
-//   apiUrl: 'http://172.16.80.54:5001',
+//   admin_api_url: 'http://172.16.80.54:5001',
 //   authority: 'http://172.16.80.54:5001',
 //   client_id: 'angular_admin',
 //   redirect_uri: 'http://localhost:4200/auth-callback',
@@ -34,7 +34,7 @@ export const environment = {
 ////// Linux host 172.16.80.54 linux container https//////
 // export const environment = {
 //   production: false,
-//   apiUrl: 'https://172.16.80.54:5000',
+//   admin_api_url: 'https://172.16.80.54:5000',
 //   authority: 'https://172.16.80.54:5000',
 //   client_id: 'angular_admin',
 //   redirect_uri: 'http://localhost:4200/auth-callback',

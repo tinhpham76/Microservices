@@ -134,8 +134,7 @@ export class AddClientComponent implements OnInit {
           this.clientType = 'empty';
         }
       }
-    }
-    console.log(this.clientType);
+    }    
   }
 
   // Notification

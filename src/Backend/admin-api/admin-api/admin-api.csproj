@@ -25,9 +25,5 @@
     <ProjectReference Include="..\admin-services\admin-services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="NewFolder\" />
-  </ItemGroup>
-
 
 </Project>

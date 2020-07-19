@@ -12,19 +12,19 @@ import { MessageConstants } from '@app/shared/constants/messages.constant';
 export class LayoutComponent implements OnInit {
 
     subscription: Subscription;
-    userName: string;
+    UserName: string;
     isAuthenticated: boolean;
-    fullName: string;
-    email: string;
+    FullName: string;
+    Email: string;
     constructor(
         private authServices: AuthService,
         private notification: NzNotificationService
     ) {
         this.subscription = this.authServices.authNavStatus$.subscribe(status => this.isAuthenticated = status);
-        this.userName = this.authServices.name;
+        this.UserName = this.authServices.name;
         const profile = this.authServices.profile;
-        this.fullName = profile.fullName;
-        this.email = profile.email;
+        this.FullName = profile.FullName;
+        this.Email = profile.email;
         this.createNotification(this.authServices.name);
     }
 

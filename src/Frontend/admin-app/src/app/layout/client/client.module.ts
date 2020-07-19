@@ -26,15 +26,19 @@ import { EditClientComponent } from './edit-client/edit-client.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { ClientSecretComponent } from './client-secret/client-secret.component';
+import { ClientPropertyComponent } from './client-property/client-property.component';
 
 @NgModule({
-  declarations: [ClientComponent, AddClientComponent, EditClientComponent],
+  declarations: [ClientComponent, AddClientComponent, EditClientComponent, ClientSecretComponent, ClientPropertyComponent],
   imports: [
     CommonModule,
     NzTableModule,
     NzTabsModule,
     NzButtonModule,
     NzDividerModule,
+    NzDropDownModule,
     NzSwitchModule,
     NzSpinModule,
     NzDescriptionsModule,

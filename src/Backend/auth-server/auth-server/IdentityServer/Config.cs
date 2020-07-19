@@ -75,7 +75,7 @@ namespace auth_server.IdentityServer
                         "AUTH-SERVER"
                     }
                 },
-                 new Client
+                new Client
                 {
                     ClientId = "swagger-admin-api",
                     ClientName = "Swagger Admin Api",
@@ -96,7 +96,7 @@ namespace auth_server.IdentityServer
                         "AUTH-SERVER"
                     }
                 },
-                  new Client
+                new Client
                 {
                     ClientId = "swagger-user-api",
                     ClientName = "Swagger User Api",
@@ -115,6 +115,73 @@ namespace auth_server.IdentityServer
                         IdentityServerConstants.StandardScopes.Profile,
                         "USER-API",
                         "AUTH-SERVER"
+                    }
+                },
+                new Client
+                {
+                    ClientName = "Angular Admin Dashboard",
+                    ClientId = "angular-admin-dashboard",
+                    AccessTokenType = AccessTokenType.Reference,
+                    RequireConsent = false,
+
+                    RequireClientSecret = false,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+
+                    AllowAccessTokensViaBrowser = true,
+                    RedirectUris = new List<string>
+                    {
+                        "http://localhost:4200/auth-callback",
+                        "http://localhost:4200/silent-renew.html"
+                    },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "http://localhost:4200/"
+                    },
+                    AllowedCorsOrigins = new List<string>
+                    {
+                        "http://localhost:4200"
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "AUTH-SERVER",
+                        "ADMIN-API",
+                        "USER-API"
+                    }
+                },
+                new Client
+                {
+                    ClientName = "Angular User Profile",
+                    ClientId = "angular-user-profile",
+                    AccessTokenType = AccessTokenType.Reference,
+                    RequireConsent = false,
+
+                    RequireClientSecret = false,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+
+                    AllowAccessTokensViaBrowser = true,
+                    RedirectUris = new List<string>
+                    {
+                        "http://localhost:4200/auth-callback",
+                        "http://localhost:4200/silent-renew.html"
+                    },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "http://localhost:4200/"
+                    },
+                    AllowedCorsOrigins = new List<string>
+                    {
+                        "http://localhost:4200"
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "AUTH-SERVER",                       
+                        "USER-API"
                     }
                 }
             };
