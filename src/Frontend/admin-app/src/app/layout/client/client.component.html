@@ -15,7 +15,7 @@
     <div nz-col nzSpan="6">
         <nz-input-group [nzSuffix]="suffixIconSearch">
             <input placeholder="Search client with id, name,..." nz-input type="text" [(ngModel)]="searchValue"
-                 (keydown.enter)="handleInputConfirm()" />
+                (keydown.enter)="handleInputConfirm()" />
         </nz-input-group>
         <ng-template #suffixIconSearch>
             <i nz-icon nzType="search"></i>
@@ -58,16 +58,5 @@
             </tr>
         </tbody>
     </nz-table>
-    <nz-dropdown-menu #menu="nzDropdownMenu">
-        <div class="ant-table-filter-dropdown">
-            <div class="search-box">
-                <input type="text" nz-input placeholder="Search client with name or id .." [(ngModel)]="searchValue" />
-                <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
-                    Search
-                </button>
-                <button nz-button nzSize="small" (click)="reset()">Reset</button>
-            </div>
-        </div>
-    </nz-dropdown-menu>
     <!--End table clients-->
 </nz-spin>

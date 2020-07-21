@@ -1,17 +1,17 @@
-<!--Start welcome clients-->
+<!--Start welcome api resources-->
 <div class="content-heading">
     <div>
-        💻 Client Properties
+        ☁️ Api resources properties
         <br>
-        <small><b> The Client class represents an OpenID Connect or OAuth 2.0 client - e.g. a native application, a web
-                application or a JS-based application..</b></small>
+        <small><b> Resources are something you want to protect with apiServer – either APIs (by doing this your
+                data will be protected as well). So to access your database content must be through an API..</b></small>
     </div>
 </div>
 <button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='../edit'><i nz-icon
         nzType="rollback"></i>Go back</button>
-<!--End welcome clients-->
+
 <nz-spin [nzSpinning]="isSpinning">
-    <nz-table #propertiesTable nzBordered [nzData]="itemClientProperties" [nzFrontPagination]="false">
+    <nz-table #propertiesTable nzBordered [nzData]="itemApiProperties" [nzFrontPagination]="false">
         <thead>
             <tr>
                 <th>Id</th>
@@ -24,10 +24,10 @@
             <tr *ngFor="let property of propertiesTable.data">
                 <td>{{ property.id }}</td>
                 <td>{{ property.key }}</td>
-                <td>{{ property.value }}</td>               
+                <td>{{ property.value }}</td>
                 <td>
                     <div class="table-action">
-                        <a href='javascript:void(0)' (click)='showDeleteConfirmClientProperty(property.key)'>
+                        <a href='javascript:void(0)' (click)='showDeleteConfirmApiProperty(property.key)'>
                             Delete
                         </a>
                     </div>
@@ -39,13 +39,13 @@
 <br>
 <hr>
 <div>
-    <!--Start form add new client properties-->
-    <form nz-form [formGroup]="propertyForm" (ngSubmit)="submitFormClientProperty(propertyForm.value)">
+    <!--Start form add new api properties-->
+    <form nz-form [formGroup]="propertyForm" (ngSubmit)="submitFormApiProperty(propertyForm.value)">
         <nz-form-item>
             <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Property Key</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24"  nzHasFeedback nzValidatingTip="Validating..."
-            [nzErrorTip]="keyErrorTpl">
-                <input nz-input formControlName="key" placeholder="Property key"/>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..."
+                [nzErrorTip]="keyErrorTpl">
+                <input nz-input formControlName="key" placeholder="Property key" />
                 <ng-template #keyErrorTpl let-control>
                     <ng-container *ngIf="control.hasError('required')">
                         Please input your property key!
@@ -55,9 +55,9 @@
         </nz-form-item>
         <nz-form-item>
             <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Property Value</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24"  nzHasFeedback nzValidatingTip="Validating..."
-            [nzErrorTip]="valueErrorTpl">
-                <input nz-input formControlName="value" placeholder="Property value"/>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..."
+                [nzErrorTip]="valueErrorTpl">
+                <input nz-input formControlName="value" placeholder="Property value" />
                 <ng-template #valueErrorTpl let-control>
                     <ng-container *ngIf="control.hasError('required')">
                         Please input your property value!
@@ -67,10 +67,10 @@
         </nz-form-item>
         <nz-form-item nz-row class="register-area">
             <nz-form-control [nzSpan]="14" [nzOffset]="6">
-                <button nz-button nzType="primary" [disabled]="!propertyForm.valid">Create new client
+                <button nz-button nzType="primary" [disabled]="!propertyForm.valid">Create new api
                     property</button>
             </nz-form-control>
         </nz-form-item>
     </form>
-    <!--End form add new client properties-->
+    <!--End form add new api properties-->
 </div>

@@ -30,9 +30,10 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { ClientSecretComponent } from './client-secret/client-secret.component';
 import { ClientPropertyComponent } from './client-property/client-property.component';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { ClientClaimComponent } from './client-claim/client-claim.component';
 
 @NgModule({
-  declarations: [ClientComponent, AddClientComponent, EditClientComponent, ClientSecretComponent, ClientPropertyComponent],
+  declarations: [ClientComponent, AddClientComponent, EditClientComponent, ClientSecretComponent, ClientPropertyComponent, ClientClaimComponent],
   imports: [
     CommonModule,
     NzTableModule,

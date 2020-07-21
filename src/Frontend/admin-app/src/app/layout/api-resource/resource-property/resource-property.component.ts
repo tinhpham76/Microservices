@@ -1,61 +1,53 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { ApiResourceServices } from '@app/shared/services/api-resources.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/notification';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { catchError } from 'rxjs/operators';
+import { ApiResourceServices } from '@app/shared/services/api-resources.service';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
-import { throwError } from 'rxjs';
 
 @Component({
-  selector: 'app-secret',
-  templateUrl: './secret.component.html',
-  styleUrls: ['./secret.component.scss']
+  selector: 'app-resource-property',
+  templateUrl: './resource-property.component.html',
+  styleUrls: ['./resource-property.component.scss']
 })
-export class SecretComponent implements OnInit {
+export class ResourcePropertyComponent implements OnInit {
 
-  //
-  public apiName: string;
-  public items: any[];
+   // Spin
+   public isSpinning: boolean;
 
-  // Spin
-  public isSpinning: boolean;
+   public apiName: string;
+ 
+   confirmDeleteApiProperty: NzModalRef;
+ 
+   public itemApiProperties: any[];
+ 
+   public propertyForm!: FormGroup;
 
-  // Init form
-  public validateForm!: FormGroup;
-
-  // Modal
-  confirmDeleteModal?: NzModalRef;
-
-  constructor(private apiResourceServices: ApiResourceServices,
-    private notification: NzNotificationService,
+  constructor(private notification: NzNotificationService,
     private route: ActivatedRoute,
-    private location: Location,
-    private modal: NzModalService,
-    private fb: FormBuilder) { }
+    private apiResourceServices: ApiResourceServices,
+    private fb: FormBuilder,
+    private modal: NzModalService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.apiName = params['name'];
     });
-    this.validateForm = this.fb.group({
-      type: ['SharedSecret'],
-      value: [null, Validators.required],
-      description: [null],
-      expiration: [null],
-      hashType: ['Sha256'],
+    // Init form api property
+    this.propertyForm = this.fb.group({
+      key: [null, [Validators.required]],
+      value: [null, [Validators.required]],
     });
-    this.getApiResourceSecret(this.apiName);
+    this.getApiProperties(this.apiName);
   }
 
-  // Get api resource secrets
-  getApiResourceSecret(apiName: string) {
+  // Get api property
+  getApiProperties(apiName: string) {
     this.isSpinning = true;
-    this.apiResourceServices.getApiResourceSecret(apiName)
+    this.apiResourceServices.getApiResourceProperty(apiName)
       .subscribe((res: any[]) => {
-        this.items = res;
+        this.itemApiProperties = res;
         setTimeout(() => {
           this.isSpinning = false;
         }, 500);
@@ -72,18 +64,21 @@ export class SecretComponent implements OnInit {
       });
   }
 
-  // Create new api resource secret
-  submitForm(): void {
+  // Create new api secret
+  submitFormApiProperty(value: {
+    key: string;
+    value: string;
+    }): void {
     this.isSpinning = true;
-    const data = this.validateForm.getRawValue();
-    this.apiResourceServices.addApiResourceSecret(this.apiName, data)
+    this.apiResourceServices.addApiResourceProperty(this.apiName, value)
       .subscribe(() => {
-        this.ngOnInit();
+        this.getApiProperties(this.apiName);
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
           MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_ADD + name + '!',
+          MessageConstants.NOTIFICATION_ADD,
           'bottomRight');
+        this.resetForm();
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
@@ -97,16 +92,18 @@ export class SecretComponent implements OnInit {
       });
   }
 
-  // Delete api resource secret
-  delete(id: string) {
+  // Delete api property
+  deleteApiProperty(key: string) {
     this.isSpinning = true;
-    this.apiResourceServices.deleteApiResourceSecret(this.apiName, Number(id))
+    this.apiResourceServices.deleteApiResourceProperty(this.apiName, key)
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
           MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_DELETE + ' api resource secret ' + id + ' !', 'bottomRight');
-        this.ngOnInit();
+          MessageConstants.NOTIFICATION_DELETE,
+          'bottomRight'
+        );
+        this.getApiProperties(this.apiName);
         setTimeout(() => {
           this.isSpinning = false;
         }, 500);
@@ -123,21 +120,30 @@ export class SecretComponent implements OnInit {
       });
   }
 
-  // Delete api resource secret
-  showDeleteConfirm(id: string): void {
-    this.confirmDeleteModal = this.modal.confirm({
-      nzTitle: 'Do you Want to delete api resource scope secrets' + id + ' ?',
+  // Delete api property
+  showDeleteConfirmApiProperty(key: string): void {
+    this.confirmDeleteApiProperty = this.modal.confirm({
+      nzTitle: 'Do you Want to delete api property key: ' + key + '?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          this.delete(id);
+          this.deleteApiProperty(key);
           setTimeout(Math.random() > 0.5 ? resolve : reject, 200);
         })
     });
   }
 
-  // Notification
+  resetForm(): void {
+    this.propertyForm.reset();
+    // tslint:disable-next-line: forin
+    for (const key in this.propertyForm.controls) {
+      this.propertyForm.controls[key].markAsPristine();
+      this.propertyForm.controls[key].updateValueAndValidity();
+    }
+  }
+
+  // notification
   createNotification(type: string, title: string, content: string, position: NzNotificationPlacement): void {
     this.notification.create(type, title, content, { nzPlacement: position });
   }

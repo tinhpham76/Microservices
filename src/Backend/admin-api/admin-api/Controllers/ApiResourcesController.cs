@@ -24,6 +24,14 @@ namespace admin_api.Controllers
         }
 
         #region Api Resources
+        // Get all api scope
+        [HttpGet]
+        public async Task<IActionResult> GetAllApiScopes()
+        {
+            var apiScopes = await _context.ApiScopes.Select(x => x.Name.ToString()).ToListAsync();
+            return Ok(apiScopes);
+        }
+
         // Find api resource with name or display name
         [HttpGet("filter")]
         public async Task<IActionResult> GetApiResourcesPaging(string filter, int pageIndex, int pageSize)
@@ -60,9 +68,9 @@ namespace admin_api.Controllers
             var result = await _apiResourceApiClient.PostApiResource(request);
             if (result == true)
             {
-                return Ok($"Api resource {request.Name} already created!");
+                return Ok();
             }
-            return BadRequest($"Api resource {request.Name} can't created!");
+            return BadRequest();
         }
 
         [HttpDelete("{apiResourceName}")]
@@ -71,9 +79,9 @@ namespace admin_api.Controllers
             var result = await _apiResourceApiClient.DeleteApiResource(apiResourceName);
             if (result == true)
             {
-                return Ok($"Delete success api resource {apiResourceName}!");
+                return Ok();
             }
-            return BadRequest($"Delete error api resource {apiResourceName}!");
+            return BadRequest();
         }
 
         [HttpGet("{apiResourceName}")]
@@ -82,7 +90,7 @@ namespace admin_api.Controllers
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
             if (apiResource == null)
             {
-                return NotFound($"Can't found api resource {apiResourceName} in database!");
+                return NotFound();
             }
             var claims = await _context.ApiResourceClaims
                  .Where(x => x.ApiResourceId == apiResource.Id)
@@ -99,7 +107,7 @@ namespace admin_api.Controllers
                 Enabled = apiResource.Enabled,
                 ShowInDiscoveryDocument = apiResource.ShowInDiscoveryDocument,
                 UserClaims = claims,
-                Scope = scopes
+                Scopes = scopes
             };
             return Ok(apiResourceViewModel);
         }
@@ -110,7 +118,7 @@ namespace admin_api.Controllers
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
             if (apiResource == null)
             {
-                return NotFound($"Can't found api resource {apiResourceName} in database!");
+                return NotFound();
             }
             apiResource.DisplayName = request.DisplayName;
             apiResource.Description = request.Description;
@@ -151,14 +159,14 @@ namespace admin_api.Controllers
                   .Select(x => x.Scope.ToString()).ToListAsync();
             foreach (var scope in scopes)
             {
-                if (!(request.Scope.Contains(scope)))
+                if (!(request.Scopes.Contains(scope)))
                 {
                     var removeScope = await _context.ApiResourceScopes.FirstOrDefaultAsync(x => x.Scope == scope);
                     _context.ApiResourceScopes.Remove(removeScope);
                 }
             }
 
-            foreach (var requestScope in request.Scope)
+            foreach (var requestScope in request.Scopes)
             {
                 if (!scopes.Contains(requestScope))
                 {
@@ -174,9 +182,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success api resource {apiResource.Name}!");
+                return Ok();
             }
-            return BadRequest($"Update error api resource {apiResource.Name}!");
+            return BadRequest();
         }
 
         #endregion
@@ -189,7 +197,7 @@ namespace admin_api.Controllers
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
             if (apiResource == null)
             {
-                return NotFound($"Can't found api resource {apiResourceName} in database!");
+                return NotFound();
             }
             var query = _context.ApiResourceSecrets.Where(x => x.ApiResourceId.Equals(apiResource.Id));
             var apiSecrets = await query.Select(x => new ApiResourceSecretViewModels()
@@ -210,7 +218,7 @@ namespace admin_api.Controllers
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
             if (apiResource == null)
             {
-                return NotFound($"Can't found api resource {apiResourceName} in database!");
+                return NotFound();
             }
             var apiSecret = new ApiResourceSecret()
             {
@@ -225,9 +233,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success api resource{apiResourceName}!");
+                return Ok();
             }
-            return BadRequest($"Update error api resource {apiResourceName}!");
+            return BadRequest();
         }
 
         //Delete api resource secret
@@ -236,17 +244,17 @@ namespace admin_api.Controllers
         {
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
             if (apiResource == null)
-                return NotFound($"Can't found api resource {apiResourceName} in database!");
+                return NotFound();
             var apiSecret = await _context.ApiResourceSecrets.FirstOrDefaultAsync(x => x.ApiResourceId == apiResource.Id && x.Id == secretId);
             if (apiSecret == null)
-                return NotFound($"Can't found secret of api resource {apiResourceName} in database!");
+                return NotFound();
             _context.ApiResourceSecrets.Remove(apiSecret);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Delete success api resource secret for api {apiResource.Name}!");
+                return Ok();
             }
-            return BadRequest($"Delete error api resource secret for api {apiResource.Name}!");
+            return BadRequest();
         }
         #endregion
 
@@ -259,7 +267,7 @@ namespace admin_api.Controllers
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
             if (apiResource == null)
             {
-                return NotFound($"Can't found api resource {apiResourceName} in database!");
+                return NotFound();
             }
             var query = _context.ApiResourceProperties.Where(x => x.ApiResourceId.Equals(apiResource.Id));
             var apiResourceProperties = await query.Select(x => new ApiResourcePropertyViewModels()
@@ -278,12 +286,12 @@ namespace admin_api.Controllers
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
             if (apiResource == null)
             {
-                return BadRequest($"Can't found api resource {apiResourceName} in database!");
+                return BadRequest();
             }
             var apiProperty = await _context.ApiResourceProperties.FirstOrDefaultAsync(x => x.Key == request.Key && x.ApiResourceId == apiResource.Id);
             if (apiProperty != null)
             {
-                return BadRequest($"Api property key {request.Key} already exist!");
+                return BadRequest();
             }
             var apiPropertyRequest = new ApiResourceProperty()
             {
@@ -295,9 +303,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success api resource {apiResource.Name}!");
+                return Ok();
             }
-            return BadRequest($"Update success api resource {apiResource.Name}!");
+            return BadRequest();
         }
 
         //Delete api resource property
@@ -306,17 +314,17 @@ namespace admin_api.Controllers
         {
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
             if (apiResource == null)
-                return NotFound($"Can't found api resource {apiResourceName} in database!");
+                return NotFound();
             var apiResourceProperty = await _context.ApiResourceProperties.FirstOrDefaultAsync(x => x.ApiResourceId == apiResource.Id && x.Key == propertyKey);
             if (apiResourceProperty == null)
-                return NotFound($"Can't found property key of api resource {apiResourceName} in database!");
+                return NotFound();
             _context.ApiResourceProperties.Remove(apiResourceProperty);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Delete success api resource property for api {apiResource.Name}!");
+                return Ok();
             }
-            return BadRequest($"Delete error api resource property for api {apiResource.Name}!");
+            return BadRequest();
         }
         #endregion
     }

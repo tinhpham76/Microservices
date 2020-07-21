@@ -24,9 +24,12 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AddResourceComponent } from './add-resource/add-resource.component';
+import { EditResourceComponent } from './edit-resource/edit-resource.component';
+import { ResourceSecretComponent } from './resource-secret/resource-secret.component';
+import { ResourcePropertyComponent } from './resource-property/resource-property.component';
 
 @NgModule({
-  declarations: [ApiResourceComponent, AddResourceComponent],
+  declarations: [ApiResourceComponent, AddResourceComponent, EditResourceComponent, ResourceSecretComponent, ResourcePropertyComponent],
   imports: [
     CommonModule,
     NzTableModule,

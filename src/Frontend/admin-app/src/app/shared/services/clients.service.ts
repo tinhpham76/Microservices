@@ -36,7 +36,7 @@ export class ClientServices extends BaseService {
             , JSON.stringify(entity), { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
     // Setting setting    
-    getAllScope(){
+    getAllScope() {
         return this.http.get(`${environment.admin_api_url}/api/clients`
             , { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
@@ -61,6 +61,19 @@ export class ClientServices extends BaseService {
         return this.http.delete(`${environment.admin_api_url}/api/clients/${id}/settings/clientSecrets/${secretId}`
             , { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
+    getClientProperties(id: string) {
+        return this.http.get(`${environment.admin_api_url}/api/clients/${id}/settings/properties`, { headers: this._sharedHeaders })
+            .pipe(catchError(this.handleError));
+    }
+    addClientProperty(id: string, entity: any) {
+        return this.http.post(`${environment.admin_api_url}/api/clients/${id}/settings/properties`,
+            JSON.stringify(entity), { headers: this._sharedHeaders })
+            .pipe(catchError(this.handleError));
+    }
+    deleteClientProperty(id: string, propertyKey: string) {
+        return this.http.delete(`${environment.admin_api_url}/api/clients/${id}/settings/properties/${propertyKey}`
+            , { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
+    }
     // Setting authentication
     getAuthentication(id) {
         return this.http.get(`${environment.admin_api_url}/api/clients/${id}/Authentications`
@@ -69,14 +82,6 @@ export class ClientServices extends BaseService {
     putAuthentication(id, entity: any) {
         return this.http.put(`${environment.admin_api_url}/api/clients/${id}/Authentications`
             , JSON.stringify(entity), { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
-    }
-    postPostLogoutRedirectUris(id, entity: any) {
-        return this.http.post(`${environment.admin_api_url}/api/clients/${id}/Authentications/postLogoutRedirectUris`
-            , JSON.stringify(entity), { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
-    }
-    deletePostLogoutRedirectUris(id, postLogoutRedirectUris) {
-        return this.http.delete(`${environment.admin_api_url}/api/clients/${id}/Authentications/postLogoutRedirectUris/postLogoutRedirectUriName?postLogoutRedirectUriName=${postLogoutRedirectUris}`
-            , { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
     // Setting Token
     getToken(id) {
@@ -96,8 +101,8 @@ export class ClientServices extends BaseService {
             JSON.stringify(entity), { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
-    deleteClientClaim(id: string, claimId: number) {
-        return this.http.delete(`${environment.admin_api_url}/api/clients/${id}/tokens/clientClaims/${claimId}`
+    deleteClientClaim(id: string, claimType: string) {
+        return this.http.delete(`${environment.admin_api_url}/api/clients/${id}/tokens/clientClaims/${claimType}`
             , { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
     // Setting device flow

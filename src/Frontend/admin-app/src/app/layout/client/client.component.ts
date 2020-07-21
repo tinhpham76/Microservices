@@ -30,7 +30,6 @@ export class ClientComponent implements OnInit {
 
   // Search
   searchValue = '';
-  visible = false;
 
   constructor(private clientServices: ClientServices,
     private notification: NzNotificationService,
@@ -68,17 +67,11 @@ export class ClientComponent implements OnInit {
     this.loadClientData(this.filter, pageIndex, pageSize);
   }
 
-  reset(): void {
-    this.searchValue = '';
-    this.search();
-  }
-
   handleInputConfirm(): void {
     this.loadClientData(this.searchValue, this.pageIndex, this.pageSize);
   }
 
   search(): void {
-    this.visible = false;
     this.loadClientData(this.searchValue, this.pageIndex, this.pageSize);
   }
 

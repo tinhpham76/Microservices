@@ -1,28 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/notification';
 import { ActivatedRoute } from '@angular/router';
 import { ClientServices } from '@app/shared/services/clients.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 
 @Component({
-  selector: 'app-client-secret',
-  templateUrl: './client-secret.component.html',
-  styleUrls: ['./client-secret.component.scss']
+  selector: 'app-client-claim',
+  templateUrl: './client-claim.component.html',
+  styleUrls: ['./client-claim.component.scss']
 })
-export class ClientSecretComponent implements OnInit {
+export class ClientClaimComponent implements OnInit {
 
   // Spin
   public isSpinning: boolean;
 
   public clientId: string;
 
-  confirmDeleteClientSecret?: NzModalRef;
+  confirmDeleteClientClaim: NzModalRef;
 
-  public itemClientSecrets: any[];
+  public itemClientClaims: any[];
 
-  public secretForm!: FormGroup;
+  public claimForm!: FormGroup;
+
+  // Claims
+  clientClaim = '';
+  claims = ['sub', 'name', 'given_name', 'family_name', 'middle_name',
+    'nickname', 'preferred_username', 'profile', 'picture', 'website', 'email', 'email_verified',
+    'gender', 'birthdate', 'zoneinfo', 'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'];
+  inputClaimVisible = false;
+  inputClaimValue = '';
+
+  @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
 
   constructor(private notification: NzNotificationService,
     private route: ActivatedRoute,
@@ -34,23 +44,20 @@ export class ClientSecretComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.clientId = params['id'];
     });
-    // Init form client secrets
-    this.secretForm = this.fb.group({
-      type: ['SharedSecret'],
+    // Init form client claims
+    this.claimForm = this.fb.group({
+      type: [null, [Validators.required]],
       value: [null, [Validators.required]],
-      description: [null],
-      expiration: [null],
-      hashType: ['Sha256'],
     });
-    this.getClientSecret(this.clientId);
+    this.getClientClaims(this.clientId);
   }
 
-  // Get client secret
-  getClientSecret(clientId: string) {
+  // Get client claim
+  getClientClaims(clientId: string) {
     this.isSpinning = true;
-    this.clientServices.getClientSecret(clientId)
+    this.clientServices.getClientClaims(clientId)
       .subscribe((res: any[]) => {
-        this.itemClientSecrets = res;
+        this.itemClientClaims = res;
         setTimeout(() => {
           this.isSpinning = false;
         }, 500);
@@ -67,14 +74,28 @@ export class ClientSecretComponent implements OnInit {
       });
   }
 
-  // Create new client secret
-  submitFormClientSecrets(): void {
+  addClaim(claim: string): void {
+    if (claim && this.clientClaim.indexOf(claim) === -1) {
+      this.clientClaim = claim;
+    }
+  }
+
+  sliceTagName(tag: string): string {
+    const isLongTag = tag.length > 50;
+    return isLongTag ? `${tag.slice(0, 50)}...` : tag;
+  }
+
+  // Create new client claim
+  submitClaimForm(value:
+    {
+      type: string;
+      value: string;
+    }): void {
     this.isSpinning = true;
-    const data = this.secretForm.getRawValue();
-    console.log(data);
-    this.clientServices.addClientSecret(this.clientId, data)
+    value.type = this.clientClaim;
+    this.clientServices.addClientClaim(this.clientId, value)
       .subscribe(() => {
-        this.getClientSecret(this.clientId);
+        this.getClientClaims(this.clientId);
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
           MessageConstants.TITLE_NOTIFICATION_SSO,
@@ -94,17 +115,19 @@ export class ClientSecretComponent implements OnInit {
       });
   }
 
-  // Delete client secret
-  deleteClientSecret(id: string) {
+  // Delete client claim
+  deleteClientClaim(type: string) {
     this.isSpinning = true;
-    this.clientServices.deleteClientSecret(this.clientId, Number(id))
+    this.clientServices.deleteClientClaim(this.clientId, type)
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
           MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_DELETE + name + ' !', 'bottomRight');
+          MessageConstants.NOTIFICATION_DELETE,
+          'bottomRight'
+        );
+        this.getClientClaims(this.clientId);
         setTimeout(() => {
-          this.getClientSecret(this.clientId);
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
@@ -120,26 +143,26 @@ export class ClientSecretComponent implements OnInit {
       });
   }
 
-  // Delete client secret
-  showDeleteConfirmClientSecrets(id: string): void {
-    this.confirmDeleteClientSecret = this.modal.confirm({
-      nzTitle: 'Do you Want to delete client secrets id: ' + id + ' ?',
+  // Delete client Claim
+  showDeleteConfirmClientClaim(type: string): void {
+    this.confirmDeleteClientClaim = this.modal.confirm({
+      nzTitle: 'Do you Want to delete client claim type: ' + type + '?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          this.deleteClientSecret(id);
+          this.deleteClientClaim(type);
           setTimeout(Math.random() > 0.5 ? resolve : reject, 200);
         })
     });
   }
 
   resetForm(): void {
-    this.secretForm.reset();
+    this.claimForm.reset();
     // tslint:disable-next-line: forin
-    for (const key in this.secretForm.controls) {
-      this.secretForm.controls[key].markAsPristine();
-      this.secretForm.controls[key].updateValueAndValidity();
+    for (const key in this.claimForm.controls) {
+      this.claimForm.controls[key].markAsPristine();
+      this.claimForm.controls[key].updateValueAndValidity();
     }
   }
 

@@ -27,41 +27,37 @@ export class ApiResourceComponent implements OnInit {
 
   // Spin
   public isSpinning: boolean;
-  public isSpinningDrawer: boolean;
-
-  // Init form
-  validateForm!: FormGroup;
-
-  // Drawer Edit user
-  visibleEditApi = false;
 
   // Modal
   confirmDeleteModal?: NzModalRef;
 
+  searchValue = '';
+
   constructor(private apiResourceServices: ApiResourceServices,
     private notification: NzNotificationService,
-    private modal: NzModalService,
-    private fb: FormBuilder) { }
+    private modal: NzModalService) { }
 
   ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      name: [null, [Validators.required]],
-      displayName: [null],
-      description: [null],
-      enabled: [true],
-    });
-    this.loadApiData(this.pageIndex, this.pageSize);
+    this.loadApiData(this.filter, this.pageIndex, this.pageSize);
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
-    this.loadApiData(pageIndex, pageSize);
+    this.loadApiData(this.filter, pageIndex, pageSize);
+  }
+
+  handleInputConfirm(): void {
+    this.loadApiData(this.searchValue, this.pageIndex, this.pageSize);
+  }
+
+  search(): void {
+    this.loadApiData(this.searchValue, this.pageIndex, this.pageSize);
   }
 
   // Load api resource data
-  loadApiData(pageIndex: number, pageSize: number): void {
+  loadApiData(filter: string, pageIndex: number, pageSize: number): void {
     this.isSpinning = true;
-    this.apiResourceServices.getAllPaging(this.filter, pageIndex, pageSize)
+    this.apiResourceServices.getAllPaging(filter, pageIndex, pageSize)
       .subscribe(res => {
         this.items = res.items;
         this.totalRecords = res.totalRecords;
@@ -77,63 +73,6 @@ export class ApiResourceComponent implements OnInit {
         );
         setTimeout(() => {
           this.isSpinning = false;
-        }, 500);
-      });
-  }
-
-  // Edit api resource
-  openEditApiResource(name: string): void {
-    this.visibleEditApi = true;
-    this.isSpinningDrawer = true;
-    this.apiResourceServices.getDetail(name)
-      .subscribe((res: ApiResource) => {
-        this.validateForm.setValue({
-          name: res.name,
-          displayName: res.displayName,
-          description: res.description,
-          enabled: res.enabled,
-        });
-        setTimeout(() => {
-          this.isSpinningDrawer = false;
-        }, 500);
-      }, errorMessage => {
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          errorMessage,
-          'bottomRight'
-        );
-        setTimeout(() => {
-          this.isSpinningDrawer = false;
-        }, 500);
-      });
-  }
-
-  closeEditApiResource(): void {
-    this.visibleEditApi = false;
-  }
-
-  submitForm(): void {
-    this.isSpinningDrawer = true;
-    const name = this.validateForm.get('name').value;
-    this.apiResourceServices.update(name, this.validateForm.getRawValue())
-      .subscribe(() => {
-        this.visibleEditApi = false;
-        this.ngOnInit();
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_UPDATE + name + '!',
-          'bottomRight');
-      }, errorMessage => {
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          errorMessage,
-          'bottomRight'
-        );
-        setTimeout(() => {
-          this.isSpinningDrawer = false;
         }, 500);
       });
   }

@@ -1,17 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiResourceServices } from '@app/shared/services/api-resources.service';
 import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/notification';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 
-
 @Component({
-  selector: 'app-add-resource',
-  templateUrl: './add-resource.component.html',
-  styleUrls: ['./add-resource.component.scss']
+  selector: 'app-edit-resource',
+  templateUrl: './edit-resource.component.html',
+  styleUrls: ['./edit-resource.component.scss']
 })
-export class AddResourceComponent implements OnInit {
+export class EditResourceComponent implements OnInit {
+
+  apiName = '';
 
   // Init form
   public validateForm!: FormGroup;
@@ -28,8 +29,8 @@ export class AddResourceComponent implements OnInit {
   // Claims
   userClaims = [];
   claims = ['sub', 'name', 'given_name', 'family_name', 'middle_name',
-  'nickname', 'preferred_username', 'profile', 'picture', 'website', 'email', 'email_verified',
-  'gender', 'birthdate', 'zoneinfo', 'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'];
+    'nickname', 'preferred_username', 'profile', 'picture', 'website', 'email', 'email_verified',
+    'gender', 'birthdate', 'zoneinfo', 'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'];
   inputClaimVisible = false;
   inputClaimValue = '';
 
@@ -38,9 +39,13 @@ export class AddResourceComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private apiResourceServices: ApiResourceServices,
     private notification: NzNotificationService,
-    private router: Router) { }
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.apiName = params['name'];
+    });
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
       displayName: [null, Validators.required],
@@ -52,9 +57,60 @@ export class AddResourceComponent implements OnInit {
       userClaims: [null]
     });
     this.getApiScopes();
+    this.getApiResource(this.apiName);
   }
 
-  // Create new identity resource
+  getApiScopes() {
+    this.apiResourceServices.getApiScopes()
+      .subscribe((res: any[]) => {
+        this.apiScopes = res;
+      }, errorMessage => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_ERROR,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          errorMessage,
+          'bottomRight'
+        );
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      });
+  }
+
+  // Get detail api resource
+  getApiResource(apiName: string) {
+    this.isSpinning = true;
+    this.apiResourceServices.getDetail(apiName)
+      .subscribe((res: any) => {
+        this.validateForm.setValue({
+          name: res.name,
+          displayName: res.displayName,
+          description: res.description,
+          enabled: res.enabled,
+          showInDiscoveryDocument: res.showInDiscoveryDocument,
+          allowedAccessTokenSigningAlgorithms: res.allowedAccessTokenSigningAlgorithms,
+          scopes: null,
+          userClaims: null
+        });
+        this.scopes = res.scopes;
+        this.userClaims = res.userClaims;
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      }, errorMessage => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_ERROR,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          errorMessage,
+          'bottomRight'
+        );
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      });
+  }
+
+  // Save change api resource
   submitValidateForm(value:
     {
       name: string;
@@ -69,29 +125,28 @@ export class AddResourceComponent implements OnInit {
     this.isSpinning = true;
     value.scopes = this.scopes;
     value.userClaims = this.userClaims;
-    console.log(value);
-    this.apiResourceServices.add(value)
-       .subscribe(() => {
-         this.createNotification(
-           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-           MessageConstants.TITLE_NOTIFICATION_SSO,
-           MessageConstants.NOTIFICATION_ADD,
-           'bottomRight');
-         setTimeout(() => {
-           this.isSpinning = false;
-           this.router.navigate(['/api-resources']);
-         }, 500);
-       }, errorMessage => {
-         this.createNotification(
-           MessageConstants.TYPE_NOTIFICATION_ERROR,
-           MessageConstants.TITLE_NOTIFICATION_SSO,
-           errorMessage,
-           'bottomRight'
-         );
-         setTimeout(() => {
-           this.isSpinning = false;
-         }, 500);
-       });
+    this.apiResourceServices.update(this.apiName, value)
+      .subscribe(() => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_SUCCESS,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.NOTIFICATION_ADD,
+          'bottomRight');
+          this.getApiResource(this.apiName);
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      }, errorMessage => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_ERROR,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          errorMessage,
+          'bottomRight'
+        );
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      });
   }
 
   // Scopes
@@ -151,25 +206,9 @@ export class AddResourceComponent implements OnInit {
     return isLongTag ? `${tag.slice(0, 50)}...` : tag;
   }
 
-  getApiScopes() {
-    this.apiResourceServices.getApiScopes()
-      .subscribe((res: any[]) => {
-        this.apiScopes = res;
-      }, errorMessage => {
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          errorMessage,
-          'bottomRight'
-        );
-        setTimeout(() => {
-          this.isSpinning = false;
-        }, 500);
-      });
-  }
-
   // Notification
   createNotification(type: string, title: string, content: string, position: NzNotificationPlacement): void {
     this.notification.create(type, title, content, { nzPlacement: position });
   }
+
 }

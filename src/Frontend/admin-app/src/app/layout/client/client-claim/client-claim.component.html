@@ -1,0 +1,82 @@
+<!--Start welcome clients-->
+<div class="content-heading">
+    <div>
+        💻 Client Claims
+        <br>
+        <small><b> The Client class represents an OpenID Connect or OAuth 2.0 client - e.g. a native application, a web
+                application or a JS-based application..</b></small>
+    </div>
+</div>
+<button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='../edit'><i nz-icon
+        nzType="rollback"></i>Go back</button>
+<!--End welcome clients-->
+<nz-spin [nzSpinning]="isSpinning">
+    <nz-table #claimsTable nzBordered [nzData]="itemClientClaims" [nzFrontPagination]="false">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Claim type</th>
+                <th>Claim value</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let claim of claimsTable.data;let i = index">
+                <td>{{ i }}</td>
+                <td>{{ claim.type }}</td>
+                <td>{{ claim.value }}</td>
+                <td>
+                    <div class="table-action">
+                        <a href='javascript:void(0)' (click)='showDeleteConfirmClientClaim(claim.type)'>
+                            Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-spin>
+<br>
+<hr>
+<div>
+    <!--Start form add new client claims-->
+    <form nz-form nzSpan="12" nzOffset="6" [formGroup]="claimForm"
+        (ngSubmit)="submitClaimForm(claimForm.value)">
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Claim Type</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="clientClaimErrorTpl">
+                <input nz-input formControlName="type" placeholder="Claim value" [(ngModel)]="clientClaim"/>
+                <br><br>
+                <p>Sugestions:</p>
+                <hr>
+                <nz-tag nz-row *ngFor="let tag of claims" nzMode="checkable" nzColor="warning"
+                    (nzCheckedChange)="addClaim(tag)"> +
+                    {{ tag }}
+                </nz-tag>
+                <ng-template #clientClaimErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                      Please input your claim type!
+                    </ng-container>
+                  </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Claim Value</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="valueErrorTpl">
+              <input nz-input formControlName="value" placeholder="Claim value" />
+              <ng-template #valueErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">
+                  Please input your claim value!
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        <nz-form-item>
+            <nz-form-control [nzOffset]="7" [nzSpan]="12">
+                <button nz-button nzType="primary" [disabled]="!claimForm.valid">Save Changes</button>
+                <button nz-button routerLink='/clients'>Cancel</button>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+    <!--End form add new client claims-->
+</div>

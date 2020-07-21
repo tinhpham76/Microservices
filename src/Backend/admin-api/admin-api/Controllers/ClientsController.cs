@@ -321,7 +321,7 @@ namespace admin_api.Controllers
                 Id = x.Id,
                 Value = x.Value,
                 Type = x.Type,
-                Expiration = x.Expiration,
+                Expiration = x.Expiration.ToString().Substring(0, 10),
                 Description = x.Description
             }).ToListAsync();
 
@@ -630,7 +630,7 @@ namespace admin_api.Controllers
                 Value = request.Value,
                 ClientId = client.Id
             };
-            _context.ClientClaims.Add(clientClaim);
+            _context.ClientClaims.Add(clientClaimRequest);
             client.Updated = DateTime.UtcNow;
             _context.Clients.Update(client);
             var result = await _context.SaveChangesAsync();
@@ -642,13 +642,13 @@ namespace admin_api.Controllers
         }
 
         //Delete client claim
-        [HttpDelete("{clientId}/tokens/clientClaims/{claimId}")]
-        public async Task<IActionResult> DeleteClientClaim(string clientId, int claimId)
+        [HttpDelete("{clientId}/tokens/clientClaims/{claimType}")]
+        public async Task<IActionResult> DeleteClientClaim(string clientId, string claimType)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
             if (client == null)
                 return NotFound();
-            var clientClaim = await _context.ClientClaims.FirstOrDefaultAsync(x => x.ClientId == client.Id && x.Id == claimId);
+            var clientClaim = await _context.ClientClaims.FirstOrDefaultAsync(x => x.ClientId == client.Id && x.Type == claimType);
             if (clientClaim == null)
                 return NotFound();
             _context.ClientClaims.Remove(clientClaim);

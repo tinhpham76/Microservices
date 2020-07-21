@@ -11,6 +11,6 @@ namespace admin_services.RequestModels
         public bool ShowInDiscoveryDocument { get; set; }
         public string AllowedAccessTokenSigningAlgorithms { get; set; }
         public List<string> UserClaims { get; set; }
-        public List<string> Scope { get; set; }
+        public List<string> Scopes { get; set; }
     }
 }

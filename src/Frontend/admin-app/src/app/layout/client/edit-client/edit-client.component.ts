@@ -448,7 +448,7 @@ export class EditClientComponent implements OnInit {
     }, 10);
   }
 
-  // Token setting 
+  // Token setting
   getTokenSetting(clientId: string) {
     this.isSpinning = true;
     this.clientServices.getToken(clientId)
