@@ -1,0 +1,76 @@
+<!--Start welcome api resources-->
+<div class="content-heading">
+    <div>
+        ☁️ Api scopes properties
+        <br>
+        <small><b> Resources are something you want to protect with apiServer – either APIs (by doing this your
+                data will be protected as well). So to access your database content must be through an API..</b></small>
+    </div>
+</div>
+<button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='../edit'><i nz-icon
+        nzType="rollback"></i>Go back</button>
+
+<nz-spin [nzSpinning]="isSpinning">
+    <nz-table #propertiesTable nzBordered [nzData]="itemApiProperties" [nzFrontPagination]="false">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Property key</th>
+                <th>Property value</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let property of propertiesTable.data">
+                <td>{{ property.id }}</td>
+                <td>{{ property.key }}</td>
+                <td>{{ property.value }}</td>
+                <td>
+                    <div class="table-action">
+                        <a href='javascript:void(0)' (click)='showDeleteConfirmApiProperty(property.key)'>
+                            Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-spin>
+<br>
+<hr>
+<div>
+    <!--Start form add new api properties-->
+    <form nz-form [formGroup]="propertyForm" (ngSubmit)="submitFormApiProperty(propertyForm.value)">
+        <nz-form-item>
+            <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Property Key</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..."
+                [nzErrorTip]="keyErrorTpl">
+                <input nz-input formControlName="key" placeholder="Property key" />
+                <ng-template #keyErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                        Please input your property key!
+                    </ng-container>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Property Value</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..."
+                [nzErrorTip]="valueErrorTpl">
+                <input nz-input formControlName="value" placeholder="Property value" />
+                <ng-template #valueErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                        Please input your property value!
+                    </ng-container>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row class="register-area">
+            <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                <button nz-button nzType="primary" [disabled]="!propertyForm.valid">Create new api
+                    property</button>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+    <!--End form add new api properties-->
+</div>

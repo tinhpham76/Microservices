@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { ApiResourceServices } from '@app/shared/services/api-resources.service';
 import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { catchError } from 'rxjs/operators';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
-import { throwError } from 'rxjs';
-import { ApiResource } from '@app/shared/models/api-resource.model';
-import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-api-resource',
@@ -43,14 +39,10 @@ export class ApiResourceComponent implements OnInit {
 
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
-    this.loadApiData(this.filter, pageIndex, pageSize);
+    this.loadApiData(this.searchValue, pageIndex, pageSize);
   }
 
   handleInputConfirm(): void {
-    this.loadApiData(this.searchValue, this.pageIndex, this.pageSize);
-  }
-
-  search(): void {
     this.loadApiData(this.searchValue, this.pageIndex, this.pageSize);
   }
 

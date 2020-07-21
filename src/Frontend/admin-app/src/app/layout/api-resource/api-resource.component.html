@@ -36,8 +36,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let api of apiTable.data">
-                <td>{{ api.id }}</td>
+            <tr *ngFor="let api of apiTable.data; let i = index">
+                <td>{{ i }}</td>
                 <td>{{ api.name }}</td>
                 <td>{{ api.description }}</td>
                 <td>

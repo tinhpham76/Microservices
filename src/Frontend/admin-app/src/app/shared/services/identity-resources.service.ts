@@ -15,7 +15,8 @@ export class IdentityResourceServices extends BaseService {
         this._sharedHeaders = this._sharedHeaders.set('Content-Type', 'application/json');
     }
     add(entity: IdentityResource) {
-        return this.http.post(`${environment.admin_api_url}/api/IdentityResources`, JSON.stringify(entity), { headers: this._sharedHeaders })
+        return this.http.post(`${environment.admin_api_url}/api/IdentityResources`,
+         JSON.stringify(entity), { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     update(name: string, entity: IdentityResource) {
@@ -35,16 +36,17 @@ export class IdentityResourceServices extends BaseService {
         return this.http.delete(`${environment.admin_api_url}/api/IdentityResources/${name}`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
-    getIdentityResourceClaims(name: string) {
-        return this.http.get(`${environment.admin_api_url}/api/IdentityResources/${name}/identityClaims`, { headers: this._sharedHeaders })
+    getIdentityProperty(name: string) {
+        return this.http.get(`${environment.admin_api_url}/api/IdentityResources/${name}/properties`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
-    addIdentityResourceClaim(name: string, entity: IdentityResource) {
-        return this.http.post(`${environment.admin_api_url}/api/IdentityResources/${name}/identityClaims`,
-            JSON.stringify(entity), { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
+    addIdentityProperty(name: string, entity: any) {
+        return this.http.post(`${environment.admin_api_url}/api/IdentityResources/${name}/properties`,
+            JSON.stringify(entity), { headers: this._sharedHeaders })
+            .pipe(catchError(this.handleError));
     }
-    deleteIdentityResourceClaim(name: string, type: string) {
-        return this.http.delete(`${environment.admin_api_url}/api/IdentityResources/${name}/identityClaims/${type}`,
-            { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
+    deleteIdentityProperty(name: string, propertyKey: string) {
+        return this.http.delete(`${environment.admin_api_url}/api/IdentityResources/${name}/properties/${propertyKey}`
+            , { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
 }

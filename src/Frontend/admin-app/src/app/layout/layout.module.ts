@@ -12,6 +12,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 @NgModule({
   declarations: [LayoutComponent],
@@ -19,6 +20,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
     CommonModule,
     NzLayoutModule,
     NzMenuModule,
+    NzDropDownModule,
     NzToolTipModule,
     FormsModule,
     HttpClientModule,

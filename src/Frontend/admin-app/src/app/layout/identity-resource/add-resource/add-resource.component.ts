@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { IdentityResourceServices } from '@app/shared/services/identity-resources.service';
 import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/notification';
 import { Router } from '@angular/router';
-import { ApiScopeServices } from '@app/shared/services/api-scope.services';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 
 @Component({
-  selector: 'app-add-scope',
-  templateUrl: './add-scope.component.html',
-  styleUrls: ['./add-scope.component.scss']
+  selector: 'app-add-resource',
+  templateUrl: './add-resource.component.html',
+  styleUrls: ['./add-resource.component.scss']
 })
-export class AddScopeComponent implements OnInit {
+export class AddResourceComponent implements OnInit {
 
   // Init form
   public validateForm!: FormGroup;
@@ -27,9 +27,9 @@ export class AddScopeComponent implements OnInit {
   inputClaimValue = '';
 
   @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
-
+  
   constructor(private fb: FormBuilder,
-    private apiScopeServices: ApiScopeServices,
+    private identityResourceServices: IdentityResourceServices,
     private notification: NzNotificationService,
     private router: Router) { }
 
@@ -46,8 +46,8 @@ export class AddScopeComponent implements OnInit {
     });
   }
 
-  // Create new identity resource
-  submitValidateForm(value:
+   // Create new identity resource
+   submitValidateForm(value:
     {
       name: string;
       displayName: string;
@@ -60,8 +60,7 @@ export class AddScopeComponent implements OnInit {
     }): void {
     this.isSpinning = true;
     value.userClaims = this.userClaims;
-    console.log(value);
-    this.apiScopeServices.add(value)
+    this.identityResourceServices.add(value)
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
@@ -70,7 +69,7 @@ export class AddScopeComponent implements OnInit {
           'bottomRight');
         setTimeout(() => {
           this.isSpinning = false;
-          this.router.navigate(['/api-resources']);
+          this.router.navigate(['/identity-resources']);
         }, 500);
       }, errorMessage => {
         this.createNotification(
@@ -120,4 +119,5 @@ export class AddScopeComponent implements OnInit {
   createNotification(type: string, title: string, content: string, position: NzNotificationPlacement): void {
     this.notification.create(type, title, content, { nzPlacement: position });
   }
+
 }

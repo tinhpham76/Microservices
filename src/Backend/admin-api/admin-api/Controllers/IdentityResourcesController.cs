@@ -7,6 +7,7 @@ using admin_services.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,7 +40,6 @@ namespace admin_api.Controllers
                 .Take(pageSize)
                 .Select(x => new IdentityResourceQuickViewModels()
                 {
-                    Id = x.Id,
                     Name = x.Name,
                     DisplayName = x.DisplayName,
                     Description = x.Description
@@ -56,23 +56,33 @@ namespace admin_api.Controllers
         [HttpPost]
         public async Task<IActionResult> PostIdentityResource([FromBody] IdentityResourceRequestModel request)
         {
+            var apiScope = await _context.ApiScopes.Select(x => x.Name.ToString()).ToListAsync();
+            if (apiScope.Contains(request.Name))
+            {
+                return BadRequest();
+            }
             var result = await _identityResourceApiClient.PostIdentityResource(request);
             if (result == true)
             {
-                return Ok($"Identity Resource {request.Name} already created!");
+                return Ok();
             }
-            return BadRequest($"Identity Resource {request.Name} can't created!");
+            return BadRequest();
         }
 
         [HttpDelete("{identityResourceName}")]
         public async Task<IActionResult> DeleteApiResource(string identityResourceName)
         {
+            var temp = new List<string>() { "address", "phone", "email", "profile", "openid" };
+            if (temp.Contains(identityResourceName))
+            {
+                return BadRequest();
+            }
             var result = await _identityResourceApiClient.DeleteIdentityResource(identityResourceName);
             if (result == true)
             {
-                return Ok($"Delete success identity resource {identityResourceName}!");
+                return Ok();
             }
-            return BadRequest($"Delete error identity resource {identityResourceName}!");
+            return BadRequest();
         }
 
         //Get detail info identity resource
@@ -105,7 +115,7 @@ namespace admin_api.Controllers
             var identityResource = await _context.IdentityResources.FirstOrDefaultAsync(x => x.Name == identityResourceName);
             if (identityResource == null)
             {
-                return NotFound($"Can't found identity resource {identityResourceName} in database!");
+                return NotFound();
             }
             identityResource.DisplayName = request.DisplayName;
             identityResource.Description = request.Description;
@@ -143,9 +153,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success identity resource {identityResource.Name}!");
+                return Ok();
             }
-            return BadRequest($"Update error identity resource {identityResource.Name}!");
+            return BadRequest();
         }
         #endregion
 
@@ -157,7 +167,7 @@ namespace admin_api.Controllers
             var identityResource = await _context.IdentityResources.FirstOrDefaultAsync(x => x.Name == identityResourceName);
             if (identityResource == null)
             {
-                return NotFound($"Can't found identity resource {identityResourceName} in database!");
+                return NotFound();
             }
             var query = _context.IdentityResourceProperties.Where(x => x.IdentityResourceId.Equals(identityResource.Id));
             var identityResourceProperties = await query.Select(x => new IdentityResourcePropertyViewModels()
@@ -176,12 +186,12 @@ namespace admin_api.Controllers
             var identityResource = await _context.IdentityResources.FirstOrDefaultAsync(x => x.Name == identityResourceName);
             if (identityResource == null)
             {
-                return BadRequest($"Can't found identity resource {identityResourceName} in database!");
+                return BadRequest();
             }
             var identityProperty = await _context.IdentityResourceProperties.FirstOrDefaultAsync(x => x.Key == request.Key && x.IdentityResourceId == identityResource.Id);
             if (identityProperty != null)
             {
-                return BadRequest($"Identity property key {request.Key} already exist!");
+                return BadRequest();
             }
             var identityPropertyRequest = new IdentityResourceProperty()
             {
@@ -193,9 +203,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success identity resource {identityResource.Name}!");
+                return Ok();
             }
-            return BadRequest($"Update success identity resource {identityResource.Name}!");
+            return BadRequest();
         }
 
         //Delete api resource property
@@ -204,17 +214,17 @@ namespace admin_api.Controllers
         {
             var identityResource = await _context.IdentityResources.FirstOrDefaultAsync(x => x.Name == identityResourceName);
             if (identityResource == null)
-                return NotFound($"Can't found identity resource {identityResourceName} in database!");
+                return NotFound();
             var identityResourceProperty = await _context.IdentityResourceProperties.FirstOrDefaultAsync(x => x.IdentityResourceId == identityResource.Id && x.Key == propertyKey);
             if (identityResourceProperty == null)
-                return NotFound($"Can't found property key for identity resource {identityResourceName} in database!");
+                return NotFound();
             _context.IdentityResourceProperties.Remove(identityResourceProperty);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Delete success identity resource property for identity resource {identityResource.Name}!");
+                return Ok();
             }
-            return BadRequest($"Delete error identity resource property for identity resource {identityResource.Name}!");
+            return BadRequest();
         }
         #endregion
     }

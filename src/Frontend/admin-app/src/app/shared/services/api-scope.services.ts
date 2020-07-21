@@ -34,31 +34,18 @@ export class ApiScopeServices extends BaseService {
         return this.http.delete(`${environment.admin_api_url}/api/ApiScopes/${name}`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
-
-    //
-    getApiScopeClaims(name: string) {
-        return this.http.get(`${environment.admin_api_url}/api/ApiScopes/${name}/scopeClaims`, { headers: this._sharedHeaders })
-            .pipe(catchError(this.handleError));
-    }
-    addApiScopeClaim(name: string, entity: ApiScope) {
-        return this.http.post(`${environment.admin_api_url}/api/ApiScopes/${name}/scopeClaims`,
-            JSON.stringify(entity), { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
-    }
-    deleteApiScopeClaim(name: string, type: string) {
-        return this.http.delete(`${environment.admin_api_url}/api/ApiScopes/${name}/scopeClaims/${type}`,
-            { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
-    }
+    
     getApiScopeProperty(name: string) {
-        return this.http.get(`${environment.admin_api_url}/api/ApiScopes/${name}/scopeProperties`, { headers: this._sharedHeaders })
+        return this.http.get(`${environment.admin_api_url}/api/ApiScopes/${name}/properties`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     addApiScopeProperty(name: string, entity: any) {
-        return this.http.post(`${environment.admin_api_url}/api/ApiScopes/${name}/scopeProperties`,
+        return this.http.post(`${environment.admin_api_url}/api/ApiScopes/${name}/properties`,
             JSON.stringify(entity), { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     deleteApiScopeProperty(name: string, propertyKey: string) {
-        return this.http.delete(`${environment.admin_api_url}/api/ApiScopes/${name}/scopeProperties/${propertyKey}`
+        return this.http.delete(`${environment.admin_api_url}/api/ApiScopes/${name}/properties/${propertyKey}`
             , { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
 }

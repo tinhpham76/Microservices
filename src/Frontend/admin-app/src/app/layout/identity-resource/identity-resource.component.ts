@@ -37,33 +37,30 @@ export class IdentityResourceComponent implements OnInit {
   // Modal
   confirmDeleteModal?: NzModalRef;
 
+  searchValue = '';
+
   constructor(private identityResourceServices: IdentityResourceServices,
     private notification: NzNotificationService,
     private modal: NzModalService,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      name: [null, [Validators.required]],
-      displayName: [null, Validators.required],
-      description: [null],
-      enabled: [true],
-      showInDiscoveryDocument: [true],
-      required: [false],
-      emphasize: [false]
-    });
-    this.loadIdentityData(this.pageIndex, this.pageSize);
+    this.loadIdentityData(this.filter, this.pageIndex, this.pageSize);
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
-    this.loadIdentityData(pageIndex, pageSize);
+    this.loadIdentityData(this.searchValue, pageIndex, pageSize);
+  }
+
+  handleInputConfirm(): void {
+    this.loadIdentityData(this.searchValue, this.pageIndex, this.pageSize);
   }
 
   // Load identity data
-  loadIdentityData(pageIndex: number, pageSize: number): void {
+  loadIdentityData(filter: string, pageIndex: number, pageSize: number): void {
     this.isSpinning = true;
-    this.identityResourceServices.getAllPaging(this.filter, pageIndex, pageSize)
+    this.identityResourceServices.getAllPaging(filter, pageIndex, pageSize)
       .subscribe(res => {
         this.items = res.items;
         this.totalRecords = res.totalRecords;
@@ -83,23 +80,18 @@ export class IdentityResourceComponent implements OnInit {
       });
   }
 
-  // Edit identity resource
-  openEditIdentityResource(name: string): void {
-    this.visibleEditIdentity = true;
-    this.isSpinningDrawer = true;
-    this.identityResourceServices.getDetail(name)
-      .subscribe((res: IdentityResource) => {
-        this.validateForm.setValue({
-          name: res.name,
-          displayName: res.displayName,
-          description: res.description,
-          enabled: res.enabled,
-          showInDiscoveryDocument: res.showInDiscoveryDocument,
-          required: res.required,
-          emphasize: res.emphasize
-        });
+  // Delete identity resource
+  delete(name: string) {
+    this.isSpinning = true;
+    this.identityResourceServices.delete(name)
+      .subscribe(() => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_SUCCESS,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.NOTIFICATION_DELETE + name + ' !', 'bottomRight');
+        this.ngOnInit();
         setTimeout(() => {
-          this.isSpinningDrawer = false;
+          this.isSpinning = false;
         }, 500);
       }, errorMessage => {
         this.createNotification(
@@ -109,44 +101,9 @@ export class IdentityResourceComponent implements OnInit {
           'bottomRight'
         );
         setTimeout(() => {
-          this.isSpinningDrawer = false;
+          this.isSpinning = false;
         }, 500);
       });
-  }
-
-  // Delete identity resource
-  delete(name: string) {
-    if (name === 'openid' || name === 'profile') {
-      this.createNotification(
-        MessageConstants.TYPE_NOTIFICATION_ERROR,
-        MessageConstants.TITLE_NOTIFICATION_SSO,
-        'Cannot delete Identity resource openid or profile!',
-        'bottomRight'
-      );
-    } else {
-      this.isSpinning = true;
-      this.identityResourceServices.delete(name)
-        .subscribe(() => {
-          this.createNotification(
-            MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-            MessageConstants.TITLE_NOTIFICATION_SSO,
-            MessageConstants.NOTIFICATION_DELETE + name + ' !', 'bottomRight');
-          this.ngOnInit();
-          setTimeout(() => {
-            this.isSpinning = false;
-          }, 500);
-        }, errorMessage => {
-          this.createNotification(
-            MessageConstants.TYPE_NOTIFICATION_ERROR,
-            MessageConstants.TITLE_NOTIFICATION_SSO,
-            errorMessage,
-            'bottomRight'
-          );
-          setTimeout(() => {
-            this.isSpinning = false;
-          }, 500);
-        });
-    }
   }
 
   showDeleteConfirm(name: string): void {
@@ -160,35 +117,6 @@ export class IdentityResourceComponent implements OnInit {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 200);
         })
     });
-  }
-
-  closeEditIdentityResource(): void {
-    this.visibleEditIdentity = false;
-  }
-
-  submitForm(): void {
-    this.isSpinningDrawer = true;
-    const name = this.validateForm.get('name').value;
-    this.identityResourceServices.update(name, this.validateForm.getRawValue())
-      .subscribe(() => {
-        this.visibleEditIdentity = false;
-        this.ngOnInit();
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_UPDATE + name + '!',
-          'bottomRight');
-      }, errorMessage => {
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          errorMessage,
-          'bottomRight'
-        );
-        setTimeout(() => {
-          this.isSpinningDrawer = false;
-        }, 500);
-      });
   }
 
   // Notification

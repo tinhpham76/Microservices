@@ -5,7 +5,6 @@ import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/no
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 import { ApiScopeServices } from '@app/shared/services/api-scope.services';
-import { ApiScope } from '@app/shared/models/api-scope.model';
 
 @Component({
   selector: 'app-api-scope',
@@ -23,44 +22,33 @@ export class ApiScopeComponent implements OnInit {
 
   // Spin
   public isSpinning: boolean;
-  public isSpinningDrawer: boolean;
-
-  // Init form
-  validateForm!: FormGroup;
-
-  // Drawer Edit user
-  visibleEditApi = false;
 
   // Modal
   confirmDeleteModal?: NzModalRef;
 
+  searchValue = '';
+
   constructor(private apiScopeServices: ApiScopeServices,
     private notification: NzNotificationService,
-    private modal: NzModalService,
-    private fb: FormBuilder) { }
+    private modal: NzModalService) { }
 
   ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      enabled: [null],
-      name: [null, [Validators.required]],
-      displayName: [null, [Validators.required]],
-      description: [null],
-      required: [null],
-      emphasize: [null],
-      showInDiscoveryDocument: [null]
-    });
-    this.loadApiData(this.pageIndex, this.pageSize);
+    this.loadApiData(this.filter, this.pageIndex, this.pageSize);
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
-    this.loadApiData(pageIndex, pageSize);
+    this.loadApiData(this.searchValue, pageIndex, pageSize);
+  }
+
+  handleInputConfirm(): void {
+    this.loadApiData(this.searchValue, this.pageIndex, this.pageSize);
   }
 
   // Load api scopes data
-  loadApiData(pageIndex: number, pageSize: number): void {
+  loadApiData(filter: string, pageIndex: number, pageSize: number): void {
     this.isSpinning = true;
-    this.apiScopeServices.getAllPaging(this.filter, pageIndex, pageSize)
+    this.apiScopeServices.getAllPaging(filter, pageIndex, pageSize)
       .subscribe(res => {
         this.items = res.items;
         this.totalRecords = res.totalRecords;
@@ -76,37 +64,6 @@ export class ApiScopeComponent implements OnInit {
         );
         setTimeout(() => {
           this.isSpinning = false;
-        }, 500);
-      });
-  }
-
-  // Edit api resource
-  openEditApiScope(name: string): void {
-    this.visibleEditApi = true;
-    this.isSpinningDrawer = true;
-    this.apiScopeServices.getDetail(name)
-      .subscribe((res: ApiScope) => {
-        this.validateForm.setValue({
-          enabled: res.enabled,
-          name: res.name,
-          displayName: res.displayName,
-          description: res.description,
-          required: res.required,
-          emphasize: res.emphasize,
-          showInDiscoveryDocument: res.showInDiscoveryDocument
-        });
-        setTimeout(() => {
-          this.isSpinningDrawer = false;
-        }, 500);
-      }, errorMessage => {
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          errorMessage,
-          'bottomRight'
-        );
-        setTimeout(() => {
-          this.isSpinningDrawer = false;
         }, 500);
       });
   }
@@ -148,35 +105,6 @@ export class ApiScopeComponent implements OnInit {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 200);
         })
     });
-  }
-
-  closeEditApiScope(): void {
-    this.visibleEditApi = false;
-  }
-
-  submitForm(): void {
-    this.isSpinningDrawer = true;
-    const name = this.validateForm.get('name').value;
-    this.apiScopeServices.update(name, this.validateForm.getRawValue())
-      .subscribe(() => {
-        this.visibleEditApi = false;
-        this.ngOnInit();
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_UPDATE + name + '!',
-          'bottomRight');
-      }, errorMessage => {
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          errorMessage,
-          'bottomRight'
-        );
-        setTimeout(() => {
-          this.isSpinningDrawer = false;
-        }, 500);
-      });
   }
 
   // Notification

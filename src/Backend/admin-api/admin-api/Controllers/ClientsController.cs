@@ -157,14 +157,12 @@ namespace admin_api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetScopes()
         {
-            var api = await _context.ApiResources
-                  .Select(x => x.Name.ToString()).ToListAsync();
             var apiScope = await _context.ApiScopes
                 .Select(x => x.Name.ToString()).ToListAsync();
             var identity = await _context.IdentityResources
                 .Select(x => x.Name.ToString()).ToListAsync();
-
-            var scopes = (api.Concat(identity)).Concat(apiScope);
+            var offlineAccess =new List<string>() { "offline_access" };
+            var scopes = (identity.Concat(offlineAccess)).Concat(apiScope);
             return Ok(scopes);
         }
 

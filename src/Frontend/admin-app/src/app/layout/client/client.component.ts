@@ -6,7 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 import { throwError } from 'rxjs';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { ClientQuickViews } from '@app/shared/models/views/client-quick-views.model';
+
 
 @Component({
   selector: 'app-client',
@@ -19,7 +19,7 @@ export class ClientComponent implements OnInit {
   public filter = '';
   public pageIndex = 1;
   public pageSize = 10;
-  public items: ClientQuickViews[];
+  public items: any[];
   public totalRecords: number;
 
   // Spin
@@ -64,14 +64,10 @@ export class ClientComponent implements OnInit {
 
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
-    this.loadClientData(this.filter, pageIndex, pageSize);
+    this.loadClientData(this.searchValue, pageIndex, pageSize);
   }
 
   handleInputConfirm(): void {
-    this.loadClientData(this.searchValue, this.pageIndex, this.pageSize);
-  }
-
-  search(): void {
     this.loadClientData(this.searchValue, this.pageIndex, this.pageSize);
   }
 

@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IdentityResourceComponent } from './identity-resource.component';
-import { AddIdentityResourceComponent } from './add-identity-resource/add-identity-resource.component';
-import { IdentityClaimComponent } from './identity-claim/identity-claim.component';
+import { ResourcePropertyComponent } from './resource-property/resource-property.component';
+import { AddResourceComponent } from './add-resource/add-resource.component';
+import { EditResourceComponent } from './edit-resource/edit-resource.component';
 
 const routes: Routes = [
     { path: '', component: IdentityResourceComponent },
-    { path: 'add', component: AddIdentityResourceComponent },
-    { path: ':name/claim', component: IdentityClaimComponent }
+    { path: 'add', component: AddResourceComponent },
+    { path: ':name/edit', component: EditResourceComponent },
+    { path: ':name/properties', component: ResourcePropertyComponent }
 ];
 
 @NgModule({

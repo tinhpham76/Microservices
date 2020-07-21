@@ -48,7 +48,6 @@ namespace admin_api.Controllers
                 .Take(pageSize)
                 .Select(x => new ApiResourceQuickViewModels()
                 {
-                    Id = x.Id,
                     Name = x.Name,
                     DisplayName = x.DisplayName,
                     Description = x.Description
@@ -65,6 +64,12 @@ namespace admin_api.Controllers
         [HttpPost]
         public async Task<IActionResult> PostApiResource([FromBody] ApiResourceRequestModel request)
         {
+            var apiScope = await _context.IdentityResources.Select(x => x.Name.ToString()).ToListAsync();
+            if (apiScope.Contains(request.Name))
+            {
+                return BadRequest();
+            }
+
             var result = await _apiResourceApiClient.PostApiResource(request);
             if (result == true)
             {

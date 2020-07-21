@@ -5,7 +5,6 @@ import { environment } from '@environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { Pagination } from '../models/pagination.model';
 import { Client } from '../models/client.model';
-import { ClientQuickViews } from '../models/views/client-quick-views.model';
 
 @Injectable({ providedIn: 'root' })
 export class ClientServices extends BaseService {
@@ -19,7 +18,7 @@ export class ClientServices extends BaseService {
             .pipe(catchError(this.handleError));
     }
     getAllPaging(filter, pageIndex, pageSize) {
-        return this.http.get<Pagination<ClientQuickViews>>(`${environment.admin_api_url}/api/clients/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
+        return this.http.get<Pagination<any>>(`${environment.admin_api_url}/api/clients/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     delete(id) {

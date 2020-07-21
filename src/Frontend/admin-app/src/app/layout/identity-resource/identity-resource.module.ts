@@ -21,14 +21,15 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { IdentityResourceRoutingModule } from './identity-resource-routing.module';
-import { AddIdentityResourceComponent } from './add-identity-resource/add-identity-resource.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { IdentityClaimComponent } from './identity-claim/identity-claim.component';
+import { EditResourceComponent } from './edit-resource/edit-resource.component';
+import { AddResourceComponent } from './add-resource/add-resource.component';
+import { ResourcePropertyComponent } from './resource-property/resource-property.component';
 
 
 @NgModule({
-  declarations: [IdentityResourceComponent, AddIdentityResourceComponent, IdentityClaimComponent],
+  declarations: [IdentityResourceComponent, EditResourceComponent, AddResourceComponent, ResourcePropertyComponent],
   imports: [
     CommonModule,
     NzTableModule,

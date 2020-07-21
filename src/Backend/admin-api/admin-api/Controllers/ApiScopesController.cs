@@ -38,7 +38,6 @@ namespace admin_api.Controllers
                 .Take(pageSize)
                 .Select(x => new ApiScopeQuickViewModels()
                 {
-                    Id = x.Id,
                     Name = x.Name,
                     DisplayName = x.DisplayName,
                     Description = x.Description
@@ -55,12 +54,18 @@ namespace admin_api.Controllers
         [HttpPost]
         public async Task<IActionResult> PostApiScope([FromBody] ApiScopeRequestModel request)
         {
+
+            var apiScope = await _context.IdentityResources.Select(x => x.Name.ToString()).ToListAsync();
+            if (apiScope.Contains(request.Name))
+            {
+                return BadRequest();
+            }
             var result = await _apiScopeApiClient.PostApiScope(request);
             if (result == true)
             {
-                return Ok($"Api scope {request.Name} already created!");
+                return Ok();
             }
-            return BadRequest($"Api scope {request.Name} can't created!");
+            return BadRequest();
         }
 
         [HttpDelete("{apiScopeName}")]
@@ -69,9 +74,9 @@ namespace admin_api.Controllers
             var result = await _apiScopeApiClient.DeleteApiScope(apiScopeName);
             if (result == true)
             {
-                return Ok($"Delete success api scope {apiScopeName}!");
+                return Ok();
             }
-            return BadRequest($"Delete error api scope {apiScopeName}!");
+            return BadRequest();
         }
 
         [HttpGet("{apiScopeName}")]
@@ -80,7 +85,7 @@ namespace admin_api.Controllers
             var apiScope = await _context.ApiScopes.FirstOrDefaultAsync(x => x.Name == apiScopeName);
             if (apiScope == null)
             {
-                return NotFound($"Can't found api scope {apiScopeName} in database!");
+                return NotFound();
             }
             var claims = await _context.ApiScopeClaims
                  .Where(x => x.ScopeId == apiScope.Id)
@@ -106,7 +111,7 @@ namespace admin_api.Controllers
             var apiScope = await _context.ApiScopes.FirstOrDefaultAsync(x => x.Name == apiScopeName);
             if (apiScope == null)
             {
-                return NotFound($"Can't found api scope {apiScopeName} in database!");
+                return NotFound();
             }
             apiScope.DisplayName = request.DisplayName;
             apiScope.Description = request.Description;
@@ -142,9 +147,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success api scope {apiScope.Name}!");
+                return Ok();
             }
-            return BadRequest($"Update error api scope {apiScope.Name}!");
+            return BadRequest();
         }
         #endregion
 
@@ -157,7 +162,7 @@ namespace admin_api.Controllers
             var apiScope = await _context.ApiScopes.FirstOrDefaultAsync(x => x.Name == apiScopeName);
             if (apiScope == null)
             {
-                return NotFound($"Can't found api scope {apiScopeName} in database!");
+                return NotFound();
             }
             var query = _context.ApiScopeProperties.Where(x => x.ScopeId.Equals(apiScope.Id));
             var apiScopeProperties = await query.Select(x => new ApiScopePropertyViewModels()
@@ -176,12 +181,12 @@ namespace admin_api.Controllers
             var apiScope = await _context.ApiScopes.FirstOrDefaultAsync(x => x.Name == apiScopeName);
             if (apiScope == null)
             {
-                return BadRequest($"Can't found api scope {apiScopeName} in database!");
+                return BadRequest();
             }
             var apiProperty = await _context.ApiScopeProperties.FirstOrDefaultAsync(x => x.Key == request.Key && x.ScopeId == apiScope.Id);
             if (apiProperty != null)
             {
-                return BadRequest($"Api property key {request.Key} already exist!");
+                return BadRequest();
             }
             var apiPropertyRequest = new ApiScopeProperty()
             {
@@ -193,9 +198,9 @@ namespace admin_api.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Update success api resource {apiScope.Name}!");
+                return Ok();
             }
-            return BadRequest($"Update success api resource {apiScope.Name}!");
+            return BadRequest();
         }
 
         //Delete api scope property
@@ -204,17 +209,17 @@ namespace admin_api.Controllers
         {
             var apiScope = await _context.ApiScopes.FirstOrDefaultAsync(x => x.Name == apiScopeName);
             if (apiScope == null)
-                return NotFound($"Can't found api scope {apiScopeName} in database!");
+                return NotFound();
             var apiScopeProperty = await _context.ApiScopeProperties.FirstOrDefaultAsync(x => x.ScopeId == apiScope.Id && x.Key == propertyKey);
             if (apiScopeProperty == null)
-                return NotFound($"Can't found property key of api scope {apiScopeName} in database!");
+                return NotFound();
             _context.ApiScopeProperties.Remove(apiScopeProperty);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return Ok($"Delete success api scope property for api {apiScope.Name}!");
+                return Ok();
             }
-            return BadRequest($"Delete error api scope property for api {apiScope.Name}!");
+            return BadRequest();
         }
         #endregion
     }

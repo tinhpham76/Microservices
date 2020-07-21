@@ -1,54 +1,53 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { ApiScopeServices } from '@app/shared/services/api-scope.services';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/notification';
 import { ActivatedRoute } from '@angular/router';
+import { IdentityResourceServices } from '@app/shared/services/identity-resources.service';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 
 @Component({
-  selector: 'app-property',
-  templateUrl: './property.component.html',
-  styleUrls: ['./property.component.scss']
+  selector: 'app-resource-property',
+  templateUrl: './resource-property.component.html',
+  styleUrls: ['./resource-property.component.scss']
 })
-export class PropertyComponent implements OnInit {
-
-  //
-  public apiName: string;
-  public items: any[];
+export class ResourcePropertyComponent implements OnInit {
 
   // Spin
   public isSpinning: boolean;
 
-  // Init form
-  public validateForm!: FormGroup;
+  public identityName: string;
 
-  // Modal
-  confirmDeleteModal?: NzModalRef;
+  confirmDeleteIdentityProperty: NzModalRef;
 
-  constructor(private apiScopeServices: ApiScopeServices,
-    private notification: NzNotificationService,
+  public itemIdentityProperties: any[];
+
+  public propertyForm!: FormGroup;
+
+  constructor(private notification: NzNotificationService,
     private route: ActivatedRoute,
-    private modal: NzModalService,
-    private fb: FormBuilder) { }
+    private identityResourceServices: IdentityResourceServices,
+    private fb: FormBuilder,
+    private modal: NzModalService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.apiName = params['name'];
+      this.identityName = params['name'];
     });
-    this.validateForm = this.fb.group({
+    // Init form api property
+    this.propertyForm = this.fb.group({
       key: [null, [Validators.required]],
-      value: [null, Validators.required]
+      value: [null, [Validators.required]],
     });
-    this.getApiScopeProperties(this.apiName);
+    this.getIdentityProperties(this.identityName);
   }
 
-   // Get api scope properties
-   getApiScopeProperties(apiName: string) {
+  // Get identity property
+  getIdentityProperties(identityName: string) {
     this.isSpinning = true;
-    this.apiScopeServices.getApiScopeProperty(apiName)
+    this.identityResourceServices.getIdentityProperty(identityName)
       .subscribe((res: any[]) => {
-        this.items = res;
+        this.itemIdentityProperties = res;
         setTimeout(() => {
           this.isSpinning = false;
         }, 500);
@@ -65,18 +64,21 @@ export class PropertyComponent implements OnInit {
       });
   }
 
-  // Create new api scope property
-  submitForm(): void {
+  // Create new identity secret
+  submitFormIdentityProperty(value: {
+    key: string;
+    value: string;
+  }): void {
     this.isSpinning = true;
-    const data = this.validateForm.getRawValue();
-    this.apiScopeServices.addApiScopeProperty(this.apiName, data)
+    this.identityResourceServices.addIdentityProperty(this.identityName, value)
       .subscribe(() => {
-        this.ngOnInit();
+        this.getIdentityProperties(this.identityName);
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
           MessageConstants.TITLE_NOTIFICATION_SSO,
           MessageConstants.NOTIFICATION_ADD,
           'bottomRight');
+        this.resetForm();
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
@@ -90,16 +92,18 @@ export class PropertyComponent implements OnInit {
       });
   }
 
-  // Delete api scope property
-  delete(propertyKey: string) {
+  // Delete identity property
+  deleteIdentityProperty(key: string) {
     this.isSpinning = true;
-    this.apiScopeServices.deleteApiScopeProperty(this.apiName, propertyKey)
+    this.identityResourceServices.deleteIdentityProperty(this.identityName, key)
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
           MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_DELETE + ' api scope property ' + propertyKey + ' !', 'bottomRight');
-        this.ngOnInit();
+          MessageConstants.NOTIFICATION_DELETE,
+          'bottomRight'
+        );
+        this.getIdentityProperties(this.identityName);
         setTimeout(() => {
           this.isSpinning = false;
         }, 500);
@@ -116,24 +120,33 @@ export class PropertyComponent implements OnInit {
       });
   }
 
-  // Delete api scope property
-  showDeleteConfirm(propertyKey: string): void {
-    this.confirmDeleteModal = this.modal.confirm({
-      nzTitle: 'Do you Want to delete api scope property' + propertyKey + ' ?',
+  // Delete identity property
+  showDeleteConfirmIdentityProperty(key: string): void {
+    this.confirmDeleteIdentityProperty = this.modal.confirm({
+      nzTitle: 'Do you Want to delete identity property key: ' + key + '?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          this.delete(propertyKey);
+          this.deleteIdentityProperty(key);
           setTimeout(Math.random() > 0.5 ? resolve : reject, 200);
         })
     });
   }
 
-  // Notification
+  resetForm(): void {
+    this.propertyForm.reset();
+    // tslint:disable-next-line: forin
+    for (const key in this.propertyForm.controls) {
+      this.propertyForm.controls[key].markAsPristine();
+      this.propertyForm.controls[key].updateValueAndValidity();
+    }
+  }
+
+  // notification
   createNotification(type: string, title: string, content: string, position: NzNotificationPlacement): void {
     this.notification.create(type, title, content, { nzPlacement: position });
   }
 
-}
 
+}

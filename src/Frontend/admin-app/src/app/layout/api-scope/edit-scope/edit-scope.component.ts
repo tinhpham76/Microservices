@@ -1,22 +1,24 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/notification';
-import { Router } from '@angular/router';
 import { ApiScopeServices } from '@app/shared/services/api-scope.services';
+import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/notification';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 
 @Component({
-  selector: 'app-add-scope',
-  templateUrl: './add-scope.component.html',
-  styleUrls: ['./add-scope.component.scss']
+  selector: 'app-edit-scope',
+  templateUrl: './edit-scope.component.html',
+  styleUrls: ['./edit-scope.component.scss']
 })
-export class AddScopeComponent implements OnInit {
+export class EditScopeComponent implements OnInit {
 
   // Init form
   public validateForm!: FormGroup;
 
   // Spin
   public isSpinning: boolean;
+
+  apiName = '';
 
   // Claims
   userClaims = [];
@@ -31,9 +33,13 @@ export class AddScopeComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private apiScopeServices: ApiScopeServices,
     private notification: NzNotificationService,
-    private router: Router) { }
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.apiName = params['name'];
+    });
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
       displayName: [null, Validators.required],
@@ -44,8 +50,40 @@ export class AddScopeComponent implements OnInit {
       emphasize: [false],
       userClaims: [null]
     });
+    this.getApiScope(this.apiName);
   }
 
+  // Get detail api resource
+  getApiScope(apiName: string) {
+    this.isSpinning = true;
+    this.apiScopeServices.getDetail(apiName)
+      .subscribe((res: any) => {
+        this.validateForm.setValue({
+          name: res.name,
+          displayName: res.displayName,
+          description: res.description,
+          enabled: res.enabled,
+          showInDiscoveryDocument: res.showInDiscoveryDocument,
+          required: res.required,
+          emphasize: res.emphasize,
+          userClaims: null
+        });
+        this.userClaims = res.userClaims;
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      }, errorMessage => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_ERROR,
+          MessageConstants.TITLE_NOTIFICATION_SSO,
+          errorMessage,
+          'bottomRight'
+        );
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      });
+  }
   // Create new identity resource
   submitValidateForm(value:
     {
@@ -60,17 +98,16 @@ export class AddScopeComponent implements OnInit {
     }): void {
     this.isSpinning = true;
     value.userClaims = this.userClaims;
-    console.log(value);
-    this.apiScopeServices.add(value)
+    this.apiScopeServices.update(this.apiName, value)
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
           MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_ADD,
+          MessageConstants.NOTIFICATION_UPDATE,
           'bottomRight');
         setTimeout(() => {
+          this.getApiScope(this.apiName);
           this.isSpinning = false;
-          this.router.navigate(['/api-resources']);
         }, 500);
       }, errorMessage => {
         this.createNotification(
@@ -120,4 +157,5 @@ export class AddScopeComponent implements OnInit {
   createNotification(type: string, title: string, content: string, position: NzNotificationPlacement): void {
     this.notification.create(type, title, content, { nzPlacement: position });
   }
+
 }

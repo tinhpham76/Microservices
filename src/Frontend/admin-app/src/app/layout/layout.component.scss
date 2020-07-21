@@ -1,7 +1,7 @@
 img {
   height: 50px;
   background: rgba(255, 255, 255, 0.2);
-  margin: 10px;
+  margin: 10px 10px 10px 30px;
 }
 
 nz-header {
@@ -30,6 +30,5 @@ nz-footer {
 .item{
   overflow: auto;
   position: fixed;
-  width: 200px;
   height: calc(100% - 55px);
 }
