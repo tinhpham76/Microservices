@@ -46,7 +46,7 @@ namespace auth_server.Services
                 var role = await _roleManager.FindByIdAsync(userRole);
                 var claim = await _roleManager.GetClaimsAsync(role);
                 var permission = claim.Select(t => t.Type + "_" + t.Value).ToList();
-                Permissions.AddRange(permission);
+                Permissions.Concat(permission);
             }
 
             //Add more claims like this

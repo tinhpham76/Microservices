@@ -20,8 +20,10 @@ namespace user_api.Controllers
         {
             var result = await _userApiClient.PostUser(request);
             if (result == true)
-                return Ok(result);
-            return BadRequest(result);
+            {
+                return Ok();
+            }              
+            return BadRequest();
         }
 
         [HttpGet("filter")]
@@ -31,71 +33,75 @@ namespace user_api.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult> GetUserDetail(string id)
+        [HttpGet("{userId}")]
+        public async Task<ActionResult> GetUserDetail(string userId)
         {
-            var user = await _userApiClient.GetById(id);
+            var user = await _userApiClient.GetById(userId);
             return Ok(user);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutUser(string id, [FromBody] UserRequestModel request)
+        [HttpPut("{userId}")]
+        public async Task<ActionResult> PutUser(string userId, [FromBody] UserRequestModel request)
         {
-            var result = await _userApiClient.PutUser(id, request);
+            var result = await _userApiClient.PutUser(userId, request);
             if (result == true)
-                return Ok(result);
-            return BadRequest(result);
+            {
+                return Ok();
+            }               
+            return BadRequest();
         }
 
-        [HttpPut("{id}/reset-password")]
-        public async Task<ActionResult> PutResetPassword(string id)
+        [HttpPut("{userId}/reset-password")]
+        public async Task<ActionResult> PutResetPassword(string userId)
         {
-            var result = await _userApiClient.PutResetPassword(id);
+            var result = await _userApiClient.PutResetPassword(userId);
             if (result == true)
-                return Ok(result);
-            return BadRequest(result);
+            {
+                return Ok();
+            }                
+            return BadRequest();
         }
 
-        [HttpPut("{id}/change-password")]
-        public async Task<ActionResult> PutUserPassword(string id, [FromBody] UserPasswordRequestModel request)
+        [HttpPut("{userId}/change-password")]
+        public async Task<ActionResult> PutUserPassword(string userId, [FromBody] UserPasswordRequestModel request)
         {
-            var result = await _userApiClient.PutUserPassword(id, request);
+            var result = await _userApiClient.PutUserPassword(userId, request);
             if (result == true)
-                return Ok(result);
-            return BadRequest(result);
+            {
+                return Ok();
+            }               
+            return BadRequest();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(string id)
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteUser(string userId)
         {
-            var result = await _userApiClient.DeleteUser(id);
+            var result = await _userApiClient.DeleteUser(userId);
             if (result == true)
-                return Ok(result);
-            return BadRequest(result);
+            {
+                return Ok();
+            }               
+            return BadRequest();
         }
 
-        [HttpGet("{id}/roles")]
-        public async Task<ActionResult> GetUserRoles(string id)
+        [HttpGet("{userId}/userRoles")]
+        public async Task<IActionResult> GetUserDetailWithRoles(string userId)
         {
-            var userRoles = await _userApiClient.GetUserRoles(id);
+            var userRoles = await _userApiClient.GetUserDetailWithRoles(userId);
             return Ok(userRoles);
         }
 
-        [HttpPost("{userId}/roles")]
-        public async Task<ActionResult> PostRolesToUser(string userId, [FromBody] RoleAssignRequestModel request)
+        [HttpPut("{userId}/userRoles")]
+        public async Task<IActionResult> PutUserDetailWithRoles(string userId, [FromBody] UserRoleRequestModel request)
         {
-            var result = await _userApiClient.PostRolesToUser(userId, request);
+
+            var result = await _userApiClient.PutUserDetailWithRoles(userId, request);
             if (result == true)
-                return Ok(result);
-            return BadRequest(result);
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
-        [HttpPut("{userId}/roles")]
-        public async Task<ActionResult> RemoveRolesFromUser(string userId, [FromBody] RoleAssignRequestModel request)
-        {
-            var result = await _userApiClient.RemoveRolesFromUser(userId, request);
-            if (result == true)
-                return Ok(result);
-            return BadRequest(result);
-        }
+
     }
 }

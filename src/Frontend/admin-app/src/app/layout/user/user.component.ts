@@ -42,6 +42,8 @@ export class UserComponent implements OnInit {
   public roles = [];
   public userId: string;
 
+  searchValue = '';
+
   constructor(private userServices: UserServices,
     private notification: NzNotificationService,
     private modal: NzModalService,
@@ -59,13 +61,13 @@ export class UserComponent implements OnInit {
       phoneNumber: [null, [Validators.required]],
       dob: [null, [Validators.required]]
     });
-    this.loadUserData(this.pageIndex, this.pageSize);
+    this.loadUserData(this.filter, this.pageIndex, this.pageSize);
   }
 
   // Load user data
-  loadUserData(pageIndex: number, pageSize: number): void {
+  loadUserData(filter: string, pageIndex: number, pageSize: number): void {
     this.isSpinning = true;
-    this.userServices.getAllPaging(this.filter, pageIndex, pageSize)
+    this.userServices.getAllPaging(filter, pageIndex, pageSize)
       .subscribe(res => {
         this.items = res.items;
         this.totalRecords = res.totalRecords;
@@ -87,75 +89,11 @@ export class UserComponent implements OnInit {
 
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
-    this.loadUserData(pageIndex, pageSize);
+    this.loadUserData(this.searchValue, pageIndex, pageSize);
   }
 
-
-  // Get Detail & Edit User
-  openEditUser(userId: string): void {
-    this.isSpinningEditUser = true;
-    this.visibleEditUser = true;
-    this.userId = userId;
-    this.userServices.getDetail(userId)
-      .subscribe((res: User) => {
-        const dob = this.datePipe.transform(res.dob, 'yyy/MM/dd');
-        this.formEditUser.setValue({
-          id: res.id,
-          userName: res.userName,
-          firstName: res.firstName,
-          lastName: res.lastName,
-          email: res.email,
-          phoneNumberPrefix: '+84',
-          phoneNumber: res.phoneNumber,
-          dob: res.dob
-        });
-        setTimeout(() => {
-          this.isSpinningEditUser = false;
-        }, 500);
-      }, errorMessage => {
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          errorMessage,
-          'bottomRight'
-        );
-        setTimeout(() => {
-          this.isSpinningEditUser = false;
-        }, 500);
-      });
-  }
-
-  closeEditUser(): void {
-    this.visibleEditUser = false;
-  }
-
-  saveChanges() {
-    this.isSpinningEditUser = true;
-    const userId = this.formEditUser.get('id').value;
-    this.userServices.update(userId, this.formEditUser.getRawValue())
-      .subscribe(() => {
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_UPDATE + this.formEditUser.get('userName').value + '!',
-          'bottomRight');
-        this.ngOnInit();
-        setTimeout(() => {
-          this.visibleEditUser = false;
-          this.isSpinningEditUser = false;
-        }, 500);
-      }, errorMessage => {
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          errorMessage,
-          'bottomRight'
-        );
-        setTimeout(() => {
-          this.visibleEditUser = false;
-          this.isSpinningEditUser = false;
-        }, 500);
-      });
+  handleInputConfirm(): void {
+    this.loadUserData(this.searchValue, this.pageIndex, this.pageSize);
   }
 
   // Delete User
@@ -166,7 +104,7 @@ export class UserComponent implements OnInit {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
           MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_DELETE + userName + ' !', 'bottomRight');
+          MessageConstants.NOTIFICATION_DELETE + userName + '!', 'bottomRight');
         this.ngOnInit();
       }, errorMessage => {
         this.createNotification(
@@ -182,7 +120,7 @@ export class UserComponent implements OnInit {
 
   showDeleteConfirm(userName: string, userId: string): void {
     this.confirmDeleteModal = this.modal.confirm({
-      nzTitle: 'Do you Want to delete ' + userName + ' user ?',
+      nzTitle: 'Do you Want to delete ' + userName + '?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>
@@ -191,42 +129,6 @@ export class UserComponent implements OnInit {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 200);
         })
     });
-  }
-
-  // Reset password
-  showResetConfirm(userId: string, fullName: string): void {
-    this.confirmDeleteModal = this.modal.confirm({
-      nzTitle: 'Do you Want to reset password for user: ' + fullName + ' ?',
-      nzOkText: 'Yes',
-      nzOkType: 'danger',
-      nzOnOk: () =>
-        new Promise((resolve, reject) => {
-          this.restPassword(userId);
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 200);
-        })
-    });
-  }
-
-  restPassword(userId: string): void {
-    this.isSpinning = true;
-    this.userServices.resetUserPassword(userId)
-      .subscribe(() => {
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_RESET_PW + userId + '!', 'bottomRight');
-        this.ngOnInit();
-      }, errorMessage => {
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          errorMessage,
-          'bottomRight'
-        );
-        setTimeout(() => {
-          this.isSpinning = false;
-        }, 500);
-      });
   }
 
   // Notification

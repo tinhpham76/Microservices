@@ -20,12 +20,12 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AddUserComponent } from './add-user/add-user.component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTagModule } from 'ng-zorro-antd/tag';
-import { UserRoleComponent } from './user-role/user-role.component';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 @NgModule({
-  declarations: [UserComponent, AddUserComponent, UserRoleComponent],
+  declarations: [UserComponent, AddUserComponent, EditUserComponent],
   imports: [
     CommonModule,
     NzTableModule,

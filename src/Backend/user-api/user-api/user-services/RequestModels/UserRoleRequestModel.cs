@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace user_services.ViewModels
+namespace user_services.RequestModels
 {
-    public class UserViewModel
+    public class UserRoleRequestModel
     {
         public string Id { get; set; }
 
@@ -20,5 +22,7 @@ namespace user_services.ViewModels
 
         public string CreateDate { get; set; }
         public string LastModifiedDate { get; set; }
+
+        public List<string> UserRoles { get; set; }
     }
 }

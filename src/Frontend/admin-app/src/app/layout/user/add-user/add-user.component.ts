@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class AddUserComponent implements OnInit {
 
   // Spin
-  public isSpinning: boolean ;
+  public isSpinning: boolean;
   // Init form
   public validateForm!: FormGroup;
 
@@ -54,31 +54,49 @@ export class AddUserComponent implements OnInit {
   }
 
   // Create new user
-  submitForm(): void {
-    this.isSpinning = true;
-    const data = this.validateForm.getRawValue();
-    this.userServices.add(data)
-      .subscribe(() => {
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_ADD,
-          'bottomRight');
-        setTimeout(() => {
-          this.router.navigate(['/users']);
-          this.isSpinning = false;
-        }, 500);
-      }, errorMessage => {
-        this.createNotification(
-          MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          errorMessage,
-          'bottomRight'
-        );
-        setTimeout(() => {
-          this.isSpinning = false;
-        }, 500);
-      });
+  submitValidateForm(value: {
+    userName: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    dob: string;
+    password: string;
+    phoneNumber: string;
+    phoneNumberPrefix: string;
+  }): void {
+    if (value.password.length < 8) {
+      this.createNotification(
+        MessageConstants.TYPE_NOTIFICATION_WARNING,
+        MessageConstants.TITLE_NOTIFICATION_SSO,
+        'Password required 8 charter!',
+        'bottomRight');
+    } else {
+      this.isSpinning = true;
+      value.phoneNumber = value.phoneNumberPrefix + value.phoneNumber;
+      this.userServices.add(value)
+        .subscribe(() => {
+          this.createNotification(
+            MessageConstants.TYPE_NOTIFICATION_SUCCESS,
+            MessageConstants.TITLE_NOTIFICATION_SSO,
+            MessageConstants.NOTIFICATION_ADD,
+            'bottomRight');
+          setTimeout(() => {
+            this.router.navigate(['/users']);
+            this.isSpinning = false;
+          }, 500);
+        }, errorMessage => {
+          this.createNotification(
+            MessageConstants.TYPE_NOTIFICATION_ERROR,
+            MessageConstants.TITLE_NOTIFICATION_SSO,
+            errorMessage,
+            'bottomRight'
+          );
+          setTimeout(() => {
+            this.isSpinning = false;
+          }, 500);
+        });
+    }
+
   }
 
   // Notification

@@ -165,12 +165,12 @@ namespace auth_server.IdentityServer
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {
-                        "http://localhost:4200/auth-callback",
-                        "http://localhost:4200/silent-renew.html"
+                        "http://localhost:4300/auth-callback",
+                        "http://localhost:4300/silent-renew.html"
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "http://localhost:4200/"
+                        "http://localhost:4300/"
                     },
                     AllowedCorsOrigins = new List<string>
                     {

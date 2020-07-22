@@ -71,7 +71,6 @@ export class ClientSecretComponent implements OnInit {
   submitFormClientSecrets(): void {
     this.isSpinning = true;
     const data = this.secretForm.getRawValue();
-    console.log(data);
     this.clientServices.addClientSecret(this.clientId, data)
       .subscribe(() => {
         this.getClientSecret(this.clientId);
@@ -136,11 +135,13 @@ export class ClientSecretComponent implements OnInit {
 
   resetForm(): void {
     this.secretForm.reset();
-    // tslint:disable-next-line: forin
-    for (const key in this.secretForm.controls) {
-      this.secretForm.controls[key].markAsPristine();
-      this.secretForm.controls[key].updateValueAndValidity();
-    }
+    this.secretForm.setValue({
+      type: 'SharedSecret',
+      value: null,
+      description: null,
+      expiration: null,
+      hashType: 'Sha256',
+    });
   }
 
   // notification

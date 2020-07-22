@@ -57,31 +57,16 @@ namespace user_api.Services
             return await GetAsync<UserViewModel>($"/api/users/{id}", true);
         }
 
-        public async Task<List<UserRoleViewModel>> GetUserRoles(string id)
+        public async Task<UserRoleViewModel> GetUserDetailWithRoles(string id)
         {
-            return await GetAsync<List<UserRoleViewModel>>($"/api/users/{id}/roles", true);
+            return await GetAsync<UserRoleViewModel>($"/api/users/{id}/userRoles", true);
         }
 
         public async Task<Pagination<UserQuickViewModels>> GetUsersPaging(string filter, int pageIndex, int pageSize)
         {
             return await GetAsync<Pagination<UserQuickViewModels>>($"/api/users/filter?filter={filter}&pageIndex={pageIndex}&pageSize={pageSize}", true);
         }
-
-        public async Task<bool> PostRolesToUser(string id, RoleAssignRequestModel request)
-        {
-            var client = _httpClientFactory.CreateClient("BackendApi");
-
-            client.BaseAddress = new Uri(_configuration["BackendApiUrl"]);
-
-            var json = JsonConvert.SerializeObject(request);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            var response = await client.PostAsync($"/api/users/{id}/roles", data);
-            return response.IsSuccessStatusCode;
-        }
+        
 
         public async Task<bool> PostUser(UserRequestModel request)
         {
@@ -128,7 +113,7 @@ namespace user_api.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> RemoveRolesFromUser(string id, RoleAssignRequestModel request)
+        public async Task<bool> PutUserDetailWithRoles(string id, UserRoleRequestModel request)
         {
             var client = _httpClientFactory.CreateClient("BackendApi");
 
@@ -140,7 +125,7 @@ namespace user_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PutAsync($"/api/users/{id}/roles", data);
+            var response = await client.PutAsync($"/api/users/{id}/userRoles", data);
             return response.IsSuccessStatusCode;
         }
     }

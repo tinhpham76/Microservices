@@ -42,7 +42,9 @@ namespace auth_server.Controllers
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
-                return CreatedAtAction(nameof(GetById), new { id = user.Id }, request);
+                var useRole = await _userManager.FindByNameAsync(request.UserName);
+                await _userManager.AddToRoleAsync(useRole, "Member");
+                return Ok();
             }
             return BadRequest();
         }
@@ -66,11 +68,10 @@ namespace auth_server.Controllers
                 .Take(pageSize)
                 .Select(x => new UserQuickViewModels()
                 {
+                    Id = x.Id,
                     UserName = x.UserName,
                     FullName = x.LastName + ' ' + x.FirstName,
                     Email = x.Email,
-                    PhoneNumber = x.PhoneNumber,
-                    Dob = x.Dob.ToString("yyyy/MM/dd")
                 }).ToListAsync();
 
             var pagination = new Pagination<UserQuickViewModels>
@@ -82,10 +83,10 @@ namespace auth_server.Controllers
         }
 
         //Get detail user with user id
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(string id)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetById(string userId)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return NotFound();
@@ -106,10 +107,10 @@ namespace auth_server.Controllers
         }
 
         //Put user wiht user id
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(string id, [FromBody] UserRequestModel request)
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> PutUser(string userId, [FromBody] UserRequestModel request)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return NotFound();
@@ -129,13 +130,13 @@ namespace auth_server.Controllers
         }
 
         //Put reset user password with user id
-        [HttpPut("{id}/reset-password")]
-        public async Task<IActionResult> PutResetPassword(string id)
+        [HttpPut("{userId}/reset-password")]
+        public async Task<IActionResult> PutResetPassword(string userId)
         {
 
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
-                return NotFound($"Cannot found user with id: {id}");
+                return NotFound($"Cannot found user with id: {userId}");
             var newPassword = _userManager.PasswordHasher.HashPassword(user, "User@123");
             user.PasswordHash = newPassword;
             var result = await _userManager.UpdateAsync(user);
@@ -148,16 +149,16 @@ namespace auth_server.Controllers
         }
 
         //Put user password with user id
-        [HttpPut("{id}/change-password")]
-        public async Task<IActionResult> PutUserPassword(string id, [FromBody] UserPasswordRequestModel request)
+        [HttpPut("{userId}/change-password")]
+        public async Task<IActionResult> PutUserPassword(string userId, [FromBody] UserPasswordRequestModel request)
         {
             if (request.CheckPassword != request.NewPassword)
             {
                 return BadRequest();
             }
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
-                return NotFound($"Cannot found user with id: {id}");
+                return NotFound($"Cannot found user with id: {userId}");
 
             var result = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
 
@@ -169,108 +170,107 @@ namespace auth_server.Controllers
         }
 
         //Delete user with user id
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(string id)
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteUser(string userId)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return NotFound();
             }
             var adminUsers = await _userManager.GetUsersInRoleAsync(SystemConstants.Roles.Admin);
-            var otherUsers = adminUsers.Where(x => x.Id != id).ToList();
+            var otherUsers = adminUsers.Where(x => x.Id != userId).ToList();
             if (otherUsers.Count == 0)
             {
-                return BadRequest("You cannot remove the only admin user remaining.");
+                return BadRequest();
             }
             var result = await _userManager.DeleteAsync(user);
 
             if (result.Succeeded)
             {
-                var uservm = new UserViewModel()
-                {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    Dob = user.Dob.ToString("yyyy/MM/dd"),
-                    Email = user.Email,
-                    PhoneNumber = user.PhoneNumber,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    CreateDate = user.CreateDate.ToString("yyyy/MM/dd"),
-                    LastModifiedDate = user.LastModifiedDate.ToString().Substring(0, 10)
-                };
-                return Ok(uservm);
+                return Ok();
             }
             return BadRequest();
 
         }
 
-        [HttpGet("{userId}/roles")]
-        public async Task<IActionResult> GetUserRoles(string userId)
+        [HttpGet("{userId}/userRoles")]
+        public async Task<IActionResult> GetUserDetailWithRoles(string userId)
         {
+
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
+            {
                 return NotFound();
+            }
             var userRoles = await _userManager.GetRolesAsync(user);
-            if (userRoles.Count == 0)
+            var roles = await _roleManager.Roles.Select(x => x.Name.ToString()).ToListAsync();
+            var roleTemps = roles.Select(x => new UserRoleTempViewModels()
             {
-                var dataRole = await _roleManager.Roles.Select(x => new UserRoleViewModel()
-                {
-                    Label = x.Id,
-                    Value = x.Id,
-                    Checked = userRoles.Contains(x.Id) ? true : false,
-                    Disabled = false,
-                    Name = x.Name
-                }).ToListAsync();
-                return Ok(dataRole);
-            }
-            var dataRoles = await _roleManager.Roles.Select(x => new UserRoleViewModel()
+                Label = x,
+                Value = x
+            }).ToList();
+
+            var userRoleViewModel = new UserRoleViewModel()
             {
-                Label = x.Id,
-                Value = x.Id,
-                Checked = userRoles.Contains(x.Id) ? true : false,
-                Disabled = userRoles.Contains(x.Id) ? false : true,
-                Name = x.Name
-            }).ToListAsync();
-            return Ok(dataRoles);
+                Id = user.Id,
+                UserName = user.UserName,
+                Dob = user.Dob.ToString("yyyy/MM/dd"),
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                CreateDate = user.CreateDate.ToString("yyyy/MM/dd"),
+                LastModifiedDate = user.LastModifiedDate != null ? user.LastModifiedDate.ToString().Substring(0, 10) : null,
+                UserRoles = userRoles.ToList(),
+                Roles = roleTemps
+            };
+            return Ok(userRoleViewModel);
         }
 
-        [HttpPost("{userId}/roles")]
-        public async Task<IActionResult> PostRolesToUser(string userId, [FromBody] RoleAssignRequestModel request)
+        [HttpPut("{userId}/userRoles")]
+        public async Task<IActionResult> PutUserDetailWithRoles(string userId, [FromBody] UserRoleRequestModel request)
         {
-            if (request.RoleNames?.Length == 0)
-            {
-                return BadRequest("Role names cannot empty");
-            }
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-                return NotFound($"Cannot found user with id: {userId}");
-            var result = await _userManager.AddToRolesAsync(user, request.RoleNames);
-            if (result.Succeeded)
-                return Ok();
-
-            return BadRequest(result);
-        }
-
-        [HttpPut("{userId}/roles")]
-        public async Task<IActionResult> RemoveRolesFromUser(string userId, [FromBody] RoleAssignRequestModel request)
-        {
-            if (request.RoleNames?.Length == 0)
+            if (request.UserRoles.Count == 0)
             {
                 return BadRequest();
             }
-            if (request.RoleNames.Length == 1 && request.RoleNames[0] == SystemConstants.Roles.Admin)
-            {
-                return base.BadRequest();
-            }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
+            {
                 return NotFound();
-            var result = await _userManager.RemoveFromRolesAsync(user, request.RoleNames);
-            if (result.Succeeded)
-                return Ok();
+            }
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.Email = request.Email;
+            user.Dob = DateTime.Parse(request.Dob);
+            user.PhoneNumber = request.PhoneNumber;
+            user.LastModifiedDate = DateTime.Now;
+            var userRoles = await _userManager.GetRolesAsync(user);
+            foreach (var userRole in userRoles)
+            {
+                if (!(request.UserRoles.Contains(userRole)))
+                {
+                    await _userManager.RemoveFromRoleAsync(user, userRole);
+                }
+            }
 
+            foreach (var requestRole in request.UserRoles)
+            {
+                if (!userRoles.Contains(requestRole))
+                {
+                    await _userManager.AddToRoleAsync(user, requestRole);
+                }
+            }
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
             return BadRequest();
+
+
         }
         #endregion
     }

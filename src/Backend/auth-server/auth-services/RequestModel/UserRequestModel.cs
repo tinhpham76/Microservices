@@ -1,4 +1,6 @@
-﻿namespace auth_services.RequestModel
+﻿using System;
+
+namespace auth_services.RequestModel
 {
     public class UserRequestModel
     {

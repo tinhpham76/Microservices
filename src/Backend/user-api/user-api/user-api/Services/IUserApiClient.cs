@@ -15,10 +15,8 @@ namespace user_api.Services
         Task<bool> PutResetPassword(string id);
         Task<bool> PutUserPassword(string id, UserPasswordRequestModel request);
         Task<bool> DeleteUser(string id);
-        Task<List<UserRoleViewModel>> GetUserRoles(string id);
-        Task<bool> PostRolesToUser(string id, RoleAssignRequestModel request);
-        Task<bool> RemoveRolesFromUser(string id, RoleAssignRequestModel request);
-
+        Task<UserRoleViewModel> GetUserDetailWithRoles(string id);
+        Task<bool> PutUserDetailWithRoles(string id, UserRoleRequestModel request);
 
     }
 }
