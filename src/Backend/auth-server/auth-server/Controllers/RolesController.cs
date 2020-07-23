@@ -1,21 +1,31 @@
-﻿using auth_services;
+﻿using auth_server.Data;
+using auth_services;
+using auth_services.Constants;
 using auth_services.RequestModel;
 using auth_services.ViewModel;
+using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace auth_server.Controllers
 {
     public class RolesController : BaseController
     {
+        private readonly ApplicationDbContext _context;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public RolesController(RoleManager<IdentityRole> roleManager)
+        private readonly ConfigurationDbContext _configurationDbContext;
+        public RolesController(RoleManager<IdentityRole> roleManager, ConfigurationDbContext configurationDbContext, ApplicationDbContext context)
         {
+            _context = context;
+            _configurationDbContext = configurationDbContext;
             _roleManager = roleManager;
+
         }
 
         [HttpGet("{roleId}")]
@@ -110,66 +120,111 @@ namespace auth_server.Controllers
             return BadRequest();
         }
 
-        [HttpGet("{roleId}/claims")]
-        public async Task<IActionResult> GetRoleClaims(string roleId)
+
+        [HttpGet("{roleId}/claims/filter")]
+        public async Task<IActionResult> GetRoleClaims(string roleId, string filter, int pageIndex, int pageSize)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
             if (role == null)
             {
                 return NotFound();
             }
-            var roleClaims = await _roleManager.GetClaimsAsync(role);
-            if (roleClaims == null)
+            var claimTypes = await _configurationDbContext.ApiResources.Select(x => x.Name.ToString()).ToListAsync();
+            var claims = new List<ApiRoleViewModel>();
+            foreach (var claimType in claimTypes)
             {
-                return NotFound();
+                var claimValue = await _context.RoleClaims.Where(x => x.ClaimType == claimType).Select(v => v.ClaimValue.ToString()).ToListAsync();
+                var claim = new ApiRoleViewModel()
+                {
+                    Type = claimType,
+                    View = claimValue.Contains(SystemConstants.View.Type) ? true : false,
+                    Create = claimValue.Contains(SystemConstants.Create.Type) ? true : false,
+                    Update = claimValue.Contains(SystemConstants.Update.Type) ? true : false,
+                    Delete = claimValue.Contains(SystemConstants.Delete.Type) ? true : false,
+                };
+                claims.Add(claim);
             }
-            var roleClaimViewModels = roleClaims.Select(x => new RoleClaimViewModels()
+            var query = claims.AsQueryable();
+            if (!string.IsNullOrEmpty(filter))
             {
-                Type = x.Type,
-                Value = x.Value
-            }).ToList();
-
-            return Ok(roleClaimViewModels);
+                query = query.Where(x => x.Type.Contains(filter));
+            }
+            var totalReconds = query.Count();
+            var items = query.Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .Select(x => new ApiRoleViewModel()
+                {
+                    Type = x.Type,
+                    View =x.View,
+                    Create =x.Create,
+                    Update = x.Update,
+                    Delete = x.Delete
+                }).ToList();
+            var pagination = new Pagination<ApiRoleViewModel>
+            {
+                TotalRecords = totalReconds,
+                Items = items
+            };
+            return Ok(pagination);
+         
         }
 
         [HttpPost("{roleId}/claims")]
-        public async Task<IActionResult> PostRoleClaims(string roleId, [FromBody] RoleClaimRequestModels<RoleClaimRequestModel> request)
+        public async Task<IActionResult> PostRoleClaims(string roleId, [FromBody] RoleClaimRequestModel request)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
             if (role == null)
             {
                 return NotFound();
             }
-            var roleClaims = await _roleManager.GetClaimsAsync(role);
-            if (roleClaims.Count == 0)
+
+            var apiResource = await _configurationDbContext.ApiResources.FirstOrDefaultAsync(x => x.Name == request.Type);
+            if (apiResource == null)
             {
-                foreach (var requestClaim in request.Claims)
-                {
-                    var claim = new Claim(requestClaim.Type, requestClaim.Value);
-                    await _roleManager.AddClaimAsync(role, claim);
-                }
-            }
-            else if (request.Claims.Count == 0)
-            {
-                foreach (var roleClaim in roleClaims)
-                {
-                    await _roleManager.RemoveClaimAsync(role, roleClaim);
-                }
+                return BadRequest();
             }
             else
             {
-                foreach (var roleClaim in roleClaims)
+                if (request.View == false)
                 {
-                    await _roleManager.RemoveClaimAsync(role, roleClaim);
+                    await _roleManager.RemoveClaimAsync(role, new Claim(request.Type, SystemConstants.View.Type));
                 }
-                foreach (var requestClaim in request.Claims)
+                else if (request.View == true)
                 {
-                    var claim = new Claim(requestClaim.Type, requestClaim.Value);
-                    await _roleManager.AddClaimAsync(role, claim);
+                    await _roleManager.RemoveClaimAsync(role, new Claim(request.Type, SystemConstants.View.Type));
+                    await _roleManager.AddClaimAsync(role, new Claim(request.Type, SystemConstants.View.Type));
+                }
+                if (request.Create == false)
+                {
+                    await _roleManager.RemoveClaimAsync(role, new Claim(request.Type, SystemConstants.Create.Type));
+                }
+                else if (request.Create == true)
+                {
+                    await _roleManager.RemoveClaimAsync(role, new Claim(request.Type, SystemConstants.Create.Type));
+                    await _roleManager.AddClaimAsync(role, new Claim(request.Type, SystemConstants.Create.Type));
+                }
+                if (request.Update == false)
+                {
+                    await _roleManager.RemoveClaimAsync(role, new Claim(request.Type, SystemConstants.Update.Type));
+                }
+                else if (request.Update == true)
+                {
+                    await _roleManager.RemoveClaimAsync(role, new Claim(request.Type, SystemConstants.Update.Type));
+                    await _roleManager.AddClaimAsync(role, new Claim(request.Type, SystemConstants.Update.Type));
+                }
+                if (request.Delete == false)
+                {
+                    await _roleManager.RemoveClaimAsync(role, new Claim(request.Type, SystemConstants.Delete.Type));
+                }
+                else if (request.Delete == true)
+                {
+                    await _roleManager.RemoveClaimAsync(role, new Claim(request.Type, SystemConstants.Delete.Type));
+                    await _roleManager.AddClaimAsync(role, new Claim(request.Type, SystemConstants.Delete.Type));
                 }
             }
-            var roleClaimViewModel = await _roleManager.GetClaimsAsync(role);
-            return Ok(roleClaimViewModel);
+
+            var permission = await _roleManager.GetClaimsAsync(role);
+            return Ok(permission);
 
         }
     }

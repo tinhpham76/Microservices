@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { Pagination } from '../models/pagination.model';
-import { ApiResource } from '../models/api-resource.model';
+import { AnyMxRecord } from 'dns';
 
 @Injectable({ providedIn: 'root' })
 export class ApiResourceServices extends BaseService {
@@ -13,29 +13,29 @@ export class ApiResourceServices extends BaseService {
         super();
         this._sharedHeaders = this._sharedHeaders.set('Content-Type', 'application/json');
     }
-    add(entity: ApiResource) {
+    add(entity: any) {
         return this.http.post(`${environment.admin_api_url}/api/ApiResources`, JSON.stringify(entity), { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
-    update(name: string, entity: ApiResource) {
+    update(name: string, entity: any) {
         return this.http.put(`${environment.admin_api_url}/api/ApiResources/${name}`,
             JSON.stringify(entity), { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
     getDetail(name: string) {
-        return this.http.get<ApiResource>(`${environment.admin_api_url}/api/ApiResources/${name}`,
+        return this.http.get<AnyMxRecord>(`${environment.admin_api_url}/api/ApiResources/${name}`,
             { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
 
     }
     getAllPaging(filter, pageIndex, pageSize) {
-        return this.http.get<Pagination<ApiResource>>(`${environment.admin_api_url}/api/ApiResources/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
+        return this.http.get<Pagination<any>>(`${environment.admin_api_url}/api/ApiResources/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     delete(name: string) {
         return this.http.delete(`${environment.admin_api_url}/api/ApiResources/${name}`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
-    
-    getApiScopes(){
+
+    getApiScopes() {
         return this.http.get(`${environment.admin_api_url}/api/ApiResources`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }

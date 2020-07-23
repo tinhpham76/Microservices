@@ -17,7 +17,7 @@ const routes: Routes = [
                     import('./identity-resource/identity-resource.module').then(m => m.IdentityResourceModule)
             },
             { path: 'users', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
-            { path: 'roles', loadChildren: () => import('./role/role.module').then(m => m.RoleModule) }
+            { path: 'permissions', loadChildren: () => import('./permissions/permissions.module').then(m => m.PermissionsModule) }
         ]
     }
 ];

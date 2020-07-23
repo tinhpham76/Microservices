@@ -13,7 +13,7 @@ namespace user_api.Services
         Task<bool> PostRole(RoleRequestModel request);
         Task<bool> PutRole(string id, RoleRequestModel request);
         Task<bool> DeleteRole(string id);
-        Task<List<RoleClaimViewModels>> GetRoleClaims(string id);
-        Task<bool> PostRoleClaims(string roleId, RoleClaimRequestModels<RoleClaimRequestModel> request);
+        Task<Pagination<ApiRoleViewModel>> GetRoleClaims(string id, string filter, int pageIndex, int pageSize);
+        Task<bool> PostRoleClaims(string roleId, RoleClaimRequestModel request);
     }
 }

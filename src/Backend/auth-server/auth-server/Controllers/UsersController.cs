@@ -1,4 +1,5 @@
-﻿using auth_server.Data.Entities;
+﻿using auth_server.Authorization;
+using auth_server.Data.Entities;
 using auth_services;
 using auth_services.Constants;
 using auth_services.RequestModel;
@@ -52,6 +53,7 @@ namespace auth_server.Controllers
 
         //Find user with User Name, Email, First Name, Last Name, Phone Number 
         [HttpGet("filter")]
+        [ClaimRequirementAttribute(PermissionCode.VIEW)]
         public async Task<IActionResult> GetUsersPaging(string filter, int pageIndex, int pageSize)
         {
             var query = _userManager.Users;

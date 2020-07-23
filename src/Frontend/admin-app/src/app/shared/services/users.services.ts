@@ -3,9 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BaseService } from './base.service';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '@environments/environment';
-import { User } from '../models/user.model';
 import { Pagination } from '../models/pagination.model';
-import { ChangePassword } from '../models/changePassword.model';
+
 
 @Injectable({ providedIn: 'root' })
 export class UserServices extends BaseService {
@@ -22,7 +21,7 @@ export class UserServices extends BaseService {
     }
     getAllPaging(filter, pageIndex, pageSize) {
         return this.http.get<Pagination<any>>(`${environment.user_api_url}/api/users/filter?pageIndex=${pageIndex}&pageSize=${pageSize}&filter=${filter}`, { headers: this._sharedHeaders })
-            .pipe(map((response: Pagination<User>) => {
+            .pipe(map((response: Pagination<any>) => {
                 return response;
             }), catchError(this.handleError));
     }

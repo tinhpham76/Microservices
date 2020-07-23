@@ -1,4 +1,4 @@
-﻿namespace auth_services.RequestModel
+﻿namespace user_services.RequestModels
 {
     public class RoleClaimRequestModel
     {

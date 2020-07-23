@@ -1,8 +1,9 @@
-﻿namespace auth_services.ViewModel
+﻿using System.Collections.Generic;
+
+namespace auth_services.ViewModel
 {
-    public class RoleClaimViewModels
+    public class RoleClaimViewModels<T>
     {
-        public string Type { get; set; }
-        public string Value { get; set; }
+        public List<T> Claims { get; set; }
     }
 }

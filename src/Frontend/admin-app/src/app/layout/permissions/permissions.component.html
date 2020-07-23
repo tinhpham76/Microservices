@@ -1,0 +1,90 @@
+<!--Start welcome roles-->
+<div class="content-heading">
+    <div>
+        🔑 Permissions
+        <br>
+        <small><b>Represents a role in the identity system</b></small>
+    </div>
+</div>
+<button nz-button nzType="primary" nzButtonSize="large" nzShape="round"(click)="open()"><i nz-icon nzType="file-add"></i>Create new
+    role</button>
+
+<br><br>
+
+<div nz-row>
+    <div nz-col nzSpan="6">
+        <nz-input-group [nzSuffix]="suffixIconSearch">
+            <input placeholder="Search client with id, name,..." nz-input type="text" [(ngModel)]="searchValue"
+                (keydown.enter)="handleInputConfirm()" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+            <i nz-icon nzType="search"></i>
+        </ng-template>
+    </div>
+</div>
+<!--End welcome roles-->
+<!--Start table roles-->
+<nz-spin [nzSpinning]="isSpinning">
+    <nz-table #roleTable [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzTotal]="totalRecords"
+        [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Normalized Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let role of roleTable.data; let i = index">
+                <td> {{i}}</td>
+                <td>{{ role.id }}</td>
+                <td>{{ role.name }}</td>
+                <td>{{ role.normalizedName }}</td>
+                <td>
+                    <div class="table-action">
+
+                        <a style="text-decoration:underline; margin-right: 5px;" [routerLink]="[role.id,'edit']">
+                            Permissions
+                        </a>
+                        <a style="text-decoration:underline" href='javascript:void(0)' (click)='showConfirm(role.id)'>
+                            Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-spin>
+<!--End table role-->
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="bottom" nzTitle="Add new roles" (nzOnClose)="close()">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Please input role id!">
+            <nz-input-group nzPrefixIcon="key">
+              <input formControlName="id" nz-input placeholder="Role id" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please input role name!">
+              <nz-input-group nzPrefixIcon="key">
+                <input formControlName="name" nz-input placeholder="Role name" />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control nzErrorTip="Please input normalized name!">
+              <nz-input-group nzPrefixIcon="key">
+                <input formControlName="normalizedName" nz-input placeholder="Normalized name" />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button nzType="primary" [disabled]="!validateForm.valid">Create</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+  </nz-drawer>

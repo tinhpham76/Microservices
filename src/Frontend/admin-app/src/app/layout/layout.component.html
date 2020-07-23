@@ -43,21 +43,11 @@
             <span>Users</span>
           </a>
         </li>
-        <li nz-submenu nzTitle="Permissions" nzIcon="key">
-          <ul>
-            <li nz-menu-item>
-              <a routerLink='/roles'>
-                <i nz-icon nzType="key"></i>
-                <span>Roles</span>
-              </a>
-            </li>
-            <li nz-menu-item>
-              <a routerLink='/permission'>
-                <i nz-icon nzType="disconnect"></i>
-                <span>Permissions</span>
-              </a>
-            </li>
-          </ul>
+        <li nz-menu-item>
+          <a routerLink='/permissions' nzTooltipTitle="Permissions" nzTooltipPlacement="right" nz-tooltip>
+            <i nz-icon nzType="key"></i>
+            <span>Permissions</span>
+          </a>
         </li>
       </ul>
     </div>

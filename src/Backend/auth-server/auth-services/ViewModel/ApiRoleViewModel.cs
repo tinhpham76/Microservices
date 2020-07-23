@@ -1,6 +1,10 @@
-﻿namespace auth_services.RequestModel
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace auth_services.ViewModel
 {
-    public class RoleClaimRequestModel
+    public class ApiRoleViewModel
     {
         public string Type { get; set; }
         public bool View { get; set; }

@@ -17,7 +17,6 @@ namespace auth_server.Services
         private readonly IUserClaimsPrincipalFactory<User> _claimsFactory;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public List<string> Permissions = new List<string>();
         public IdentityProfileService(
             IUserClaimsPrincipalFactory<User> claimsFactory,
             UserManager<User> userManager,
@@ -41,18 +40,19 @@ namespace auth_server.Services
             var principal = await _claimsFactory.CreateAsync(user);
             var claims = principal.Claims.ToList();
             var userRoles = await _userManager.GetRolesAsync(user);
-            foreach (var userRole in userRoles)
+            var Permissions = new List<string>();
+            /*foreach (var userRole in userRoles)
             {
                 var role = await _roleManager.FindByIdAsync(userRole);
                 var claim = await _roleManager.GetClaimsAsync(role);
                 var permission = claim.Select(t => t.Type + "_" + t.Value).ToList();
-                Permissions.Concat(permission);
-            }
+                Permissions.AddRange(permission);
+            }*/
 
             //Add more claims like this
             claims.Add(new Claim("FullName", user.LastName + " " + user.FirstName));
             claims.Add(new Claim("Role", string.Join(";", userRoles)));
-            claims.Add(new Claim("Permissions", JsonConvert.SerializeObject(Permissions)));
+           // claims.Add(new Claim("Permissions", JsonConvert.SerializeObject(Permissions)));
 
             context.IssuedClaims = claims;
         }

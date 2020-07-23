@@ -1,0 +1,67 @@
+<!--Start welcome roles-->
+<div class="content-heading">
+  <div>
+    🔑 Permissions
+    <br>
+    <small><b>Represents a role in the identity system</b></small>
+  </div>
+</div>
+<button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink="/permissions"><i nz-icon
+    nzType="file-add"></i>Create new
+  role</button>
+
+<br><br>
+
+<div nz-row>
+  <div nz-col nzSpan="6">
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+      <input placeholder="Search client with id, name,..." nz-input type="text" [(ngModel)]="searchValue"
+        (keydown.enter)="handleInputConfirm()" />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <i nz-icon nzType="search"></i>
+    </ng-template>
+  </div>
+</div>
+<!--End welcome roles-->
+<!--Start table roles-->
+<nz-spin [nzSpinning]="isSpinning">
+  <nz-table #dataTable [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzTotal]="totalRecords"
+    [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
+    <thead>
+      <tr>
+        <th>Api Resource</th>
+        <th>View</th>
+        <th>Create</th>
+        <th>Update</th>
+        <th>Delete</th>
+        <th>Save</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of dataTable.data; let i = index">
+        <td>
+          {{data.type}}
+        </td>
+        <td>
+          <label nz-checkbox [(ngModel)]="data.view"></label>
+        </td>
+        <td>
+          <label nz-checkbox [(ngModel)]="data.create"></label>
+        </td>
+        <td>
+          <label nz-checkbox [(ngModel)]="data.update"></label>
+        </td>
+        <td>
+          <label nz-checkbox [(ngModel)]="data.delete"></label>
+        </td>
+        <td>
+          <a style="text-decoration:underline" href='javascript:void(0)' (click)='log(data)'>
+            Save
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-spin>
+<!--End table role-->

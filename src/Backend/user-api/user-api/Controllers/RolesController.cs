@@ -55,15 +55,17 @@ namespace user_api.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("{roleId}/claims")]
-        public async Task<IActionResult> GetRoleClaims(string roleId)
+
+
+        [HttpGet("{roleId}/claims/filter")]
+        public async Task<IActionResult> GetRoleClaims(string roleId, string filter, int pageIndex, int pageSize)
         {
-            var roleClaims = await _roleApiClient.GetRoleClaims(roleId);
+            var roleClaims = await _roleApiClient.GetRoleClaims(roleId, filter, pageIndex, pageSize);
             return Ok(roleClaims);
         }
 
         [HttpPost("{roleId}/claims")]
-        public async Task<IActionResult> PostRoleClaims(string roleId, [FromBody] RoleClaimRequestModels<RoleClaimRequestModel> request)
+        public async Task<IActionResult> PostRoleClaims(string roleId, [FromBody] RoleClaimRequestModel request)
         {
             var result = await _roleApiClient.PostRoleClaims(roleId, request);
             if (result == true)

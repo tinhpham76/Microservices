@@ -102,6 +102,5 @@ namespace user_api.Controllers
             }
             return BadRequest();
         }
-
     }
 }

@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { Pagination } from '../models/pagination.model';
-import { Client } from '../models/client.model';
 
 @Injectable({ providedIn: 'root' })
 export class ClientServices extends BaseService {

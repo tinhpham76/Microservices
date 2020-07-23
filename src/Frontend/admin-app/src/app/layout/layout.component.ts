@@ -3,6 +3,7 @@ import { AuthService } from '@app/shared/services/auth.service';
 import { Subscription } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-layout',
@@ -18,7 +19,8 @@ export class LayoutComponent implements OnInit {
     Email: string;
     constructor(
         private authServices: AuthService,
-        private notification: NzNotificationService
+        private notification: NzNotificationService,
+        private router: Router
     ) {
         this.subscription = this.authServices.authNavStatus$.subscribe(status => this.isAuthenticated = status);
         this.UserName = this.authServices.name;
@@ -30,7 +32,9 @@ export class LayoutComponent implements OnInit {
 
     ngOnInit() { }
     async signOut() {
-        await this.authServices.signOut();
+        localStorage.clear();
+        sessionStorage.clear();
+        this.router.navigate(['/login']);
     }
     createNotification(content: string): void {
         this.notification.create(

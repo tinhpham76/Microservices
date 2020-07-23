@@ -41,9 +41,9 @@ namespace user_api.Services
             return await GetAsync<RoleViewModel>($"/api/roles/{id}", true);
         }
 
-        public async Task<List<RoleClaimViewModels>> GetRoleClaims(string id)
+        public async Task<Pagination<ApiRoleViewModel>> GetRoleClaims(string id, string filter, int pageIndex, int pageSize)
         {
-            return await GetAsync<List<RoleClaimViewModels>>($"/api/roles/{id}/claims", true);
+            return await GetAsync<Pagination<ApiRoleViewModel>>($"/api/roles/{id}/claims/filter?filter={filter}&pageIndex={pageIndex}&pageSize={pageSize}", true);
         }
 
         public async Task<Pagination<RoleViewModel>> GetRolesPaging(string filter, int pageIndex, int pageSize)
@@ -67,7 +67,7 @@ namespace user_api.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> PostRoleClaims(string roleId, RoleClaimRequestModels<RoleClaimRequestModel> request)
+        public async Task<bool> PostRoleClaims(string roleId, RoleClaimRequestModel request)
         {
             var client = _httpClientFactory.CreateClient("BackendApi");
 

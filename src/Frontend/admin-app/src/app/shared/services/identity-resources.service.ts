@@ -1,11 +1,9 @@
 import { Injectable } from "@angular/core";
 import { BaseService } from './base.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Role } from '../models/role.model';
 import { environment } from '@environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { Pagination } from '../models/pagination.model';
-import { IdentityResource } from '../models/identity-resource.model';
 
 @Injectable({ providedIn: 'root' })
 export class IdentityResourceServices extends BaseService {
@@ -14,22 +12,22 @@ export class IdentityResourceServices extends BaseService {
         super();
         this._sharedHeaders = this._sharedHeaders.set('Content-Type', 'application/json');
     }
-    add(entity: IdentityResource) {
+    add(entity: any) {
         return this.http.post(`${environment.admin_api_url}/api/IdentityResources`,
-         JSON.stringify(entity), { headers: this._sharedHeaders })
+            JSON.stringify(entity), { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
-    update(name: string, entity: IdentityResource) {
+    update(name: string, entity: any) {
         return this.http.put(`${environment.admin_api_url}/api/IdentityResources/${name}`,
             JSON.stringify(entity), { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
     getDetail(name: string) {
-        return this.http.get<IdentityResource>(`${environment.admin_api_url}/api/IdentityResources/${name}`,
+        return this.http.get<any>(`${environment.admin_api_url}/api/IdentityResources/${name}`,
             { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
 
     }
     getAllPaging(filter, pageIndex, pageSize) {
-        return this.http.get<Pagination<IdentityResource>>(`${environment.admin_api_url}/api/IdentityResources/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
+        return this.http.get<Pagination<any>>(`${environment.admin_api_url}/api/IdentityResources/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     delete(name: string) {

@@ -7,7 +7,6 @@ import { MessageConstants } from '@app/shared/constants/messages.constant';
 import { throwError } from 'rxjs';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IdentityResource } from '@app/shared/models/identity-resource.model';
 
 @Component({
   selector: 'app-identity-resource',

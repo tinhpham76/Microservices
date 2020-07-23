@@ -2,12 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UserServices } from '@app/shared/services/users.services';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/notification';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { User } from '@app/shared/models/user.model';
 import { DatePipe } from '@angular/common';
 import { error } from 'protractor';
 
