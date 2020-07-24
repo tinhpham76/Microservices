@@ -3,9 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BaseService } from './base.service';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '@environments/environment';
-import { User } from '../models/user.model';
-import { Pagination } from '../models/pagination.model';
-import { ChangePassword } from '../models/changePassword.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserServices extends BaseService {
@@ -17,7 +14,7 @@ export class UserServices extends BaseService {
 
     }
 
-    update(id: string, entity: User) {
+    update(id: string, entity: any) {
         return this.http.put(`${environment.apiUrl}/api/users/${id}`, JSON.stringify(entity), { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
@@ -28,7 +25,7 @@ export class UserServices extends BaseService {
     }
 
     getDetail(id) {
-        return this.http.get<User>(`${environment.apiUrl}/api/users/${id}`, { headers: this._sharedHeaders })
+        return this.http.get<any>(`${environment.apiUrl}/api/users/${id}`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     delete(id) {

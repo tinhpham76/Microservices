@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout.component';
 import { LayoutRoutingModule } from './layout-routing.module';
-
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -17,6 +17,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
   declarations: [LayoutComponent],
   imports: [
     CommonModule,
+    NzAvatarModule,
     NzLayoutModule,
     NzMenuModule,
     NzToolTipModule,

@@ -169,7 +169,8 @@ namespace auth_server
             fordwardedHeaderOptions.KnownProxies.Clear();
 
             app.UseCors(corsPolicyBuilder =>
-            corsPolicyBuilder.WithOrigins("http://localhost:4200", "http://localhost:4300")
+            corsPolicyBuilder
+            .AllowAnyOrigin()
            .AllowAnyMethod()
            .AllowAnyHeader()
            );

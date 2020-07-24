@@ -9,6 +9,8 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'prefix' },
             { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
+            { path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
+            { path: 'setting', loadChildren: () => import('./setting/setting.module').then(m => m.SettingModule) },
 
         ]
     }

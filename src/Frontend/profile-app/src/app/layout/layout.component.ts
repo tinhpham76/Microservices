@@ -23,10 +23,10 @@ export class LayoutComponent implements OnInit {
         private router: Router
     ) {
         this.subscription = this.authServices.authNavStatus$.subscribe(status => this.isAuthenticated = status);
-        this.UserName = this.authServices.name;
         const profile = this.authServices.profile;
         this.FullName = profile.FullName;
         this.Email = profile.Email;
+        this.UserName = profile.UserName;
         this.createNotification(profile.UserName);
     }
 

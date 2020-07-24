@@ -131,7 +131,8 @@ namespace admin_api
             app.UseHttpsRedirection();
 
             app.UseCors(corsPolicyBuilder =>
-            corsPolicyBuilder.WithOrigins(Configuration["AllowOrigin"])
+            corsPolicyBuilder
+            .AllowAnyOrigin()
            .AllowAnyMethod()
            .AllowAnyHeader()
            );
