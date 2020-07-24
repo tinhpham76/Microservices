@@ -8,7 +8,7 @@
         }
         public class Permission
         {
-            public const string Type = "AUTH-SERVER";
+            public const string Type = "Permissions";
         }
         public class View
         {

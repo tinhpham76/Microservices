@@ -22,7 +22,7 @@
 </div>
 <!--Users-->
 <nz-spin [nzSpinning]="isSpinning">
-  <nz-table #userTable [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzTotal]="totalRecords"
+  <nz-table #userTable [nzPageIndex]="pageIndex" nzBordered  [nzScroll]="{ x: '1000px' }" [nzPageSize]="pageSize" [nzData]="items" [nzTotal]="totalRecords"
     [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
     <thead>
       <tr>

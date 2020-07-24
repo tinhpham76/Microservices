@@ -25,7 +25,7 @@
 <!--End welcome api resources-->
 <nz-spin [nzSpinning]="isSpinning">
     <!--Start table api resources-->
-    <nz-table #apiTable nzBordered [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items"
+    <nz-table #apiTable nzBordered [nzScroll]="{ x: '1000px' }" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items"
         [nzTotal]="totalRecords" [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
         <thead>
             <tr>

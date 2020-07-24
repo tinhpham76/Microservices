@@ -133,7 +133,7 @@ namespace auth_server.Controllers
             var claims = new List<ApiRoleViewModel>();
             foreach (var claimType in claimTypes)
             {
-                var claimValue = await _context.RoleClaims.Where(x => x.ClaimType == claimType).Select(v => v.ClaimValue.ToString()).ToListAsync();
+                var claimValue = await _context.RoleClaims.Where(x => x.ClaimType == claimType && x.RoleId == roleId).Select(v => v.ClaimValue.ToString()).ToListAsync();
                 var claim = new ApiRoleViewModel()
                 {
                     Type = claimType,

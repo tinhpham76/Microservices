@@ -66,19 +66,35 @@
             <ul nz-menu [nzMode]="'horizontal'">
               <li nz-submenu nzTitle={{FullName}} style="min-width: 250px; text-align: center;">
                 <ul style="min-height: auto;">
-                  <span>
-                    <li nz-menu-group nzTitle={{UserName}}></li>
-                  </span>
-                  <span>
-                    <li nz-menu-group nzTitle={{Email}}></li>
-                  </span>
                   <ul>
-                    <a href="http://localhost:4300">
-                      <li nz-menu-item>Settings</li>
-                    </a>
-                    <a href="javascript:void(0)" (click)="signOut()">
-                      <li nz-menu-item>Logout</li>
-                    </a>
+                    <div nz-row nzJustify="space-around">
+                      <div nz-col>
+                        <a href="http://localhost:4300">
+                          <nz-avatar [nzSize]="64" nzIcon="user"></nz-avatar>
+                        </a>
+                      </div>
+                    </div>
+                    <div nz-row nzJustify="space-around">
+                      <div nz-col>
+                        <span>
+                          <li nz-menu-group nzTitle={{UserName}}></li>
+                        </span>
+                      </div>
+                    </div>
+                    <div nz-row nzJustify="space-around">
+                      <div nz-col>
+                        <span>
+                          <li nz-menu-group nzTitle={{Email}}></li>
+                        </span>
+                      </div>
+                    </div>
+                    <div nz-row nzJustify="space-around">
+                      <div nz-col>
+                        <a href="javascript:void(0)" (click)="signOut()">
+                          <li nz-menu-item>Logout</li>
+                        </a>
+                      </div>
+                    </div>
                   </ul>
                 </ul>
               </li>

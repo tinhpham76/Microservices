@@ -130,7 +130,7 @@ namespace user_api
             app.UseRouting();
 
             app.UseCors(corsPolicyBuilder =>
-            corsPolicyBuilder.WithOrigins(Configuration["AllowOrigins"])
+            corsPolicyBuilder.WithOrigins("http://localhost:4200", "http://localhost:4300")
             .AllowAnyMethod()
             .AllowAnyHeader()
             );

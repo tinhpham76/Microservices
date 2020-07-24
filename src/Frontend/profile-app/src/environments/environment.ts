@@ -4,12 +4,12 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:5002',
+  apiUrl: 'https://localhost:5004',
   authority: 'https://localhost:5000',
-  client_id: 'angular_user_manager',
+  client_id: 'angular-user-profile',
   redirect_uri: 'http://localhost:4300/auth-callback',
   post_logout_redirect_uri: 'http://localhost:4300/',
-  scope: 'USER_API SSO_API openid profile',
+  scope: 'USER-API AUTH-SERVER openid profile',
   silent_redirect_uri: 'http://localhost:4300/silent-refresh.html'
 };
 

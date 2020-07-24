@@ -1,68 +1,66 @@
-<!--Start login-->
-<div class="login-page" [@routerTransition]>
-    <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100">
-                <div class="login100-form validate-form">
-                    <span class="login100-form-title p-b-43">
-                        Login to continue
-                    </span>
-                    <!--Start form login-->
-                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                        <input class="input100" type="text" name="email">
-                        <span class="focus-input100"></span>
-                        <span class="label-input100">Email</span>
-                    </div>
-                    <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        <input class="input100" type="password" name="pass">
-                        <span class="focus-input100"></span>
-                        <span class="label-input100">Password</span>
-                    </div>
-                    <div class="flex-sb-m w-full p-t-3 p-b-32">
-                        <div class="contact100-form-checkbox">
-                            <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-                            <label class="label-checkbox100" for="ckb1">
-                                Remember me
-                            </label>
-                        </div>
-                        <div>
-                            <a href="javascripe: void(0)" class="txt1">
-                                Forgot Password?
-                            </a>
-                        </div>
-                    </div>
-                    <div class="container-login100-form-btn">
-                        <button nz-button (click)="createNotification('error', 'SSO Admin', 'Please, login with IS4!')"
-                            class="login100-form-btn">
-                            Login
-                        </button>
-                    </div>
-                    <div class="text-center p-t-46 p-b-20">
-                        <span class="txt2">
-                            or sign up using
-                        </span>
-                    </div>
-                    <div class="login100-form-social flex-c-m">
-                        <a (click)="loginWithIS4()" class="login100-form-social-item flex-c-m bg4 m-r-5">
-                            <img class="icon" src="./assets/images/is4-logo.png"
-                                alt="">
-                        </a>
-                        <a (click)="createNotification('error', 'Facebook', 'Unregistered or unsupported applications!')"
-                            class="login100-form-social-item flex-c-m bg1 m-r-5">
-                            <i class="fa fa-facebook-f" aria-hidden="true"></i>
-                        </a>
-
-                        <a (click)="createNotification('error', 'Twitter', 'Unregistered or unsupported applications!')"
-                            class="login100-form-social-item flex-c-m bg2 m-r-5">
-                            <i class="fa fa-twitter" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                    <!--End form login-->
-                </div>
-                <div class="login100-more" style="background-image: url('./assets/images/background-2.jpg');">
-                </div>
-            </div>
-        </div>
+<div class="sidenav" [@routerTransition]>
+    <div class="login-main-text" style="background-image: url('./assets/images/background-2.jpg');">
+        <h2>Auth Server Admin Dashboard<br> Login Page</h2>
+        <p>Login or register from here to access.</p>
     </div>
 </div>
-<!--End login-->
+<br>
+<br>
+<div class="main row justify-content-center">
+    <div class="col-md-8 col-sm-8 col">
+        <span class="login100-form-title p-b-43">
+            Login to continue
+        </span>
+        <!--Start form login-->
+        <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+            <input class="input100" type="text" name="email">
+            <span class="focus-input100"></span>
+            <span class="label-input100">Email</span>
+        </div>
+        <div class="wrap-input100 validate-input" data-validate="Password is required">
+            <input class="input100" type="password" name="pass">
+            <span class="focus-input100"></span>
+            <span class="label-input100">Password</span>
+        </div>
+        <div class="flex-sb-m w-full p-t-3 p-b-32">
+            <div class="contact100-form-checkbox">
+                <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                <label class="label-checkbox100" for="ckb1">
+                    Remember me
+                </label>
+            </div>
+            <div>
+                <a href="javascripe: void(0)" class="txt1">
+                    Forgot Password?
+                </a>
+            </div>
+        </div>
+        <div class="container-login100-form-btn">
+            <button nz-button
+                (click)="createNotification('error', 'Auth Server Admin Dashboard', 'Please, login with Identity Server 4!')"
+                class="login100-form-btn">
+                Login
+            </button>
+        </div>
+        <div class="text-center p-t-46 p-b-20">
+            <span class="txt2">
+                or sign up using
+            </span>
+        </div>
+        <div class="login100-form-social flex-c-m">
+            <a (click)="loginWithIS4()" class="login100-form-social-item flex-c-m bg4 m-r-5">
+                <img class="icon" src="./assets/images/is4-logo.png" alt="">
+            </a>
+            <a (click)="createNotification('error', 'Facebook', 'Unregistered or unsupported applications!')"
+                class="login100-form-social-item flex-c-m bg1 m-r-5">
+                <i class="fa fa-facebook-f" aria-hidden="true"></i>
+            </a>
+
+            <a (click)="createNotification('error', 'Twitter', 'Unregistered or unsupported applications!')"
+                class="login100-form-social-item flex-c-m bg2 m-r-5">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+        </div>
+        <!--End form login-->
+    </div>
+</div>

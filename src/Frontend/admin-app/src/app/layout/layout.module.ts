@@ -13,12 +13,14 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 
 @NgModule({
   declarations: [LayoutComponent],
   imports: [
     CommonModule,
     NzLayoutModule,
+    NzAvatarModule,
     NzMenuModule,
     NzDropDownModule,
     NzToolTipModule,

@@ -174,7 +174,7 @@ namespace auth_server.IdentityServer
                     },
                     AllowedCorsOrigins = new List<string>
                     {
-                        "http://localhost:4200"
+                        "http://localhost:4300"
                     },
                     AllowedScopes = new List<string>
                     {

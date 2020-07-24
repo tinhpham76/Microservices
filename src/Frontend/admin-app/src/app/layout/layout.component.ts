@@ -22,12 +22,12 @@ export class LayoutComponent implements OnInit {
         private notification: NzNotificationService,
         private router: Router
     ) {
-        this.subscription = this.authServices.authNavStatus$.subscribe(status => this.isAuthenticated = status);
-        this.UserName = this.authServices.name;
+        this.subscription = this.authServices.authNavStatus$.subscribe(status => this.isAuthenticated = status); 
         const profile = this.authServices.profile;
         this.FullName = profile.FullName;
-        this.Email = profile.email;
-        this.createNotification(this.authServices.name);
+        this.Email = profile.Email;
+        this.UserName = profile.UserName;
+        this.createNotification(profile.UserName);
     }
 
     ngOnInit() { }

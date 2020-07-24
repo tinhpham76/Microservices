@@ -1,6 +1,6 @@
 export class MessageConstants {
     // Title
-    public static TITLE_NOTIFICATION_SSO = 'SSO Admin';
+    public static TITLE_NOTIFICATION_SSO = 'Auth Server Admin Dashboard';
     // Type
     public static TYPE_NOTIFICATION_SUCCESS = 'success';
     public static TYPE_NOTIFICATION_INFO = 'info';

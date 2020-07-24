@@ -25,7 +25,7 @@
 <!--End welcome roles-->
 <!--Start table roles-->
 <nz-spin [nzSpinning]="isSpinning">
-    <nz-table #roleTable [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzTotal]="totalRecords"
+    <nz-table #roleTable nzBordered  [nzScroll]="{ x: '1000px' }" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzTotal]="totalRecords"
         [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
         <thead>
             <tr>

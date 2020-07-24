@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     this.authService.login();
     setTimeout(() => {
       this.router.navigate(['/error']);
-      this.createNotification('error', 'SSO Admin', 'Can not connect server...');
+      this.createNotification('error', 'User Profile', 'Can not connect server...');
     }, 50000);
   }
   createNotification(type: string, title: string, content: string): void {

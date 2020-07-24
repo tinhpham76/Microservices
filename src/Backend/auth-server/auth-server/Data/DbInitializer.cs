@@ -1,7 +1,10 @@
 ﻿using auth_server.Data.Entities;
+using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace auth_server.Data
@@ -16,11 +19,13 @@ namespace auth_server.Data
 
         public DbInitializer(ApplicationDbContext context,
           UserManager<User> userManager,
-          RoleManager<IdentityRole> roleManager)
+          RoleManager<IdentityRole> roleManager
+          )
         {
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
+            
         }
 
         public RoleManager<IdentityRole> RoleManager => _roleManager;
@@ -59,13 +64,35 @@ namespace auth_server.Data
                     FirstName = "Admin",
                     LastName = "",
                     Email = "admin@admin.com",
-                    LockoutEnabled = false
+                    LockoutEnabled = false,
+                    Dob = DateTime.Parse("1998/04/11"),
+                    CreateDate = DateTime.UtcNow
                 }, "Admin@123");
                 if (result1.Succeeded)
                 {
                     var user = await _userManager.FindByNameAsync("admin");
                     await _userManager.AddToRoleAsync(user, AdminRoleName);
+                    var role = await _roleManager.FindByIdAsync(AdminRoleName);
+                    var claims = new List<Claim>();
+                    claims.Add(new Claim("AUTH-SERVER", "VIEW"));
+                    claims.Add(new Claim("AUTH-SERVER", "CREATE"));
+                    claims.Add(new Claim("AUTH-SERVER", "UPDATE"));
+                    claims.Add(new Claim("AUTH-SERVER", "DELETE"));
+                    claims.Add(new Claim("ADMIN-API", "VIEW"));
+                    claims.Add(new Claim("ADMIN-API", "CREATE"));
+                    claims.Add(new Claim("ADMIN-API", "UPDATE"));
+                    claims.Add(new Claim("ADMIN-API", "DELETE"));
+                    claims.Add(new Claim("USER-API", "VIEW"));
+                    claims.Add(new Claim("USER-API", "CREATE"));
+                    claims.Add(new Claim("USER-API", "UPDATE"));
+                    claims.Add(new Claim("USER-API", "DELETE"));
+                    foreach(var claim in claims)
+                    {
+                        await _roleManager.AddClaimAsync(role, claim);
+                    }                 
+
                 }
+
                 var result2 = await _userManager.CreateAsync(new User
                 {
                     Id = Guid.NewGuid().ToString(),
@@ -73,12 +100,24 @@ namespace auth_server.Data
                     FirstName = "Tịnh",
                     LastName = "Phạm Văn",
                     Email = "tinh_pham@outlook.com",
-                    LockoutEnabled = false
+                    LockoutEnabled = false,
+                    Dob = DateTime.Parse("1998/04/11"),
+                    CreateDate = DateTime.UtcNow
                 }, "!kAa36qDc");
                 if (result2.Succeeded)
                 {
                     var user = await _userManager.FindByNameAsync("xdxg");
                     await _userManager.AddToRoleAsync(user, UserRoleName);
+                    var role = await _roleManager.FindByIdAsync(UserRoleName);
+                    var claims = new List<Claim>();
+                    claims.Add(new Claim("AUTH-SERVER", "VIEW"));
+                    claims.Add(new Claim("ADMIN-API", "VIEW"));
+                    claims.Add(new Claim("USER-API", "VIEW"));                  
+                    foreach (var claim in claims)
+                    {
+                        await _roleManager.AddClaimAsync(role, claim);
+                    }
+
                 }
             }
 

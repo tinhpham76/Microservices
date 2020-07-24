@@ -6,9 +6,8 @@
     <small><b>Represents a role in the identity system</b></small>
   </div>
 </div>
-<button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink="/permissions"><i nz-icon
-    nzType="file-add"></i>Create new
-  role</button>
+<button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='/permissions'><i nz-icon
+    nzType="rollback"></i>Go back</button>
 
 <br><br>
 
@@ -26,10 +25,11 @@
 <!--End welcome roles-->
 <!--Start table roles-->
 <nz-spin [nzSpinning]="isSpinning">
-  <nz-table #dataTable [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzTotal]="totalRecords"
+  <nz-table #dataTable nzBordered [nzScroll]="{ x: '1000px' }" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzTotal]="totalRecords"
     [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
     <thead>
       <tr>
+        <th>Index</th>
         <th>Api Resource</th>
         <th>View</th>
         <th>Create</th>
@@ -40,6 +40,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of dataTable.data; let i = index">
+        <td>{{i}}</td>
         <td>
           {{data.type}}
         </td>

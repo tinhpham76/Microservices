@@ -110,12 +110,19 @@ namespace admin_api.Controllers
             {
                 return NotFound();
             }
+            var temps = await _context.ClientCorsOrigins.Select(x => x.Origin.ToString()).ToListAsync();
+            foreach(var temp in request.AllowedCorsOrigins)
+            {
+                if (temps.Contains(temp))
+                {
+                    return BadRequest();
+                }
+            }           
             client.Description = request.Description;
             client.ClientUri = request.ClientUri;
             client.LogoUri = request.LogoUri;
             client.Updated = DateTime.UtcNow;
             _context.Clients.Update(client);
-
             var origins = await _context.ClientCorsOrigins
                   .Where(x => x.ClientId == client.Id)
                   .Select(x => x.Origin.ToString()).ToListAsync();
@@ -209,6 +216,14 @@ namespace admin_api.Controllers
             if (client == null)
             {
                 return NotFound();
+            }
+            var temps = await _context.ClientRedirectUris.Select(x => x.RedirectUri.ToString()).ToListAsync();
+            foreach (var temp in request.RedirectUris)
+            {
+                if (temps.Contains(temp))
+                {
+                    return BadRequest();
+                }
             }
             client.Enabled = request.Enabled;
             client.RequireConsent = request.RequireConsent;
@@ -482,6 +497,14 @@ namespace admin_api.Controllers
             if (client == null)
             {
                 return NotFound();
+            }
+            var temps = await _context.ClientPostLogoutRedirectUris.Select(x => x.PostLogoutRedirectUri.ToString()).ToListAsync();
+            foreach (var temp in request.PostLogoutRedirectUris)
+            {
+                if (temps.Contains(temp))
+                {
+                    return BadRequest();
+                }
             }
             client.EnableLocalLogin = request.EnableLocalLogin;
             client.FrontChannelLogoutUri = request.FrontChannelLogoutUri;

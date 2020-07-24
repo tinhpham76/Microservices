@@ -25,7 +25,7 @@
 <!--End welcome identity resource-->
 <!--Start table identity resources-->
 <nz-spin [nzSpinning]="isSpinning">
-    <nz-table nzBordered #identityTable [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzTotal]="totalRecords"
+    <nz-table nzBordered #identityTable [nzScroll]="{ x: '1000px' }" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzTotal]="totalRecords"
         [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
         <thead>
             <tr>

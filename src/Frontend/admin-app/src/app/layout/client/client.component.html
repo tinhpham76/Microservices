@@ -26,7 +26,7 @@
 <!--End welcome clients-->
 <nz-spin [nzSpinning]="isSpinning">
     <!--Start table clients-->
-    <nz-table #clientTable nzBordered [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items"
+    <nz-table #clientTable nzBordered [nzScroll]="{ x: '1000px' }" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items"
         [nzTotal]="totalRecords" [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
         <thead>
             <tr>
@@ -41,7 +41,9 @@
             <tr *ngFor="let client of clientTable.data; let i = index">
                 <td>{{ i }}</td>
                 <td>{{ client.clientId }}</td>
-                <td>{{ client.logoUri }}</td>
+                <td>
+                    <nz-avatar [nzSize]="64" nzIcon="desktop"></nz-avatar>
+                </td>
                 <td>{{ client.clientName }}</td>
                 <td>
                     <div class="table-action">

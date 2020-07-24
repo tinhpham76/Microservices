@@ -37,22 +37,23 @@ namespace auth_server.Services
                 throw new ArgumentException("");
             }
 
-            var principal = await _claimsFactory.CreateAsync(user);
-            var claims = principal.Claims.ToList();
+            var claims = new List<Claim>();
             var userRoles = await _userManager.GetRolesAsync(user);
             var Permissions = new List<string>();
-            /*foreach (var userRole in userRoles)
+            foreach (var userRole in userRoles)
             {
                 var role = await _roleManager.FindByIdAsync(userRole);
                 var claim = await _roleManager.GetClaimsAsync(role);
                 var permission = claim.Select(t => t.Type + "_" + t.Value).ToList();
                 Permissions.AddRange(permission);
-            }*/
+            }
 
             //Add more claims like this
             claims.Add(new Claim("FullName", user.LastName + " " + user.FirstName));
             claims.Add(new Claim("Role", string.Join(";", userRoles)));
-           // claims.Add(new Claim("Permissions", JsonConvert.SerializeObject(Permissions)));
+            claims.Add(new Claim("Permissions", JsonConvert.SerializeObject(Permissions)));
+            claims.Add(new Claim("UserName", user.UserName));
+            claims.Add(new Claim("Email", user.Email));
 
             context.IssuedClaims = claims;
         }
