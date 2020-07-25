@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace auth_services.RequestModel
+﻿namespace auth_services.RequestModel
 {
     public class UserRequestModel
     {
@@ -17,5 +15,7 @@ namespace auth_services.RequestModel
         public string LastName { get; set; }
 
         public string Dob { get; set; }
+
+        public string AvatarUri { get; set; }
     }
 }

@@ -59,6 +59,7 @@ namespace auth_server.IdentityServer
                 {
                     ClientId = "swagger-auth-server",
                     ClientName = "Swagger Auth Server",
+                    LogoUri = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/512px-.NET_Core_Logo.svg.png",
 
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
@@ -79,6 +80,7 @@ namespace auth_server.IdentityServer
                 {
                     ClientId = "swagger-admin-api",
                     ClientName = "Swagger Admin Api",
+                    LogoUri = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/512px-.NET_Core_Logo.svg.png",
 
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
@@ -100,6 +102,7 @@ namespace auth_server.IdentityServer
                 {
                     ClientId = "swagger-user-api",
                     ClientName = "Swagger User Api",
+                     LogoUri = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/512px-.NET_Core_Logo.svg.png",
 
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
@@ -121,6 +124,7 @@ namespace auth_server.IdentityServer
                 {
                     ClientName = "Angular Admin Dashboard",
                     ClientId = "angular-admin-dashboard",
+                    LogoUri = "https://angular.io/assets/images/logos/angular/angular.svg",
                     AccessTokenType = AccessTokenType.Reference,
                     RequireConsent = false,
 
@@ -155,6 +159,7 @@ namespace auth_server.IdentityServer
                 {
                     ClientName = "Angular User Profile",
                     ClientId = "angular-user-profile",
+                    LogoUri = "https://angular.io/assets/images/logos/angular/angular.svg",
                     AccessTokenType = AccessTokenType.Reference,
                     RequireConsent = false,
 
@@ -180,7 +185,7 @@ namespace auth_server.IdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "AUTH-SERVER",                       
+                        "AUTH-SERVER",
                         "USER-API"
                     }
                 }

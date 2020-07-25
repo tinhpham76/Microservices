@@ -32,13 +32,19 @@ import { ClientPropertyComponent } from './client-property/client-property.compo
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { ClientClaimComponent } from './client-claim/client-claim.component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzMessageServiceModule } from 'ng-zorro-antd/message';
+
 
 @NgModule({
-  declarations: [ClientComponent, AddClientComponent, EditClientComponent, ClientSecretComponent, ClientPropertyComponent, ClientClaimComponent],
+  declarations: [ClientComponent, AddClientComponent, EditClientComponent,
+     ClientSecretComponent, ClientPropertyComponent, ClientClaimComponent],
   imports: [
     CommonModule,
     NzTableModule,
     NzTabsModule,
+    NzMessageServiceModule,
+    NzUploadModule,
     NzDatePickerModule,
     NzButtonModule,
     NzAvatarModule,

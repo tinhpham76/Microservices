@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  storage_api_url: 'https://localhost:5006',
   apiUrl: 'https://localhost:5004',
   authority: 'https://localhost:5000',
   client_id: 'angular-user-profile',

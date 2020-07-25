@@ -16,6 +16,11 @@ export class ClientServices extends BaseService {
         return this.http.post(`${environment.admin_api_url}/api/clients`, JSON.stringify(entity), { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
+    
+    upload(entity: File) {
+        return this.http.post(`${environment.admin_api_url}/api/clients/upload`, entity, { headers: this._sharedHeaders })
+            .pipe(catchError(this.handleError));
+    }
     getAllPaging(filter, pageIndex, pageSize) {
         return this.http.get<Pagination<any>>(`${environment.admin_api_url}/api/clients/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));

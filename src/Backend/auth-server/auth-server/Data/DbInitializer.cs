@@ -1,5 +1,4 @@
 ﻿using auth_server.Data.Entities;
-using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -25,7 +24,7 @@ namespace auth_server.Data
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
-            
+
         }
 
         public RoleManager<IdentityRole> RoleManager => _roleManager;
@@ -66,7 +65,8 @@ namespace auth_server.Data
                     Email = "admin@admin.com",
                     LockoutEnabled = false,
                     Dob = DateTime.Parse("1998/04/11"),
-                    CreateDate = DateTime.UtcNow
+                    CreateDate = DateTime.UtcNow,
+                    AvatarUri = "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
                 }, "Admin@123");
                 if (result1.Succeeded)
                 {
@@ -86,10 +86,10 @@ namespace auth_server.Data
                     claims.Add(new Claim("USER-API", "CREATE"));
                     claims.Add(new Claim("USER-API", "UPDATE"));
                     claims.Add(new Claim("USER-API", "DELETE"));
-                    foreach(var claim in claims)
+                    foreach (var claim in claims)
                     {
                         await _roleManager.AddClaimAsync(role, claim);
-                    }                 
+                    }
 
                 }
 
@@ -102,7 +102,8 @@ namespace auth_server.Data
                     Email = "tinh_pham@outlook.com",
                     LockoutEnabled = false,
                     Dob = DateTime.Parse("1998/04/11"),
-                    CreateDate = DateTime.UtcNow
+                    CreateDate = DateTime.UtcNow,
+                    AvatarUri = "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
                 }, "!kAa36qDc");
                 if (result2.Succeeded)
                 {
@@ -112,7 +113,7 @@ namespace auth_server.Data
                     var claims = new List<Claim>();
                     claims.Add(new Claim("AUTH-SERVER", "VIEW"));
                     claims.Add(new Claim("ADMIN-API", "VIEW"));
-                    claims.Add(new Claim("USER-API", "VIEW"));                  
+                    claims.Add(new Claim("USER-API", "VIEW"));
                     foreach (var claim in claims)
                     {
                         await _roleManager.AddClaimAsync(role, claim);

@@ -3,84 +3,84 @@
     ViewData["Title"] = "WelCome To Auth Server";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to Auth Server</h1>
-    <div class="card-deck mb-3 text-center">
-        <!-- OpenId -->
-        <div class="card mb-4 box-shadow">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">OpenId</h4>
+    <div class="text-center">
+        <h1 class="display-4">Welcome to Auth Server</h1>
+        <div class="card-deck mb-3 text-center">
+            <!--Admin Dashboard -->
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Admin Dashboard</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">
+                        <span title="Admin Dashboard" class="font-size-1" aria-hidden="true"><i class="fas fa-tasks"></i></span>
+                    </h1>
+                    <a href="http://localhost:4200" class="btn btn-lg btn-block btn-primary" target="_blank">Manage</a>
+                </div>
             </div>
-            <div class="card-body">
-                <h1 class="card-title">
-                    <span title="OpenId" class="font-size-1" aria-hidden="true"><i class="fas fa-info-circle"></i></span>
-                </h1>
-                <a href="/.well-known/openid-configuration" class="btn btn-lg btn-block btn-outline-primary" target="_blank">Manage</a>
+            <!-- User Profile -->
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">User Profile</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">
+                        <span title="User Profile" class="font-size-1" aria-hidden="true"><i class="fas fa-user"></i></span>
+                    </h1>
+                    <a href="http://localhost:4300" class="btn btn-lg btn-block btn-outline-primary" target="_blank">Manage</a>
+                </div>
             </div>
-        </div>
-        <!--Admin Dashboard -->
-        <div class="card mb-4 box-shadow">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Admin Dashboard</h4>
+            <!--Swagger Auth Server -->
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Swagger Auth Server</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">
+                        <span title="Swagger Auth Server" class="font-size-1" aria-hidden="true"><i class="fas fa-file-code"></i></span>
+                    </h1>
+                    <a href="https://localhost:5000/swagger/index.html" class="btn btn-lg btn-block btn-primary" target="_blank">Manage</a>
+                </div>
             </div>
-            <div class="card-body">
-                <h1 class="card-title">
-                    <span title="Admin Dashboard" class="font-size-1" aria-hidden="true"><i class="fas fa-tasks"></i></span>
-                </h1>
-                <a href="http://localhost:4200" class="btn btn-lg btn-block btn-primary" target="_blank">Manage</a>
-            </div>
-        </div>
-        <!-- User Profile -->
-        <div class="card mb-4 box-shadow">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">User Profile</h4>
-            </div>
-            <div class="card-body">
-                <h1 class="card-title">
-                    <span title="User Profile" class="font-size-1" aria-hidden="true"><i class="fas fa-user"></i></span>
-                </h1>
-                <a href="http://localhost:4300" class="btn btn-lg btn-block btn-outline-primary" target="_blank">Manage</a>
-            </div>
-        </div>
-    </div>
+        </div>      
 
-    <div class="card-deck mb-3 text-center">
-        <!--Swagger Auth Server -->
-        <div class="card mb-4 box-shadow">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Swagger Auth Server</h4>
+        <div class="card-deck mb-3 text-center">
+            <!-- Swagger Admin Api -->
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Swagger Admin Api</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">
+                        <span title="Swagger Admin Api" class="font-size-1" aria-hidden="true"><i class="fas fa-file-code"></i></span>
+                    </h1>
+                    <a href="https://localhost:5002/swagger/index.html" class="btn btn-lg btn-block btn-outline-primary" target="_blank">Manage</a>
+                </div>
             </div>
-            <div class="card-body">
-                <h1 class="card-title">
-                    <span title="Swagger Auth Server" class="font-size-1" aria-hidden="true"><i class="fas fa-file-code"></i></span>
-                </h1>
-                <a href="https://localhost:5000/swagger/index.html" class="btn btn-lg btn-block btn-primary" target="_blank">Manage</a>
+            <!--Swagger User Api -->
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Swagger User Api</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">
+                        <span title="Swagger User Api" class="font-size-1" aria-hidden="true"><i class="fas fa-file-code"></i></span>
+                    </h1>
+                    <a href="https://localhost:5004/swagger/index.html" class="btn btn-lg btn-block btn-primary" target="_blank">Manage</a>
+                </div>
             </div>
-        </div>
-        <!-- Swagger Admin Api -->
-        <div class="card mb-4 box-shadow">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Swagger Admin Api</h4>
-            </div>
-            <div class="card-body">
-                <h1 class="card-title">
-                    <span title="Swagger Admin Api" class="font-size-1" aria-hidden="true"><i class="fas fa-file-code"></i></span>
-                </h1>
-                <a href="https://localhost:5002/swagger/index.html" class="btn btn-lg btn-block btn-outline-primary" target="_blank">Manage</a>
-            </div>
-        </div>
-        <!--Swagger User Api -->
-        <div class="card mb-4 box-shadow">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Swagger User Api</h4>
-            </div>
-            <div class="card-body">
-                <h1 class="card-title">
-                    <span title="Swagger User Api" class="font-size-1" aria-hidden="true"><i class="fas fa-file-code"></i></span>
-                </h1>
-                <a href="https://localhost:5004/swagger/index.html" class="btn btn-lg btn-block btn-primary" target="_blank">Manage</a>
+            <!--Swagger Storage Api-->
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Swagger Storage Api</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">
+                        <span title="Swagger Storage Api" class="font-size-1" aria-hidden="true"><i class="fas fa-file-code"></i></span>
+                    </h1>
+                    <a href="https://localhost:5006/swagger/index.html" class="btn btn-lg btn-block btn-outline-primary" target="_blank">Manage</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 

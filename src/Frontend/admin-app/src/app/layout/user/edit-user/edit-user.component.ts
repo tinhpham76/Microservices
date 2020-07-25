@@ -5,6 +5,9 @@ import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/no
 import { UserServices } from '@app/shared/services/users.services';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 import { NzSelectSizeType } from 'ng-zorro-antd/select';
+import { environment } from '@environments/environment';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-edit-user',
@@ -19,13 +22,16 @@ export class EditUserComponent implements OnInit {
   public validateForm!: FormGroup;
 
   userId = '';
+  avatar = '';
+  api_upload = (`${environment.storage_api_url}/api/files/upload`);
 
   listOfOptionRoles: Array<{ label: string; value: string }> = [];
 
   constructor(private fb: FormBuilder,
     private userServices: UserServices,
     private notification: NzNotificationService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private msg: NzMessageService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -38,10 +44,11 @@ export class EditUserComponent implements OnInit {
       lastName: [null, [Validators.required]],
       email: [null, [Validators.email, Validators.required]],
       dob: [null, [Validators.required]],
-      phoneNumber: [null, [Validators.required]],
+      phoneNumber: [null],
       createDate: [null],
       lastModifiedDate: [null],
-      userRoles: [null]
+      userRoles: [null],
+      avatarUri: [null]
     });
     this.getUserDetail(this.userId);
   }
@@ -61,8 +68,10 @@ export class EditUserComponent implements OnInit {
           createDate: res.createDate,
           lastModifiedDate: res.lastModifiedDate,
           userRoles: res.userRoles,
+          avatarUri : res.avatarUri
         });
         setTimeout(() => {
+          this.avatar = res.avatarUri;
           this.listOfOptionRoles = res.roles;
           this.isSpinning = false;
         }, 500);
@@ -78,6 +87,18 @@ export class EditUserComponent implements OnInit {
         }, 500);
       });
   }
+
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status !== 'uploading') {
+    }
+    if (info.file.status === 'done') {
+      this.msg.success(`${info.file.name} file uploaded successfully`);
+      this.avatar = (`${environment.storage_api_url}${info.file.response.filePath}`);
+    } else if (info.file.status === 'error') {
+      this.msg.error(`${info.file.name} file upload failed.`);
+    }
+  }
+
 
   // Create new user
   submitValidateForm(value: {

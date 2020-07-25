@@ -43,6 +43,7 @@ namespace auth_server.Data.Migrations
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
                     Dob = table.Column<DateTime>(nullable: false),
+                    AvatarUri = table.Column<string>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     LastModifiedDate = table.Column<DateTime>(nullable: true)
                 },

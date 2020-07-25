@@ -24,6 +24,8 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzMessageServiceModule } from 'ng-zorro-antd/message';
 
 @NgModule({
   declarations: [UserComponent, AddUserComponent, EditUserComponent],
@@ -31,6 +33,8 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
     CommonModule,
     NzTableModule,
     NzDividerModule,
+    NzUploadModule,
+    NzMessageServiceModule,
     NzAvatarModule,
     NzSpinModule,
     NzDescriptionsModule,

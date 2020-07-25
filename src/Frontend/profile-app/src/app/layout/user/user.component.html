@@ -3,7 +3,7 @@
         <br>
         <div nz-row nzJustify="center">
             <div nz-col>
-                <nz-avatar [nzSize]="150" nzIcon="user">
+                <nz-avatar [nzSize]="150" [nzSrc]="avatar">
                 </nz-avatar>
             </div>
 
@@ -12,7 +12,6 @@
             <div nz-col>
                 <h4 style="color: aliceblue;">{{userId}}</h4>
             </div>
-
         </div>
     </div>
     <br>
@@ -85,7 +84,7 @@
         <div nz-row nzJustify="center">
             <div nz-col nzSpan="8">
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Phone</nz-form-label>
+                    <nz-form-label [nzSm]="6" [nzXs]="24">Phone</nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="validateForm.controls['phoneNumber']"
                         nzErrorTip="Please input your phone number!">
                         <input formControlName="phoneNumber" id="'phoneNumber'" nz-input />
@@ -94,7 +93,7 @@
             </div>
             <div nz-col nzSpan="8">
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Date of Birth</nz-form-label>
+                    <nz-form-label [nzSm]="6" [nzXs]="24">Date of Birth</nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24">
                         <nz-date-picker formControlName="dob"></nz-date-picker>
                     </nz-form-control>
@@ -104,7 +103,7 @@
         <div nz-row nzJustify="center">
             <div nz-col nzSpan="8">
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Create Date</nz-form-label>
+                    <nz-form-label [nzSm]="6" [nzXs]="24">Create Date</nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24">
                         <nz-date-picker formControlName="createDate" nzDisabled></nz-date-picker>
                     </nz-form-control>
@@ -112,13 +111,27 @@
             </div>
             <div nz-col nzSpan="8">
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Last Update</nz-form-label>
+                    <nz-form-label [nzSm]="6" [nzXs]="24">Last Update</nz-form-label>
                     <nz-form-control [nzSm]="14" [nzXs]="24">
                         <nz-date-picker formControlName="lastModifiedDate" nzDisabled></nz-date-picker>
                     </nz-form-control>
                 </nz-form-item>
             </div>
         </div>
+        <nz-form-item>
+            <nz-form-label [nzSm]=" 6" [nzXs]="24">Avatar Uri</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating...">
+              <input nz-input formControlName="avatarUri" placeholder="avatar uri" [ngModel]="avatar" />
+              <nz-upload
+              [nzLimit]="1"
+              nzAction="{{api_upload}}"
+              [nzHeaders]="{ authorization: 'authorization-text' }"
+              (nzChange)="handleChange($event)"
+            >
+              <a nz-button><i nz-icon nzType="upload"></i>Click to Upload</a>
+            </nz-upload>
+            </nz-form-control>
+          </nz-form-item>
         <nz-form-item>
             <nz-form-label [nzSm]=" 6" [nzXs]="24">Delete Account</nz-form-label>
             <nz-form-control [nzSm]="24">

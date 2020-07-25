@@ -54,10 +54,18 @@
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-label [nzSm]=" 6" [nzXs]="24">Logo Uri</nz-form-label>
-                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">
-                        <input nz-input formControlName="logoUri" placeholder="Logo uri" />
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating...">
+                      <input nz-input formControlName="logoUri" placeholder="Logo uri" [ngModel]="logo" />
+                      <nz-upload
+                      [nzLimit]="1"
+                      nzAction="{{api_upload}}"
+                      [nzHeaders]="{ authorization: 'authorization-text' }"
+                      (nzChange)="handleChange($event)"
+                    >
+                      <a nz-button><i nz-icon nzType="upload"></i>Click to Upload</a>
+                    </nz-upload>
                     </nz-form-control>
-                </nz-form-item>
+                  </nz-form-item>
                 <nz-form-item>
                     <nz-form-label [nzSm]="6" [nzXs]="24">Allowed Cors Origins</nz-form-label>
                     <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">

@@ -19,15 +19,17 @@ export class SettingComponent implements OnInit {
   public validateForm!: FormGroup;
 
   userId = '';
+  Avatar = '';
 
   constructor(private userServices: UserServices,
     private notification: NzNotificationService,
     private fb: FormBuilder,
-    private authServices: AuthService
+    private authServices: AuthService,
     ) { }
 
   ngOnInit(): void {
     this.userId = this.authServices.profile.sub;
+    this.Avatar = this.authServices.profile.Avatar;
     this.validateForm = this.fb.group({
       currentPassword: [null, [Validators.required]],
       newPassword: [null, [Validators.required]],

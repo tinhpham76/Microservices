@@ -7,4 +7,3 @@
         public string NormalizedName { get; set; }
     }
 }
- 

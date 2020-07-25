@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace auth_server.Controllers
@@ -155,8 +154,8 @@ namespace auth_server.Controllers
                 .Select(x => new ApiRoleViewModel()
                 {
                     Type = x.Type,
-                    View =x.View,
-                    Create =x.Create,
+                    View = x.View,
+                    Create = x.Create,
                     Update = x.Update,
                     Delete = x.Delete
                 }).ToList();
@@ -166,7 +165,7 @@ namespace auth_server.Controllers
                 Items = items
             };
             return Ok(pagination);
-         
+
         }
 
         [HttpPost("{roleId}/claims")]

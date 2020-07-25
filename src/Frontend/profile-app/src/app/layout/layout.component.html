@@ -34,13 +34,13 @@
         <div nz-col nzSpan="6" nzOffset="10">
           <div nz-row nzJustify="space-around">
             <ul nz-menu [nzMode]="'horizontal'">
-              <li nz-submenu nzTitle={{FullName}} style="min-width: 250px; text-align: center;">
+              <li nz-submenu nzTitle={{FullName}} style="min-width: 250px; text-align: center; overflow: auto;">
                 <ul style="min-height: auto;">
                   <ul>
                     <div nz-row nzJustify="space-around">
                       <div nz-col>
                         <a href="http://localhost:4300">
-                          <nz-avatar [nzSize]="64" nzIcon="user"></nz-avatar>
+                          <nz-avatar [nzSize]="64" [nzSrc]="Avatar"></nz-avatar>
                         </a>
                       </div>
                     </div>

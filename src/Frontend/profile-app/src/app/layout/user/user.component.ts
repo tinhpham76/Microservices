@@ -8,6 +8,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { error } from 'protractor';
 import { AuthService } from '@app/shared/services/auth.service';
+import { environment } from '@environments/environment';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-user',
@@ -16,6 +19,9 @@ import { AuthService } from '@app/shared/services/auth.service';
   providers: [DatePipe]
 })
 export class UserComponent implements OnInit {
+
+  avatar = '';
+  api_upload = (`${environment.storage_api_url}/api/files/upload`);
 
   // Spin
   public isSpinning: boolean;
@@ -29,7 +35,8 @@ export class UserComponent implements OnInit {
     private notification: NzNotificationService,
     private fb: FormBuilder,
     private authServices: AuthService,
-    private modal: NzModalService) { }
+    private modal: NzModalService,
+    private msg: NzMessageService) { }
 
   ngOnInit(): void {
     this.userId = this.authServices.profile.sub;
@@ -40,9 +47,10 @@ export class UserComponent implements OnInit {
       lastName: [null, [Validators.required]],
       email: [null, [Validators.email, Validators.required]],
       dob: [null, [Validators.required]],
-      phoneNumber: [null, [Validators.required]],
+      phoneNumber: [null, ],
       createDate: [null],
       lastModifiedDate: [null],
+      avatarUri: [null]
     });
     this.getUserDetail(this.userId);
   }
@@ -61,8 +69,10 @@ export class UserComponent implements OnInit {
           phoneNumber: res.phoneNumber,
           createDate: res.createDate,
           lastModifiedDate: res.lastModifiedDate,
+          avatarUri: res.avatarUri,
         });
         setTimeout(() => {
+          this.avatar = res.avatarUri;
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
@@ -76,6 +86,17 @@ export class UserComponent implements OnInit {
           this.isSpinning = false;
         }, 500);
       });
+  }
+
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status !== 'uploading') {
+    }
+    if (info.file.status === 'done') {
+      this.msg.success(`${info.file.name} file uploaded successfully`);
+      this.avatar = (`${environment.storage_api_url}${info.file.response.filePath}`);
+    } else if (info.file.status === 'error') {
+      this.msg.error(`${info.file.name} file upload failed.`);
+    }
   }
 
   // Create new user

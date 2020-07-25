@@ -133,9 +133,9 @@ namespace admin_api
             app.UseCors(corsPolicyBuilder =>
             corsPolicyBuilder
             .AllowAnyOrigin()
-           .AllowAnyMethod()
-           .AllowAnyHeader()
-           );
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            );
 
             app.UseRouting();
 

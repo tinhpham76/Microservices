@@ -228,7 +228,7 @@ namespace auth_server
                 {
                     foreach (var client in Config.GetClients())
                     {
-                        context.Clients.Add(client.ToEntity());                       
+                        context.Clients.Add(client.ToEntity());
                     }
                     context.SaveChanges();
                 }

@@ -106,6 +106,20 @@
       </div>
     </div>
     <nz-form-item>
+      <nz-form-label [nzSm]=" 6" [nzXs]="24">Avatar Uri</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating...">
+        <input nz-input formControlName="avatarUri" placeholder="avatar uri" [ngModel]="avatar" />
+        <nz-upload
+        [nzLimit]="1"
+        nzAction="{{api_upload}}"
+        [nzHeaders]="{ authorization: 'authorization-text' }"
+        (nzChange)="handleChange($event)"
+      >
+        <a nz-button><i nz-icon nzType="upload"></i>Click to Upload</a>
+      </nz-upload>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
         <input nz-input type="password" id="password" formControlName="password"

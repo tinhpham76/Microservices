@@ -18,8 +18,10 @@ namespace admin_api.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IClientApiClient _clientApiClient;
-        public ClientsController(ApplicationDbContext context, IClientApiClient clientApiClient)
+        private readonly IStorageService _storageService;
+        public ClientsController(ApplicationDbContext context, IClientApiClient clientApiClient, IStorageService storageService)
         {
+            _storageService = storageService;
             _context = context;
             _clientApiClient = clientApiClient;
         }
@@ -40,7 +42,7 @@ namespace admin_api.Controllers
             var items = await query.Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .Select(x => new ClientQuickViewModels()
-                {                    
+                {
                     ClientId = x.ClientId,
                     ClientName = x.ClientName,
                     LogoUri = x.LogoUri
@@ -111,13 +113,13 @@ namespace admin_api.Controllers
                 return NotFound();
             }
             var temps = await _context.ClientCorsOrigins.Select(x => x.Origin.ToString()).ToListAsync();
-            foreach(var temp in request.AllowedCorsOrigins)
+            foreach (var temp in request.AllowedCorsOrigins)
             {
                 if (temps.Contains(temp))
                 {
                     return BadRequest();
                 }
-            }           
+            }
             client.Description = request.Description;
             client.ClientUri = request.ClientUri;
             client.LogoUri = request.LogoUri;
@@ -168,7 +170,7 @@ namespace admin_api.Controllers
                 .Select(x => x.Name.ToString()).ToListAsync();
             var identity = await _context.IdentityResources
                 .Select(x => x.Name.ToString()).ToListAsync();
-            var offlineAccess =new List<string>() { "offline_access" };
+            var offlineAccess = new List<string>() { "offline_access" };
             var scopes = (identity.Concat(offlineAccess)).Concat(apiScope);
             return Ok(scopes);
         }
@@ -717,6 +719,6 @@ namespace admin_api.Controllers
                 return Ok();
             return BadRequest();
         }
-        #endregion            
+        #endregion       
     }
 }

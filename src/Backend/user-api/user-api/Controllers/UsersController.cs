@@ -22,7 +22,7 @@ namespace user_api.Controllers
             if (result == true)
             {
                 return Ok();
-            }              
+            }
             return BadRequest();
         }
 
@@ -47,7 +47,7 @@ namespace user_api.Controllers
             if (result == true)
             {
                 return Ok();
-            }               
+            }
             return BadRequest();
         }
 
@@ -58,7 +58,7 @@ namespace user_api.Controllers
             if (result == true)
             {
                 return Ok();
-            }                
+            }
             return BadRequest();
         }
 
@@ -69,7 +69,7 @@ namespace user_api.Controllers
             if (result == true)
             {
                 return Ok();
-            }               
+            }
             return BadRequest();
         }
 
@@ -80,7 +80,7 @@ namespace user_api.Controllers
             if (result == true)
             {
                 return Ok();
-            }               
+            }
             return BadRequest();
         }
 

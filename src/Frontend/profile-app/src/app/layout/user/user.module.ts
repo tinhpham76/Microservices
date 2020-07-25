@@ -22,12 +22,15 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzMessageServiceModule } from 'ng-zorro-antd/message';
 
 @NgModule({
   declarations: [UserComponent],
   imports: [
     CommonModule,
+    NzUploadModule,
+    NzMessageServiceModule,
     NzTableModule,
     NzAvatarModule,
     NzDividerModule,

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace admin_services.ViewModels
+﻿namespace admin_services.ViewModels
 {
     public class ClientSecretViewModels
     {

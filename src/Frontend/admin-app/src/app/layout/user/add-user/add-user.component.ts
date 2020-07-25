@@ -6,6 +6,9 @@ import { UserServices } from '@app/shared/services/users.services';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '@environments/environment';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-add-user',
@@ -14,6 +17,8 @@ import { Router } from '@angular/router';
 })
 export class AddUserComponent implements OnInit {
 
+  avatar = '';
+  api_upload = (`${environment.storage_api_url}/api/files/upload`);
   // Spin
   public isSpinning: boolean;
   // Init form
@@ -22,7 +27,8 @@ export class AddUserComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private userServices: UserServices,
     private notification: NzNotificationService,
-    private router: Router) { }
+    private router: Router,
+    private msg: NzMessageService) { }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -34,8 +40,20 @@ export class AddUserComponent implements OnInit {
       password: [null, [Validators.required]],
       checkPassword: [null, [Validators.required, this.confirmationValidator]],
       phoneNumberPrefix: ['+84'],
-      phoneNumber: [null, [Validators.required]]
+      phoneNumber: [null, [Validators.required]],
+      avatarUri: [null, [Validators.required]]
     });
+  }
+
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status !== 'uploading') {
+    }
+    if (info.file.status === 'done') {
+      this.msg.success(`${info.file.name} file uploaded successfully`);
+      this.avatar = (`${environment.storage_api_url}${info.file.response.filePath}`);
+    } else if (info.file.status === 'error') {
+      this.msg.error(`${info.file.name} file upload failed.`);
+    }
   }
 
   // Validator
@@ -63,6 +81,7 @@ export class AddUserComponent implements OnInit {
     password: string;
     phoneNumber: string;
     phoneNumberPrefix: string;
+    avatarUri: string;
   }): void {
     if (value.password.length < 8) {
       this.createNotification(

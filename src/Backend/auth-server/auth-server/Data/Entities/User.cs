@@ -12,7 +12,7 @@ namespace auth_server.Data.Entities
         }
 
         public User(string id, string userName, string firstName, string lastName,
-            string email, string phoneNumber, DateTime dob)
+            string email, string phoneNumber, DateTime dob, string avatarUri)
         {
             Id = id;
             UserName = userName;
@@ -21,6 +21,7 @@ namespace auth_server.Data.Entities
             Email = email;
             PhoneNumber = phoneNumber;
             Dob = dob;
+            AvatarUri = avatarUri;
         }
 
         [MaxLength(50)]
@@ -31,6 +32,7 @@ namespace auth_server.Data.Entities
         public string LastName { get; set; }
         [Required]
         public DateTime Dob { get; set; }
+        public string AvatarUri { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? LastModifiedDate { get; set; }
     }

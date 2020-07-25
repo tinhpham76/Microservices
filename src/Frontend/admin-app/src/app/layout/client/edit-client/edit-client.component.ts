@@ -5,6 +5,9 @@ import { ClientServices } from '@app/shared/services/clients.service';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { environment } from '@environments/environment';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-edit-client',
@@ -13,6 +16,8 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 })
 export class EditClientComponent implements OnInit {
 
+  api_upload = (`${environment.storage_api_url}/api/files/upload`);
+  logo = '';
   // Spin
   public isSpinning: boolean;
 
@@ -61,7 +66,7 @@ export class EditClientComponent implements OnInit {
     private route: ActivatedRoute,
     private clientServices: ClientServices,
     private fb: FormBuilder,
-    private modal: NzModalService) { }
+    private msg: NzMessageService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -163,6 +168,17 @@ export class EditClientComponent implements OnInit {
           this.isSpinning = false;
         }, 500);
       });
+  }
+
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status !== 'uploading') {
+    }
+    if (info.file.status === 'done') {
+      this.msg.success(`${info.file.name} file uploaded successfully`);
+      this.logo = (`${environment.storage_api_url}${info.file.response.filePath}`);
+    } else if (info.file.status === 'error') {
+      this.msg.error(`${info.file.name} file upload failed.`);
+    }
   }
 
   submitBasicForm(value:

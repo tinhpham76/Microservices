@@ -47,6 +47,7 @@ namespace auth_server.Services
                 var permission = claim.Select(t => t.Type + "_" + t.Value).ToList();
                 Permissions.AddRange(permission);
             }
+            var avatar = user.AvatarUri == null ? "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" : user.AvatarUri;
 
             //Add more claims like this
             claims.Add(new Claim("FullName", user.LastName + " " + user.FirstName));
@@ -54,6 +55,7 @@ namespace auth_server.Services
             claims.Add(new Claim("Permissions", JsonConvert.SerializeObject(Permissions)));
             claims.Add(new Claim("UserName", user.UserName));
             claims.Add(new Claim("Email", user.Email));
+            claims.Add(new Claim("Avatar", avatar));
 
             context.IssuedClaims = claims;
         }

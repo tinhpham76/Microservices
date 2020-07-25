@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  storage_api_url: 'https://localhost:5006',
   admin_api_url: 'https://localhost:5002',
   user_api_url: 'https://localhost:5004',
   authority: 'https://localhost:5000',

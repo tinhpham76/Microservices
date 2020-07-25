@@ -17,6 +17,7 @@ export class LayoutComponent implements OnInit {
     isAuthenticated: boolean;
     FullName: string;
     Email: string;
+    Avatar: string;
     constructor(
         private authServices: AuthService,
         private notification: NzNotificationService,
@@ -27,6 +28,7 @@ export class LayoutComponent implements OnInit {
         this.FullName = profile.FullName;
         this.Email = profile.Email;
         this.UserName = profile.UserName;
+        this.Avatar = profile.Avatar;
         this.createNotification(profile.UserName);
     }
 

@@ -1,5 +1,4 @@
-﻿using auth_server.Authorization;
-using auth_server.Data.Entities;
+﻿using auth_server.Data.Entities;
 using auth_services;
 using auth_services.Constants;
 using auth_services.RequestModel;
@@ -37,8 +36,8 @@ namespace auth_server.Controllers
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
                 Dob = DateTime.Parse(request.Dob),
-                CreateDate = DateTime.UtcNow
-
+                CreateDate = DateTime.UtcNow,
+                AvatarUri = request.AvatarUri
             };
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
@@ -73,6 +72,7 @@ namespace auth_server.Controllers
                     UserName = x.UserName,
                     FullName = x.LastName + ' ' + x.FirstName,
                     Email = x.Email,
+                    AvatarUri = x.AvatarUri
                 }).ToListAsync();
 
             var pagination = new Pagination<UserQuickViewModels>
@@ -102,7 +102,8 @@ namespace auth_server.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 CreateDate = user.CreateDate.ToString("yyyy/MM/dd"),
-                LastModifiedDate = user.LastModifiedDate != null ? user.LastModifiedDate.ToString().Substring(0, 10) : null
+                LastModifiedDate = user.LastModifiedDate != null ? user.LastModifiedDate.ToString().Substring(0, 10) : null,
+                AvatarUri = user.AvatarUri
             };
             return Ok(userViewModel);
         }
@@ -122,6 +123,7 @@ namespace auth_server.Controllers
             user.Dob = DateTime.Parse(request.Dob);
             user.PhoneNumber = request.PhoneNumber;
             user.LastModifiedDate = DateTime.Now;
+            user.AvatarUri = request.AvatarUri;
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
@@ -224,7 +226,8 @@ namespace auth_server.Controllers
                 CreateDate = user.CreateDate.ToString("yyyy/MM/dd"),
                 LastModifiedDate = user.LastModifiedDate != null ? user.LastModifiedDate.ToString().Substring(0, 10) : null,
                 UserRoles = userRoles.ToList(),
-                Roles = roleTemps
+                Roles = roleTemps,
+                AvatarUri = user.AvatarUri
             };
             return Ok(userRoleViewModel);
         }
@@ -247,6 +250,7 @@ namespace auth_server.Controllers
             user.Dob = DateTime.Parse(request.Dob);
             user.PhoneNumber = request.PhoneNumber;
             user.LastModifiedDate = DateTime.Now;
+            user.AvatarUri = request.AvatarUri;
             var userRoles = await _userManager.GetRolesAsync(user);
             foreach (var userRole in userRoles)
             {

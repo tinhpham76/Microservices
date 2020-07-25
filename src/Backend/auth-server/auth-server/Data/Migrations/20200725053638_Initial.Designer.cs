@@ -10,7 +10,7 @@ using auth_server.Data;
 namespace auth_server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200717120833_Initial")]
+    [Migration("20200725053638_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -163,6 +163,9 @@ namespace auth_server.Data.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("AvatarUri")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
