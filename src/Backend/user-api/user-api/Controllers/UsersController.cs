@@ -15,6 +15,7 @@ namespace user_api.Controllers
             _userApiClient = userApiClient;
         }
 
+        // Post user
         [HttpPost]
         public async Task<ActionResult> PostUser([FromBody] UserRequestModel request)
         {
@@ -26,6 +27,7 @@ namespace user_api.Controllers
             return BadRequest();
         }
 
+        // Get users
         [HttpGet("filter")]
         public async Task<IActionResult> GetUsersPaging(string filter, int pageIndex, int pageSize)
         {
@@ -33,6 +35,7 @@ namespace user_api.Controllers
             return Ok(users);
         }
 
+        // Get user detail
         [HttpGet("{userId}")]
         public async Task<ActionResult> GetUserDetail(string userId)
         {
@@ -40,6 +43,7 @@ namespace user_api.Controllers
             return Ok(user);
         }
 
+        // Put User
         [HttpPut("{userId}")]
         public async Task<ActionResult> PutUser(string userId, [FromBody] UserRequestModel request)
         {
@@ -51,6 +55,7 @@ namespace user_api.Controllers
             return BadRequest();
         }
 
+        // Reset password
         [HttpPut("{userId}/reset-password")]
         public async Task<ActionResult> PutResetPassword(string userId)
         {
@@ -62,6 +67,7 @@ namespace user_api.Controllers
             return BadRequest();
         }
 
+        // Change password
         [HttpPut("{userId}/change-password")]
         public async Task<ActionResult> PutUserPassword(string userId, [FromBody] UserPasswordRequestModel request)
         {
@@ -73,6 +79,7 @@ namespace user_api.Controllers
             return BadRequest();
         }
 
+        // Delete user
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteUser(string userId)
         {
@@ -84,6 +91,7 @@ namespace user_api.Controllers
             return BadRequest();
         }
 
+        // Get user roles
         [HttpGet("{userId}/userRoles")]
         public async Task<IActionResult> GetUserDetailWithRoles(string userId)
         {
@@ -91,6 +99,7 @@ namespace user_api.Controllers
             return Ok(userRoles);
         }
 
+        // Put user roles
         [HttpPut("{userId}/userRoles")]
         public async Task<IActionResult> PutUserDetailWithRoles(string userId, [FromBody] UserRoleRequestModel request)
         {

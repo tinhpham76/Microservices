@@ -87,7 +87,6 @@ namespace auth_server
                 options.User.RequireUniqueEmail = true;
             });
 
-
             services.AddControllersWithViews();
 
             // Config authentication
@@ -165,14 +164,16 @@ namespace auth_server
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             };
+
             fordwardedHeaderOptions.KnownNetworks.Clear();
+
             fordwardedHeaderOptions.KnownProxies.Clear();
 
             app.UseCors(corsPolicyBuilder =>
-            corsPolicyBuilder
-            .AllowAnyOrigin()
-           .AllowAnyMethod()
-           .AllowAnyHeader()
+                corsPolicyBuilder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
            );
 
             InitializeDatabase(app);

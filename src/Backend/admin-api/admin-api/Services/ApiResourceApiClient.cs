@@ -28,7 +28,7 @@ namespace admin_api.Services
         }
         public async Task<bool> DeleteApiResource(string apiResourceName)
         {
-            return await DeleteAsync($"/api/apiResources/{apiResourceName}", true);
+            return await DeleteAsync($"/apiResources/{apiResourceName}", true);
         }
 
         public async Task<bool> PostApiResource(ApiResourceRequestModel request)
@@ -43,7 +43,7 @@ namespace admin_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PostAsync($"/api/ApiResources", data);
+            var response = await client.PostAsync($"/ApiResources", data);
             return response.IsSuccessStatusCode;
         }
     }

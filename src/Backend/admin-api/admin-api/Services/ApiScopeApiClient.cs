@@ -28,7 +28,7 @@ namespace admin_api.Services
         }
         public async Task<bool> DeleteApiScope(string apiScopeName)
         {
-            return await DeleteAsync($"/api/apiScopes/{apiScopeName}", true);
+            return await DeleteAsync($"/apiScopes/{apiScopeName}", true);
         }
 
         public async Task<bool> PostApiScope(ApiScopeRequestModel request)
@@ -43,7 +43,7 @@ namespace admin_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PostAsync($"/api/ApiScopes", data);
+            var response = await client.PostAsync($"/ApiScopes", data);
             return response.IsSuccessStatusCode;
         }
     }

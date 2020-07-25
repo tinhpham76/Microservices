@@ -22,7 +22,7 @@ namespace auth_server.Controllers
             var identityResource = await _configurationDbContext.IdentityResources.FirstOrDefaultAsync(x => x.Name == request.Name);
             if (identityResource != null)
             {
-                return BadRequest($"Identity resource {request.Name} already exist!");
+                return BadRequest();
             }
             var identityResourceRequest = new IdentityResource()
             {

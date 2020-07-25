@@ -18,10 +18,8 @@ namespace admin_api.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IClientApiClient _clientApiClient;
-        private readonly IStorageService _storageService;
-        public ClientsController(ApplicationDbContext context, IClientApiClient clientApiClient, IStorageService storageService)
+        public ClientsController(ApplicationDbContext context, IClientApiClient clientApiClient)
         {
-            _storageService = storageService;
             _context = context;
             _clientApiClient = clientApiClient;
         }
@@ -112,7 +110,9 @@ namespace admin_api.Controllers
             {
                 return NotFound();
             }
-            var temps = await _context.ClientCorsOrigins.Select(x => x.Origin.ToString()).ToListAsync();
+            var temps = await _context.ClientCorsOrigins
+                .Where(x=>x.ClientId != client.Id)
+                .Select(x => x.Origin.ToString()).ToListAsync();
             foreach (var temp in request.AllowedCorsOrigins)
             {
                 if (temps.Contains(temp))
@@ -157,11 +157,9 @@ namespace admin_api.Controllers
             return BadRequest();
 
         }
-
         #endregion
 
         #region Setting
-
         // Get all scopes
         [HttpGet]
         public async Task<IActionResult> GetScopes()
@@ -219,7 +217,9 @@ namespace admin_api.Controllers
             {
                 return NotFound();
             }
-            var temps = await _context.ClientRedirectUris.Select(x => x.RedirectUri.ToString()).ToListAsync();
+            var temps = await _context.ClientRedirectUris
+                .Where(x => x.ClientId != client.Id)
+                .Select(x => x.RedirectUri.ToString()).ToListAsync();
             foreach (var temp in request.RedirectUris)
             {
                 if (temps.Contains(temp))
@@ -339,7 +339,6 @@ namespace admin_api.Controllers
                 Expiration = x.Expiration.ToString().Substring(0, 10),
                 Description = x.Description
             }).ToListAsync();
-
             return Ok(clientSecrets);
         }
 
@@ -487,7 +486,6 @@ namespace admin_api.Controllers
                 BackChannelLogoutUri = client.BackChannelLogoutUri,
                 BackChannelLogoutSessionRequired = client.BackChannelLogoutSessionRequired,
                 UserSsoLifetime = client.UserSsoLifetime
-
             };
             return Ok(clientAuthentication);
         }
@@ -500,7 +498,9 @@ namespace admin_api.Controllers
             {
                 return NotFound();
             }
-            var temps = await _context.ClientPostLogoutRedirectUris.Select(x => x.PostLogoutRedirectUri.ToString()).ToListAsync();
+            var temps = await _context.ClientPostLogoutRedirectUris
+                .Where(x => x.ClientId != client.Id)
+                .Select(x => x.PostLogoutRedirectUri.ToString()).ToListAsync();
             foreach (var temp in request.PostLogoutRedirectUris)
             {
                 if (temps.Contains(temp))
@@ -548,7 +548,6 @@ namespace admin_api.Controllers
             }
             return BadRequest();
         }
-
         #endregion       
 
         #region Token Setting
@@ -605,7 +604,6 @@ namespace admin_api.Controllers
             client.ClientClaimsPrefix = request.ClientClaimsPrefix;
             client.Updated = DateTime.UtcNow;
             _context.Clients.Update(client);
-
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
@@ -629,7 +627,6 @@ namespace admin_api.Controllers
                 Value = x.Value,
                 Type = x.Type,
             }).ToListAsync();
-
             return Ok(clientClaims);
         }
 

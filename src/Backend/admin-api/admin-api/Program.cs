@@ -13,8 +13,6 @@ namespace admin_api
                             .WriteTo.Console()
                             .CreateLogger();
             var host = CreateHostBuilder(args).Build();
-
-
             host.Run();
         }
 

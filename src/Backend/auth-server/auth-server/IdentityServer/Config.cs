@@ -17,7 +17,6 @@ namespace auth_server.IdentityServer
                 new IdentityResources.Address()
             };
         }
-
         public static IEnumerable<ApiResource> GetApiResources()
         {
             return new List<ApiResource>
@@ -39,7 +38,6 @@ namespace auth_server.IdentityServer
                 }
             };
         }
-
         public static IEnumerable<ApiScope> GetApiScopes()
         {
             return new List<ApiScope>
@@ -49,9 +47,7 @@ namespace auth_server.IdentityServer
                 new ApiScope("ADMIN-API"),
                  new ApiScope("USER-API")
             };
-
         }
-
         public static IEnumerable<Client> GetClients()
         {
             return new List<Client> {

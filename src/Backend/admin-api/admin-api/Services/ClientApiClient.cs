@@ -30,7 +30,7 @@ namespace admin_api.Services
 
         public async Task<bool> DeleteClient(string ClientId)
         {
-            return await DeleteAsync($"/api/clients/{ClientId}", true);
+            return await DeleteAsync($"/clients/{ClientId}", true);
         }
 
         public async Task<bool> PostClient(ClientRequestModel request)
@@ -45,7 +45,7 @@ namespace admin_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PostAsync($"/api/clients", data);
+            var response = await client.PostAsync($"/clients", data);
             return response.IsSuccessStatusCode;
         }
     }

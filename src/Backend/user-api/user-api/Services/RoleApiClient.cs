@@ -32,22 +32,22 @@ namespace user_api.Services
 
         public async Task<bool> DeleteRole(string id)
         {
-            return await DeleteAsync($"/api/roles/{id}", true);
+            return await DeleteAsync($"/roles/{id}", true);
         }
 
         public async Task<RoleViewModel> GetRole(string id)
         {
-            return await GetAsync<RoleViewModel>($"/api/roles/{id}", true);
+            return await GetAsync<RoleViewModel>($"/roles/{id}", true);
         }
 
         public async Task<Pagination<ApiRoleViewModel>> GetRoleClaims(string id, string filter, int pageIndex, int pageSize)
         {
-            return await GetAsync<Pagination<ApiRoleViewModel>>($"/api/roles/{id}/claims/filter?filter={filter}&pageIndex={pageIndex}&pageSize={pageSize}", true);
+            return await GetAsync<Pagination<ApiRoleViewModel>>($"/roles/{id}/claims/filter?filter={filter}&pageIndex={pageIndex}&pageSize={pageSize}", true);
         }
 
         public async Task<Pagination<RoleViewModel>> GetRolesPaging(string filter, int pageIndex, int pageSize)
         {
-            return await GetAsync<Pagination<RoleViewModel>>($"/api/roles/filter?filter={filter}&pageIndex={pageIndex}&pageSize={pageSize}", true);
+            return await GetAsync<Pagination<RoleViewModel>>($"/roles/filter?filter={filter}&pageIndex={pageIndex}&pageSize={pageSize}", true);
         }
 
         public async Task<bool> PostRole(RoleRequestModel request)
@@ -62,7 +62,7 @@ namespace user_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PostAsync($"/api/roles", data);
+            var response = await client.PostAsync($"/roles", data);
             return response.IsSuccessStatusCode;
         }
 
@@ -78,7 +78,7 @@ namespace user_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PostAsync($"/api/roles/{roleId}/claims", data);
+            var response = await client.PostAsync($"/roles/{roleId}/claims", data);
             return response.IsSuccessStatusCode;
         }
 
@@ -94,7 +94,7 @@ namespace user_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PutAsync($"/api/roles/{id}", data);
+            var response = await client.PutAsync($"/roles/{id}", data);
             return response.IsSuccessStatusCode;
         }
     }

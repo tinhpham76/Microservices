@@ -28,7 +28,7 @@ namespace admin_api.Services
         }
         public async Task<bool> DeleteIdentityResource(string identityResourceName)
         {
-            return await DeleteAsync($"/api/identityResources/{identityResourceName}", true);
+            return await DeleteAsync($"/identityResources/{identityResourceName}", true);
         }
 
         public async Task<bool> PostIdentityResource(IdentityResourceRequestModel request)
@@ -43,7 +43,7 @@ namespace admin_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PostAsync($"/api/identityResources", data);
+            var response = await client.PostAsync($"/identityResources", data);
             return response.IsSuccessStatusCode;
         }
     }

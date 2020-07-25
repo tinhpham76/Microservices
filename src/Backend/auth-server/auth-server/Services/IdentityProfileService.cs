@@ -27,7 +27,6 @@ namespace auth_server.Services
             _roleManager = roleManager;
 
         }
-
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             var sub = context.Subject.GetSubjectId();

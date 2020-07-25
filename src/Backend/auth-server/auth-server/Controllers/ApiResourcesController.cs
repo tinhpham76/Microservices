@@ -11,7 +11,6 @@ namespace auth_server.Controllers
     public class ApiResourcesController : BaseController
     {
         private readonly ConfigurationDbContext _configurationDbContext;
-
         public ApiResourcesController(ConfigurationDbContext configurationDbContext)
         {
             _configurationDbContext = configurationDbContext;
@@ -23,7 +22,7 @@ namespace auth_server.Controllers
         {
             var apiResource = await _configurationDbContext.ApiResources.FirstOrDefaultAsync(x => x.Name == request.Name);
             if (apiResource != null)
-                return BadRequest($"Api Resource name {request.Name} already exist");
+                return BadRequest();
             var apiResourceRequest = new ApiResource()
             {
                 Name = request.Name,
@@ -34,7 +33,6 @@ namespace auth_server.Controllers
                 ShowInDiscoveryDocument = request.ShowInDiscoveryDocument,
                 UserClaims = request.UserClaim,
                 Scopes = request.Scope
-
             };
             _configurationDbContext.ApiResources.Add(apiResourceRequest.ToEntity());
             var result = await _configurationDbContext.SaveChangesAsync();

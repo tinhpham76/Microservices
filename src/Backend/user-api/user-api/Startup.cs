@@ -40,9 +40,8 @@ namespace user_api
 
                 handler.ServerCertificateCustomValidationCallback += (message, cert, chain, errors) => { return true; };
                 return handler;
-
-
             });
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -52,8 +51,6 @@ namespace user_api
             services.AddControllersWithViews();
 
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
-
-
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
@@ -130,12 +127,13 @@ namespace user_api
             app.UseRouting();
 
             app.UseCors(corsPolicyBuilder =>
-            corsPolicyBuilder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader()
+                corsPolicyBuilder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
             );
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -29,7 +29,6 @@ namespace admin_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             //1. Setup entity framework
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
@@ -48,14 +47,11 @@ namespace admin_api
 
                 handler.ServerCertificateCustomValidationCallback += (message, cert, chain, errors) => { return true; };
                 return handler;
-
-
             });
 
             services.AddControllers();
 
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
-
 
             services.AddAuthentication(options =>
             {
@@ -131,10 +127,10 @@ namespace admin_api
             app.UseHttpsRedirection();
 
             app.UseCors(corsPolicyBuilder =>
-            corsPolicyBuilder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader()
+                corsPolicyBuilder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
             );
 
             app.UseRouting();

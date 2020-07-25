@@ -14,6 +14,7 @@ namespace user_api.Controllers
             _roleApiClient = roleApiClient;
         }
 
+        // Get role detail
         [HttpGet("{roleId}")]
         public async Task<IActionResult> GetRole(string roleId)
         {
@@ -21,6 +22,7 @@ namespace user_api.Controllers
             return Ok(roles);
         }
 
+        // Get roles
         [HttpGet("filter")]
         public async Task<IActionResult> GetRolesPaging(string filter, int pageIndex, int pageSize)
         {
@@ -28,6 +30,7 @@ namespace user_api.Controllers
             return Ok(roles);
         }
 
+        // Post role
         [HttpPost]
         public async Task<IActionResult> PostRole([FromBody] RoleRequestModel request)
         {
@@ -37,6 +40,7 @@ namespace user_api.Controllers
             return BadRequest(result);
         }
 
+        // Put role
         [HttpPut("{roleId}")]
         public async Task<IActionResult> PutRole(string roleId, [FromBody] RoleRequestModel request)
         {
@@ -46,6 +50,7 @@ namespace user_api.Controllers
             return BadRequest(result);
         }
 
+        // Delete role
         [HttpDelete("{roleId}")]
         public async Task<IActionResult> DeleteRole(string roleId)
         {
@@ -55,8 +60,7 @@ namespace user_api.Controllers
             return BadRequest(result);
         }
 
-
-
+        // Get roles with claims
         [HttpGet("{roleId}/claims/filter")]
         public async Task<IActionResult> GetRoleClaims(string roleId, string filter, int pageIndex, int pageSize)
         {
@@ -64,6 +68,7 @@ namespace user_api.Controllers
             return Ok(roleClaims);
         }
 
+        // Post claims to role
         [HttpPost("{roleId}/claims")]
         public async Task<IActionResult> PostRoleClaims(string roleId, [FromBody] RoleClaimRequestModel request)
         {

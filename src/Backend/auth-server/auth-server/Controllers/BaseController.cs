@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace auth_server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     [Authorize("Bearer")]
     public class BaseController : ControllerBase

@@ -27,7 +27,6 @@ namespace user_api.Services
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
-
         }
 
         public async Task<bool> PutUserPassword(string id, UserPasswordRequestModel request)
@@ -42,28 +41,28 @@ namespace user_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PutAsync($"/api/users/{id}/change-password", data);
+            var response = await client.PutAsync($"/users/{id}/change-password", data);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteUser(string id)
         {
-            return await DeleteAsync($"/api/users/{id}", true);
+            return await DeleteAsync($"/users/{id}", true);
         }
 
         public async Task<UserViewModel> GetById(string id)
         {
-            return await GetAsync<UserViewModel>($"/api/users/{id}", true);
+            return await GetAsync<UserViewModel>($"/users/{id}", true);
         }
 
         public async Task<UserRoleViewModel> GetUserDetailWithRoles(string id)
         {
-            return await GetAsync<UserRoleViewModel>($"/api/users/{id}/userRoles", true);
+            return await GetAsync<UserRoleViewModel>($"/users/{id}/userRoles", true);
         }
 
         public async Task<Pagination<UserQuickViewModels>> GetUsersPaging(string filter, int pageIndex, int pageSize)
         {
-            return await GetAsync<Pagination<UserQuickViewModels>>($"/api/users/filter?filter={filter}&pageIndex={pageIndex}&pageSize={pageSize}", true);
+            return await GetAsync<Pagination<UserQuickViewModels>>($"users/filter?filter={filter}&pageIndex={pageIndex}&pageSize={pageSize}", true);
         }
 
 
@@ -79,7 +78,7 @@ namespace user_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PostAsync($"/api/users", data);
+            var response = await client.PostAsync($"/users", data);
             return response.IsSuccessStatusCode;
         }
 
@@ -92,7 +91,7 @@ namespace user_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PutAsync($"/api/users/{id}/reset-password", null);
+            var response = await client.PutAsync($"/users/{id}/reset-password", null);
             return response.IsSuccessStatusCode;
         }
 
@@ -108,7 +107,7 @@ namespace user_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PutAsync($"/api/users/{id}", data);
+            var response = await client.PutAsync($"/users/{id}", data);
             return response.IsSuccessStatusCode;
         }
 
@@ -124,7 +123,7 @@ namespace user_api.Services
             var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await client.PutAsync($"/api/users/{id}/userRoles", data);
+            var response = await client.PutAsync($"/users/{id}/userRoles", data);
             return response.IsSuccessStatusCode;
         }
     }

@@ -22,7 +22,7 @@ namespace auth_server.Controllers
         {
             var apiScope = await _configurationDbContext.ApiScopes.FirstOrDefaultAsync(x => x.Name == request.Name);
             if (apiScope != null)
-                return BadRequest($"Api Resource name {request.Name} already exist");
+                return BadRequest();
             var apiApiScopeRequest = new ApiScope()
             {
                 Name = request.Name,

@@ -74,7 +74,6 @@ namespace auth_server.Controllers
                     Email = x.Email,
                     AvatarUri = x.AvatarUri
                 }).ToListAsync();
-
             var pagination = new Pagination<UserQuickViewModels>
             {
                 Items = items,
@@ -136,7 +135,6 @@ namespace auth_server.Controllers
         [HttpPut("{userId}/reset-password")]
         public async Task<IActionResult> PutResetPassword(string userId)
         {
-
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
                 return NotFound($"Cannot found user with id: {userId}");
@@ -194,13 +192,11 @@ namespace auth_server.Controllers
                 return Ok();
             }
             return BadRequest();
-
         }
 
         [HttpGet("{userId}/userRoles")]
         public async Task<IActionResult> GetUserDetailWithRoles(string userId)
         {
-
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
@@ -274,8 +270,6 @@ namespace auth_server.Controllers
                 return Ok();
             }
             return BadRequest();
-
-
         }
         #endregion
     }

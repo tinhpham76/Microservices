@@ -13,8 +13,6 @@ namespace auth_server
                               .WriteTo.Console()
                               .CreateLogger();
             var host = CreateHostBuilder(args).Build();
-
-
             host.Run();
         }
 

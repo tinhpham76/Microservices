@@ -39,8 +39,6 @@ namespace storage_api.Controllers
                 return Ok(fileEntity);
             }
             return BadRequest();
-
         }
-
     }
 }

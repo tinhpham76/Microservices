@@ -42,10 +42,10 @@ namespace storage_api
             app.UseHttpsRedirection();
 
             app.UseCors(corsPolicyBuilder =>
-            corsPolicyBuilder
-            .AllowAnyOrigin()
-           .AllowAnyMethod()
-           .AllowAnyHeader()
+                corsPolicyBuilder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
            );
 
             app.UseStaticFiles();

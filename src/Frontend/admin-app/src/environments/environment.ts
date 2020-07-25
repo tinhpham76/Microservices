@@ -12,7 +12,7 @@ export const environment = {
   redirect_uri: 'http://localhost:4200/auth-callback',
   post_logout_redirect_uri: 'http://localhost:4200/',
   scope: 'AUTH-SERVER ADMIN-API USER-API openid profile',
-  silent_redirect_uri: 'http://localhost:4200/silent-refresh.html'
+  silent_redirect_uri: 'http://localhost:4200/silent-renew.html'
 };
 
 

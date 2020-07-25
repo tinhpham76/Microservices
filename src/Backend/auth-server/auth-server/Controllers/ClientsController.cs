@@ -39,7 +39,6 @@ namespace auth_server.Controllers
                     : request.ClientType.Equals("web_app_hybrid") ? GrantTypes.Hybrid
                     : request.ClientType.Equals("server") ? GrantTypes.ClientCredentials
                     : request.ClientType.Equals("device") ? GrantTypes.DeviceFlow : GrantTypes.Implicit,
-
             };
             _configurationDbContext.Clients.Add(clientRequest.ToEntity());
             var result = await _configurationDbContext.SaveChangesAsync();

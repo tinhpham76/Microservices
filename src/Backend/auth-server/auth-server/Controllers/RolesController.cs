@@ -165,7 +165,6 @@ namespace auth_server.Controllers
                 Items = items
             };
             return Ok(pagination);
-
         }
 
         [HttpPost("{roleId}/claims")]
@@ -221,10 +220,8 @@ namespace auth_server.Controllers
                     await _roleManager.AddClaimAsync(role, new Claim(request.Type, SystemConstants.Delete.Type));
                 }
             }
-
             var permission = await _roleManager.GetClaimsAsync(role);
             return Ok(permission);
-
         }
     }
 }

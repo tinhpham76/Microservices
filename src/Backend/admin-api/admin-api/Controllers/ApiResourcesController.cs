@@ -69,7 +69,6 @@ namespace admin_api.Controllers
             {
                 return BadRequest();
             }
-
             var result = await _apiResourceApiClient.PostApiResource(request);
             if (result == true)
             {
@@ -191,7 +190,6 @@ namespace admin_api.Controllers
             }
             return BadRequest();
         }
-
         #endregion
 
         #region Api Resource Secret        
