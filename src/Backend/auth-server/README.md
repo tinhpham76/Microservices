@@ -30,6 +30,14 @@
 - Welcome page
 ![alt tag](./auth-server/wwwroot/git-images/index-page.png)
 
+- Login page
+![alt tag](./auth-server/wwwroot/git-images/login.png)
+
+- Register page
+![alt tag](./auth-server/wwwroot/git-images/register.png)
+
+- Swagger api
+![alt tag](./auth-server/wwwroot/git-images/auth-api.png)
 
 # Reference
 1. https://jakeydocs.readthedocs.io/en/latest/client-side/using-gulp.html
