@@ -22,4 +22,4 @@
 # Screenshot
 
 - Swagger api
-![alt tag](./user-api/wwwroot/git-images/storage-api.png)
+![alt tag](./storage-api/wwwroot/git-images/storage-api.png)
