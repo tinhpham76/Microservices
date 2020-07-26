@@ -33,15 +33,17 @@ export class LayoutComponent implements OnInit {
     }
 
     ngOnInit() { }
+
     async signOut() {
         localStorage.clear();
         sessionStorage.clear();
         this.router.navigate(['/login']);
     }
+
     createNotification(content: string): void {
         this.notification.create(
             MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-            MessageConstants.TITLE_NOTIFICATION_SSO,
+            MessageConstants.TITLE_NOTIFICATION,
             MessageConstants.NOTIFICATION_WELCOME + content
         );
     }

@@ -18,18 +18,19 @@ export class SettingComponent implements OnInit {
   // Init form
   public validateForm!: FormGroup;
 
-  userId = '';
-  Avatar = '';
+  public userId = '';
+  public avatar = '';
 
-  constructor(private userServices: UserServices,
+  constructor(
+    private userServices: UserServices,
     private notification: NzNotificationService,
     private fb: FormBuilder,
-    private authServices: AuthService,
-    ) { }
+    private authServices: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.userId = this.authServices.profile.sub;
-    this.Avatar = this.authServices.profile.Avatar;
+    this.avatar = this.authServices.profile.Avatar;
     this.validateForm = this.fb.group({
       currentPassword: [null, [Validators.required]],
       newPassword: [null, [Validators.required]],
@@ -37,29 +38,28 @@ export class SettingComponent implements OnInit {
     });
   }
 
+  // Change password
   submitValidateForm(): void {
     this.isSpinning = true;
     this.userServices.changePassword(this.userId, this.validateForm.getRawValue())
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_UPDATE,
           'bottomRight');
         this.ngOnInit();
         setTimeout(() => {
-
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
         setTimeout(() => {
-
           this.isSpinning = false;
         }, 500);
       });

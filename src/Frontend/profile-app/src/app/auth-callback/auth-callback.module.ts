@@ -5,11 +5,15 @@ import { AuthCallbackRoutingModule } from './auth-callback-routing.module';
 
 
 @NgModule({
-  declarations: [AuthCallbackComponent],
+  declarations: [
+    AuthCallbackComponent
+  ],
   imports: [
     CommonModule,
     AuthCallbackRoutingModule
   ],
-  bootstrap: [AuthCallbackComponent]
+  bootstrap: [
+    AuthCallbackComponent
+  ]
 })
 export class AuthCallbackModule { }

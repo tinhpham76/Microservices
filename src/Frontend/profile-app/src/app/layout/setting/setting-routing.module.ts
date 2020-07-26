@@ -4,8 +4,11 @@ import { SettingComponent } from './setting.component';
 
 
 const routes: Routes = [
-    { path: '', component: SettingComponent }
-]
+    {
+        path: '',
+        component: SettingComponent
+    }
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],

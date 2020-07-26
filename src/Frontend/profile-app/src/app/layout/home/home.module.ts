@@ -27,7 +27,9 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [
+    HomeComponent
+  ],
   imports: [
     CommonModule,
     NzTableModule,

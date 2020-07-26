@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss'],
   animations: [routerTransition()]
 })
+
 export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
@@ -30,7 +31,8 @@ export class LoginComponent implements OnInit {
       this.createNotification('error', 'User Profile', 'Can not connect server...');
     }, 50000);
   }
+
   createNotification(type: string, title: string, content: string): void {
-    this.notification.create( type, title, content);
+    this.notification.create(type, title, content);
   }
 }

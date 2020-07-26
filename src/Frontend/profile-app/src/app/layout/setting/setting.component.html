@@ -1,23 +1,23 @@
 <nz-spin [nzSpinning]="isSpinning">
+    <!--Header-->
     <div style="background-image: url(assets/images/background-2.png); background-size: 50%;">
         <br>
         <div nz-row nzJustify="center">
             <div nz-col>
-                <nz-avatar [nzSize]="150" [nzSrc]="Avatar">
+                <nz-avatar [nzSize]="150" [nzSrc]="avatar">
                 </nz-avatar>
             </div>
-
         </div>
         <div nz-row nzJustify="center">
             <div nz-col>
                 <h4 style="color: aliceblue;">{{userId}}</h4>
             </div>
-
         </div>
     </div>
     <br>
     <br>
     <br>
+    <!--Body-->
     <form nz-form [formGroup]="validateForm" (ngSubmit)="submitValidateForm(validateForm.value)">
         <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Old Password</nz-form-label>
@@ -27,7 +27,7 @@
                 </nz-input-group>
             </nz-form-control>
         </nz-form-item>
-        <div nz-row nzJustify="center">           
+        <div nz-row nzJustify="center">
             <div nz-col nzSpan="8">
                 <nz-form-item>
                     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
@@ -54,7 +54,7 @@
                     </nz-form-control>
                 </nz-form-item>
             </div>
-        </div>        
+        </div>
         <div nz-row nzJustify="center">
             <div nz-col>
                 <nz-form-item>
@@ -67,6 +67,4 @@
         </div>
     </form>
     <br><br>
-
 </nz-spin>
-<!--End create new user-->

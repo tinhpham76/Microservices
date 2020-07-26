@@ -20,26 +20,36 @@ import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 })
 export class UserComponent implements OnInit {
 
-  avatar = '';
-  api_upload = (`${environment.storage_api_url}/api/files/upload`);
+  // Avatar url
+  public avatar = '';
+
+  // Api upload file url
+  public api_upload = (`${environment.storage_api_url}/api/files/upload`);
 
   // Spin
   public isSpinning: boolean;
+
   // Init form
   public validateForm!: FormGroup;
-  
 
+  // User id
   userId = '';
 
-  constructor(private userServices: UserServices,
+  constructor(
+    private userServices: UserServices,
     private notification: NzNotificationService,
     private fb: FormBuilder,
     private authServices: AuthService,
     private modal: NzModalService,
-    private msg: NzMessageService) { }
+    private msg: NzMessageService
+  ) { }
 
   ngOnInit(): void {
+
+    // Get user id
     this.userId = this.authServices.profile.sub;
+
+    // Form user detail
     this.validateForm = this.fb.group({
       id: [null],
       userName: [null, [Validators.required]],
@@ -47,14 +57,17 @@ export class UserComponent implements OnInit {
       lastName: [null, [Validators.required]],
       email: [null, [Validators.email, Validators.required]],
       dob: [null, [Validators.required]],
-      phoneNumber: [null, ],
+      phoneNumber: [null],
       createDate: [null],
       lastModifiedDate: [null],
       avatarUri: [null]
     });
+
+    // Load user detail
     this.getUserDetail(this.userId);
   }
 
+  // Load user detail
   getUserDetail(userId: string) {
     this.isSpinning = true;
     this.userServices.getDetail(userId)
@@ -78,7 +91,7 @@ export class UserComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -88,6 +101,7 @@ export class UserComponent implements OnInit {
       });
   }
 
+  // Event upload file
   handleChange(info: NzUploadChangeParam): void {
     if (info.file.status !== 'uploading') {
     }
@@ -99,7 +113,7 @@ export class UserComponent implements OnInit {
     }
   }
 
-  // Create new user
+  // Save change user
   submitValidateForm(value: {
     id: string;
     userName: string;
@@ -116,7 +130,7 @@ export class UserComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_ADD,
           'bottomRight');
         setTimeout(() => {
@@ -126,7 +140,7 @@ export class UserComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -136,6 +150,7 @@ export class UserComponent implements OnInit {
       });
   }
 
+  // Event delete user
   delete(): void {
     this.modal.confirm({
       nzTitle: 'Are you sure delete this account?',
@@ -154,7 +169,7 @@ export class UserComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -164,9 +179,9 @@ export class UserComponent implements OnInit {
       });
   }
 
-
   // Notification
   createNotification(type: string, title: string, content: string, position: NzNotificationPlacement): void {
     this.notification.create(type, title, content, { nzPlacement: position });
   }
+
 }

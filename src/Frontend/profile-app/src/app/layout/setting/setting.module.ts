@@ -25,7 +25,9 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 
 
 @NgModule({
-  declarations: [SettingComponent],
+  declarations: [
+    SettingComponent
+  ],
   imports: [
     CommonModule,
     NzTableModule,
