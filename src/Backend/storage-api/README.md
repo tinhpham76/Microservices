@@ -1,5 +1,5 @@
 # Introduction 
-`Admin Api` is a open source project for everyone. Every member can create new and manager client, api resource, identity resource and login this with identity server 4. 
+`Storage Api` is a open source project for everyone. Every member can upload file. 
 
 #Technology Stack
 1. ASP.NET Core 3.1
@@ -8,8 +8,8 @@
 # How to run this Project
 1. Clone this source code from Repository
 2. Build solution to restore all Nuget Packages
-2. Set startup project is `admin-api`
-4. Set startup project to multiple projects include: `admin-api`
+2. Set startup project is `storage-api`
+4. Set startup project to multiple projects include: `storage-api`
 
 # References
 - [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-3.1)
@@ -22,4 +22,4 @@
 # Screenshot
 
 - Swagger api
-![alt tag](./auth-server/wwwroot/git-images/admin-api.png)
+![alt tag](./auth-server/wwwroot/git-images/storage-api.png)

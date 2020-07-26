@@ -8,8 +8,7 @@
 
 #Technology Stack
 1. ASP.NET Core 3.1
-2. Angular 9.x
-5. SQL Server 2019
+2. SQL Server 2019
 
 # How to run this Project
 1. Clone this source code from Repository
@@ -38,6 +37,3 @@
 
 - Swagger api
 ![alt tag](./auth-server/wwwroot/git-images/auth-api.png)
-
-# Reference
-1. https://jakeydocs.readthedocs.io/en/latest/client-side/using-gulp.html
