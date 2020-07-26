@@ -18,18 +18,38 @@ The profile app is angular webapp. Profile app used to manage personal informati
 ```
 ● src
 +---● app
-|   +--● payment-details
-|   |  |--payment-details.component.ts|.html|.css
-|   |  +--● payment-detail
-|   |  |  |--payment-detail.component.ts|.html|.css
-|   |  |
-|   |  +--● payment-detail-list
-|   |  |  |--payment-detail-list.component.ts|.html|.css
-|   |  |
-|   |  +--● shared
-|   |     |--payment-detail.service.ts
-|   |     |--payment-detail.model.ts
-|   |
+|   +--● access-denied
+|   |--access-denied.component.ts|.html|.scss
+|   +--● auth-callback
+|   |--auth-callback.component.ts|.html|.scss
+|   +--● layout
+|   |  +--● home
+|   |  |--home.component.ts|.html|.scss
+|   |  +--● setting
+|   |  |--setting.component.ts|.html|.scss
+|   |  +--● user
+|   |  |--user.component.ts|.html|.scss
+|   |--layout.component.ts|.html|.scss
+|   +--● login
+|   |--login.component.ts|.html|.scss
+|   +--● not-found
+|   |--not-found.component.ts|.html|.scss
+|   +--● server-error
+|   |--server-error.component.ts|.html|.scss
+|   +--● shared
+|   |  +--● constants
+|   |  |--messages.constant.ts
+|   |  +--● guard
+|   |  |--auth.guard.ts
+|   |  +--● interceptors
+|   |  |--auth.interceptors.ts
+|   |  +--● modules
+|   |  |--language-translation
+|   |  +--● pipes
+|   |  |--shared-pipes.module.ts
+|   |  +--● servicess
+|   |  |--auth|base|users|utilities|.services.ts
+|   |--app.component.ts|.html|.scss
 |   |--app.module.ts
 |
 |--index.html (cdn path for bootstrap & fa icons)
