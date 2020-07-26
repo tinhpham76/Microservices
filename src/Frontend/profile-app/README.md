@@ -15,6 +15,7 @@ The profile app is angular webapp. Profile app used to manage personal informati
 
 ## Structure of the app 
 
+```
 ● src
 +---● app
 |   +--● payment-details
@@ -32,6 +33,7 @@ The profile app is angular webapp. Profile app used to manage personal informati
 |   |--app.module.ts
 |
 |--index.html (cdn path for bootstrap & fa icons)
+```
 
 ## Development server
 
