@@ -8,10 +8,10 @@ The profile app is angular webapp. Profile app used to manage personal informati
 
 ## Technology Stack
 
-- Angular 10.0.4
-- Bootstrap
-- Ng Zorro
-- Oidc-client
+- [Angular](https://angular.io/) 
+- [Bootstrap](https://ng-bootstrap.github.io/#/home)
+- [Ng Zorro](https://ng.ant.design/docs/introduce/en)
+- [Oidc-client](https://github.com/IdentityModel/oidc-client-js)
 
 ## Structure of the app 
 
@@ -54,6 +54,15 @@ The profile app is angular webapp. Profile app used to manage personal informati
 |
 |--index.html (cdn path for bootstrap & fa icons)
 ```
+
+## Screenshot
+
+<img src="https://drive.google.com/file/d/1T3c8QWCwf5PJw6-xwLg4m8_QpzW5EaVW/view?usp=sharing" width="45%">
+</img> 
+<img src="https://drive.google.com/file/d/1OxKu-zcfSwBj0rsex0a68u-M6MJpW0kb/view?usp=sharing" width="45%"></img>
+<img src="https://drive.google.com/file/d/1HwasuAiTahPjkyO8jlTG1IO4eUwyoCet/view?usp=sharing" width="45%">
+</img>
+<img src="https://drive.google.com/file/d/1obAHhrYziS2EIsExAkOryc42p9h9HMy9/view?usp=sharing" width="45%"></img>
 
 ## Development server
 
