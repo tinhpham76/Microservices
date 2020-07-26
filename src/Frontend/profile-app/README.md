@@ -13,6 +13,20 @@ The profile app is angular webapp. Profile app used to manage personal informati
 - [Ng Zorro](https://ng.ant.design/docs/introduce/en)
 - [Oidc-client](https://github.com/IdentityModel/oidc-client-js)
 
+## Screenshot
+
+- Login page
+![alt tag](./src/assets/git-images/login.png)
+
+- Home page
+![alt tag](./src/assets/git-images/home.png)
+
+- User page
+![alt tag](./src/assets/git-images/user.png)
+
+- Setting page
+![alt tag](./src/assets/git-images/setting.png)
+
 ## Structure of the app 
 
 ```
@@ -55,27 +69,13 @@ The profile app is angular webapp. Profile app used to manage personal informati
 |--index.html (cdn path for bootstrap & fa icons)
 ```
 
-## Screenshot
+## Code scaffolding
 
-- Login page
-![alt tag](./src/assets/git-images/login.png)
-
-- Home page
-![alt tag](./src/assets/git-images/home.png)
-
-- User page
-![alt tag](./src/assets/git-images/user.png)
-
-- Setting page
-![alt tag](./src/assets/git-images/setting.png)
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Development server
 
 Run `ng serve --port 4300` for a dev server. Navigate to `http://localhost:4300/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
 
