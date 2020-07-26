@@ -1,7 +1,7 @@
-<!--Start welcome clients-->
+<!--Header-->
 <div class="content-heading">
     <div>
-        💻 Client Claims
+        💻 Clients
         <br>
         <small><b> The Client class represents an OpenID Connect or OAuth 2.0 client - e.g. a native application, a web
                 application or a JS-based application..</b></small>
@@ -9,7 +9,7 @@
 </div>
 <button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='../edit'><i nz-icon
         nzType="rollback"></i>Go back</button>
-<!--End welcome clients-->
+<!--Body-->
 <nz-spin [nzSpinning]="isSpinning">
     <nz-table #claimsTable nzBordered [nzData]="itemClientClaims" [nzFrontPagination]="false">
         <thead>
@@ -39,7 +39,7 @@
 <br>
 <hr>
 <div>
-    <!--Start form add new client claims-->
+    <!--Add claim-->
     <form nz-form nzSpan="12" nzOffset="6" [formGroup]="claimForm"
         (ngSubmit)="submitClaimForm(claimForm.value)">
         <nz-form-item>
@@ -55,7 +55,7 @@
                 </nz-tag>
                 <ng-template #clientClaimErrorTpl let-control>
                     <ng-container *ngIf="control.hasError('required')">
-                      Please input your claim type!
+                      Please input claim type!
                     </ng-container>
                   </ng-template>
             </nz-form-control>
@@ -66,17 +66,15 @@
               <input nz-input formControlName="value" placeholder="Claim value" />
               <ng-template #valueErrorTpl let-control>
                 <ng-container *ngIf="control.hasError('required')">
-                  Please input your claim value!
+                  Please input claim value!
                 </ng-container>
               </ng-template>
             </nz-form-control>
           </nz-form-item>
         <nz-form-item>
             <nz-form-control [nzOffset]="7" [nzSpan]="12">
-                <button nz-button nzType="primary" [disabled]="!claimForm.valid">Save Changes</button>
-                <button nz-button routerLink='/clients'>Cancel</button>
+                <button nz-button nzType="primary" [disabled]="!claimForm.valid">Create</button>              
             </nz-form-control>
         </nz-form-item>
     </form>
-    <!--End form add new client claims-->
 </div>

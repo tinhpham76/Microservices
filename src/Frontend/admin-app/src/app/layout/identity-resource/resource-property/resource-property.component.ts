@@ -16,29 +16,37 @@ export class ResourcePropertyComponent implements OnInit {
   // Spin
   public isSpinning: boolean;
 
+  // Identity name
   public identityName: string;
 
-  confirmDeleteIdentityProperty: NzModalRef;
+  // Confirm delete
+  public confirmDeleteIdentityProperty: NzModalRef;
 
+  // Identity property data
   public itemIdentityProperties: any[];
 
+  // Form property
   public propertyForm!: FormGroup;
 
-  constructor(private notification: NzNotificationService,
+  constructor(
+    private notification: NzNotificationService,
     private route: ActivatedRoute,
     private identityResourceServices: IdentityResourceServices,
     private fb: FormBuilder,
-    private modal: NzModalService) { }
+    private modal: NzModalService
+  ) { }
 
   ngOnInit(): void {
+    // Get identity name
     this.route.params.subscribe(params => {
       this.identityName = params['name'];
     });
-    // Init form api property
+    // Form identity property
     this.propertyForm = this.fb.group({
       key: [null, [Validators.required]],
       value: [null, [Validators.required]],
     });
+    // Load identity property data
     this.getIdentityProperties(this.identityName);
   }
 
@@ -54,7 +62,7 @@ export class ResourcePropertyComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -64,7 +72,7 @@ export class ResourcePropertyComponent implements OnInit {
       });
   }
 
-  // Create new identity secret
+  // Create identity property
   submitFormIdentityProperty(value: {
     key: string;
     value: string;
@@ -75,14 +83,15 @@ export class ResourcePropertyComponent implements OnInit {
         this.getIdentityProperties(this.identityName);
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_ADD,
-          'bottomRight');
+          'bottomRight'
+        );
         this.resetForm();
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -99,7 +108,7 @@ export class ResourcePropertyComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_DELETE,
           'bottomRight'
         );
@@ -110,7 +119,7 @@ export class ResourcePropertyComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -123,7 +132,7 @@ export class ResourcePropertyComponent implements OnInit {
   // Delete identity property
   showDeleteConfirmIdentityProperty(key: string): void {
     this.confirmDeleteIdentityProperty = this.modal.confirm({
-      nzTitle: 'Do you Want to delete identity property key: ' + key + '?',
+      nzTitle: 'Do you Want to delete identity property?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>

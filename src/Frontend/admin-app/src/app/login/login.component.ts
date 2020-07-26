@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() { }
 
-  loginWithIS4() {
+  loginWithID4() {
     this.spinner.show();
     this.authService.login();
     setTimeout(() => {
@@ -30,7 +30,8 @@ export class LoginComponent implements OnInit {
       this.createNotification('error', 'Auth Server Admin Dashboard', 'Can not connect server...');
     }, 50000);
   }
+
   createNotification(type: string, title: string, content: string): void {
-    this.notification.create( type, title, content);
+    this.notification.create(type, title, content);
   }
 }

@@ -5,9 +5,18 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 
 const routes: Routes = [
-    { path: '', component: UserComponent },
-    { path: 'add', component: AddUserComponent },
-    { path: ':id/edit', component: EditUserComponent}
+    {
+        path: '',
+        component: UserComponent
+    },
+    {
+        path: 'add',
+        component: AddUserComponent
+    },
+    {
+        path: ':id/edit',
+        component: EditUserComponent
+    }
 ];
 
 @NgModule({

@@ -16,25 +16,32 @@ export class ClientSecretComponent implements OnInit {
   // Spin
   public isSpinning: boolean;
 
+  // Client id
   public clientId: string;
 
-  confirmDeleteClientSecret?: NzModalRef;
+  // Confirm delete
+  public confirmDeleteClientSecret?: NzModalRef;
 
+  // Client secret data
   public itemClientSecrets: any[];
 
+  // Form secret
   public secretForm!: FormGroup;
 
-  constructor(private notification: NzNotificationService,
+  constructor(
+    private notification: NzNotificationService,
     private route: ActivatedRoute,
     private clientServices: ClientServices,
     private fb: FormBuilder,
-    private modal: NzModalService) { }
+    private modal: NzModalService
+    ) { }
 
   ngOnInit(): void {
+    // Get client id
     this.route.params.subscribe(params => {
       this.clientId = params['id'];
     });
-    // Init form client secrets
+    // Form client secrets
     this.secretForm = this.fb.group({
       type: ['SharedSecret'],
       value: [null, [Validators.required]],
@@ -42,6 +49,7 @@ export class ClientSecretComponent implements OnInit {
       expiration: [null],
       hashType: ['Sha256'],
     });
+    // Get client secret
     this.getClientSecret(this.clientId);
   }
 
@@ -57,7 +65,7 @@ export class ClientSecretComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -67,7 +75,7 @@ export class ClientSecretComponent implements OnInit {
       });
   }
 
-  // Create new client secret
+  // Create client secret
   submitFormClientSecrets(): void {
     this.isSpinning = true;
     const data = this.secretForm.getRawValue();
@@ -76,14 +84,15 @@ export class ClientSecretComponent implements OnInit {
         this.getClientSecret(this.clientId);
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_ADD,
-          'bottomRight');
+          'bottomRight'
+          );
         this.resetForm();
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -100,8 +109,10 @@ export class ClientSecretComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_DELETE + name + ' !', 'bottomRight');
+          MessageConstants.TITLE_NOTIFICATION,
+          MessageConstants.NOTIFICATION_DELETE,
+           'bottomRight'
+           );
         setTimeout(() => {
           this.getClientSecret(this.clientId);
           this.isSpinning = false;
@@ -109,7 +120,7 @@ export class ClientSecretComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -122,7 +133,7 @@ export class ClientSecretComponent implements OnInit {
   // Delete client secret
   showDeleteConfirmClientSecrets(id: string): void {
     this.confirmDeleteClientSecret = this.modal.confirm({
-      nzTitle: 'Do you Want to delete client secrets id: ' + id + ' ?',
+      nzTitle: 'Do you Want to delete client secrets?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>

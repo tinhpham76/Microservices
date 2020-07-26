@@ -5,7 +5,6 @@ import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/no
 import { Router } from '@angular/router';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 
-
 @Component({
   selector: 'app-add-resource',
   templateUrl: './add-resource.component.html',
@@ -20,27 +19,34 @@ export class AddResourceComponent implements OnInit {
   public isSpinning: boolean;
 
   // Scopes
-  scopes = [];
-  apiScopes = [];
-  inputScopeVisible = false;
-  inputScopeValue = '';
+  public scopes = [];
+  public apiScopes = [];
+  public inputScopeVisible = false;
+  public inputScopeValue = '';
 
   // Claims
-  userClaims = [];
-  claims = ['sub', 'name', 'given_name', 'family_name', 'middle_name',
-  'nickname', 'preferred_username', 'profile', 'picture', 'website', 'email', 'email_verified',
-  'gender', 'birthdate', 'zoneinfo', 'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'];
-  inputClaimVisible = false;
-  inputClaimValue = '';
+  public userClaims = [];
+  public claims = [
+    'sub', 'name', 'given_name', 'family_name', 'middle_name',
+    'nickname', 'preferred_username', 'profile', 'picture', 'website',
+    'email', 'email_verified', 'gender', 'birthdate', 'zoneinfo',
+    'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'
+  ];
+  public inputClaimVisible = false;
+  public inputClaimValue = '';
 
   @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private apiResourceServices: ApiResourceServices,
     private notification: NzNotificationService,
-    private router: Router) { }
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+
+    // Form add api
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
       displayName: [null, Validators.required],
@@ -51,10 +57,12 @@ export class AddResourceComponent implements OnInit {
       scopes: [null],
       userClaims: [null]
     });
+
+    // Load all scopes
     this.getApiScopes();
   }
 
-  // Create new identity resource
+  // Create api
   submitValidateForm(value:
     {
       name: string;
@@ -71,27 +79,28 @@ export class AddResourceComponent implements OnInit {
     value.userClaims = this.userClaims;
     console.log(value);
     this.apiResourceServices.add(value)
-       .subscribe(() => {
-         this.createNotification(
-           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-           MessageConstants.TITLE_NOTIFICATION_SSO,
-           MessageConstants.NOTIFICATION_ADD,
-           'bottomRight');
-         setTimeout(() => {
-           this.isSpinning = false;
-           this.router.navigate(['/api-resources']);
-         }, 500);
-       }, errorMessage => {
-         this.createNotification(
-           MessageConstants.TYPE_NOTIFICATION_ERROR,
-           MessageConstants.TITLE_NOTIFICATION_SSO,
-           errorMessage,
-           'bottomRight'
-         );
-         setTimeout(() => {
-           this.isSpinning = false;
-         }, 500);
-       });
+      .subscribe(() => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_SUCCESS,
+          MessageConstants.TITLE_NOTIFICATION,
+          MessageConstants.NOTIFICATION_ADD,
+          'bottomRight'
+        );
+        setTimeout(() => {
+          this.isSpinning = false;
+          this.router.navigate(['/api-resources']);
+        }, 500);
+      }, errorMessage => {
+        this.createNotification(
+          MessageConstants.TYPE_NOTIFICATION_ERROR,
+          MessageConstants.TITLE_NOTIFICATION,
+          errorMessage,
+          'bottomRight'
+        );
+        setTimeout(() => {
+          this.isSpinning = false;
+        }, 500);
+      });
   }
 
   // Scopes
@@ -151,6 +160,7 @@ export class AddResourceComponent implements OnInit {
     return isLongTag ? `${tag.slice(0, 50)}...` : tag;
   }
 
+  // Load all scopes
   getApiScopes() {
     this.apiResourceServices.getApiScopes()
       .subscribe((res: any[]) => {
@@ -158,7 +168,7 @@ export class AddResourceComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );

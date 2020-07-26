@@ -1,5 +1,6 @@
 <nz-spin [nzSpinning]="isSpinning">
-    <div style="background-image: url(assets/images/background-2.png); background-size: 50%;">
+    <!--Header-->
+    <div style="background-image: url(assets/images/background.png); background-size: 50%;">
         <br>
         <div nz-row nzJustify="center">
             <div nz-col>
@@ -17,6 +18,7 @@
     <br>
     <br>
     <br>
+    <!--Body-->
     <form nz-form [formGroup]="validateForm" (ngSubmit)="submitValidateForm(validateForm.value)">
         <div nz-row nzJustify="center">
             <div nz-col nzSpan="8">
@@ -121,17 +123,13 @@
         <nz-form-item>
             <nz-form-label [nzSm]=" 6" [nzXs]="24">Avatar Uri</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating...">
-              <input nz-input formControlName="avatarUri" placeholder="avatar uri" [ngModel]="avatar" />
-              <nz-upload
-              [nzLimit]="1"
-              nzAction="{{api_upload}}"
-              [nzHeaders]="{ authorization: 'authorization-text' }"
-              (nzChange)="handleChange($event)"
-            >
-              <a nz-button><i nz-icon nzType="upload"></i>Click to Upload</a>
-            </nz-upload>
+                <input nz-input formControlName="avatarUri" placeholder="avatar uri" [ngModel]="avatar" />
+                <nz-upload [nzLimit]="1" nzAction="{{api_upload}}" [nzHeaders]="{ authorization: 'authorization-text' }"
+                    (nzChange)="handleChange($event)">
+                    <a nz-button><i nz-icon nzType="upload"></i>Click to Upload</a>
+                </nz-upload>
             </nz-form-control>
-          </nz-form-item>
+        </nz-form-item>
         <nz-form-item>
             <nz-form-label [nzSm]=" 6" [nzXs]="24">Delete Account</nz-form-label>
             <nz-form-control [nzSm]="24">
@@ -140,16 +138,14 @@
         </nz-form-item>
         <div nz-row nzJustify="center">
             <div nz-col>
-                 <nz-form-item>
+                <nz-form-item>
                     <nz-form-control>
                         <button nz-button nzType="primary" [disabled]="!validateForm.valid">Save changes</button>
                         <button nz-button (click)='getUserDetail(userId)'>Cancel</button>
                     </nz-form-control>
                 </nz-form-item>
             </div>
-        </div>       
+        </div>
     </form>
     <br><br>
-
 </nz-spin>
-<!--End create new user-->

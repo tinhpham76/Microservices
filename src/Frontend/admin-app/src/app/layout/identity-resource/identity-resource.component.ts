@@ -2,9 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { IdentityResourceServices } from '@app/shared/services/identity-resources.service';
 import { NzNotificationPlacement, NzNotificationService } from 'ng-zorro-antd/notification';
-import { catchError, map } from 'rxjs/operators';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
-import { throwError } from 'rxjs';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -25,33 +23,31 @@ export class IdentityResourceComponent implements OnInit {
 
   // Spin
   public isSpinning: boolean;
-  public isSpinningDrawer: boolean;
-
-  // Init form
-  validateForm!: FormGroup;
-
-  // Drawer Edit user
-  visibleEditIdentity = false;
 
   // Modal
-  confirmDeleteModal?: NzModalRef;
+  public confirmDeleteModal?: NzModalRef;
 
-  searchValue = '';
+  // Search value
+  public searchValue = '';
 
-  constructor(private identityResourceServices: IdentityResourceServices,
+  constructor(
+    private identityResourceServices: IdentityResourceServices,
     private notification: NzNotificationService,
     private modal: NzModalService,
-    private fb: FormBuilder) { }
+  ) { }
 
   ngOnInit(): void {
+    // Load identity data
     this.loadIdentityData(this.filter, this.pageIndex, this.pageSize);
   }
 
+  // Event change page
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
     this.loadIdentityData(this.searchValue, pageIndex, pageSize);
   }
 
+  // Event search
   handleInputConfirm(): void {
     this.loadIdentityData(this.searchValue, this.pageIndex, this.pageSize);
   }
@@ -69,7 +65,7 @@ export class IdentityResourceComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -86,8 +82,10 @@ export class IdentityResourceComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_DELETE + name + ' !', 'bottomRight');
+          MessageConstants.TITLE_NOTIFICATION,
+          MessageConstants.NOTIFICATION_DELETE,
+          'bottomRight'
+        );
         this.ngOnInit();
         setTimeout(() => {
           this.isSpinning = false;
@@ -95,7 +93,7 @@ export class IdentityResourceComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -107,7 +105,7 @@ export class IdentityResourceComponent implements OnInit {
 
   showDeleteConfirm(name: string): void {
     this.confirmDeleteModal = this.modal.confirm({
-      nzTitle: 'Do you Want to delete identity resource ' + name + ' ?',
+      nzTitle: 'Do you Want to delete identity resource?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>

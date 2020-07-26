@@ -132,7 +132,7 @@ namespace admin_api.Controllers
             {
                 if (!(request.AllowedCorsOrigins.Contains(origin)))
                 {
-                    var removeOrigin = await _context.ClientCorsOrigins.FirstOrDefaultAsync(x => x.Origin == origin);
+                    var removeOrigin = await _context.ClientCorsOrigins.FirstOrDefaultAsync(x => x.Origin == origin && x.ClientId == client.Id);
                     _context.ClientCorsOrigins.Remove(removeOrigin);
                 }
             }
@@ -246,7 +246,7 @@ namespace admin_api.Controllers
             {
                 if (!(request.AllowedScopes.Contains(allowedScope)))
                 {
-                    var removeAllowedScope = await _context.ClientScopes.FirstOrDefaultAsync(x => x.Scope == allowedScope);
+                    var removeAllowedScope = await _context.ClientScopes.FirstOrDefaultAsync(x => x.Scope == allowedScope && x.ClientId == client.Id);
                     _context.ClientScopes.Remove(removeAllowedScope);
                 }
             }
@@ -271,7 +271,7 @@ namespace admin_api.Controllers
             {
                 if (!(request.RedirectUris.Contains(redirectUri)))
                 {
-                    var removeRedirectUri = await _context.ClientRedirectUris.FirstOrDefaultAsync(x => x.RedirectUri == redirectUri);
+                    var removeRedirectUri = await _context.ClientRedirectUris.FirstOrDefaultAsync(x => x.RedirectUri == redirectUri && x.ClientId == client.Id);
                     _context.ClientRedirectUris.Remove(removeRedirectUri);
                 }
             }
@@ -297,7 +297,7 @@ namespace admin_api.Controllers
             {
                 if (!(request.AllowedGrantTypes.Contains(allowedGrantType)))
                 {
-                    var removeAllowedGrantTypes = await _context.ClientGrantTypes.FirstOrDefaultAsync(x => x.GrantType == allowedGrantType);
+                    var removeAllowedGrantTypes = await _context.ClientGrantTypes.FirstOrDefaultAsync(x => x.GrantType == allowedGrantType && x.ClientId == client.Id);
                     _context.ClientGrantTypes.Remove(removeAllowedGrantTypes);
                 }
             }
@@ -524,7 +524,7 @@ namespace admin_api.Controllers
             {
                 if (!(request.PostLogoutRedirectUris.Contains(postLogoutRedirectUri)))
                 {
-                    var removePostLogoutRedirectUri = await _context.ClientPostLogoutRedirectUris.FirstOrDefaultAsync(x => x.PostLogoutRedirectUri == postLogoutRedirectUri);
+                    var removePostLogoutRedirectUri = await _context.ClientPostLogoutRedirectUris.FirstOrDefaultAsync(x => x.PostLogoutRedirectUri == postLogoutRedirectUri && x.ClientId == client.Id);
                     _context.ClientPostLogoutRedirectUris.Remove(removePostLogoutRedirectUri);
                 }
             }

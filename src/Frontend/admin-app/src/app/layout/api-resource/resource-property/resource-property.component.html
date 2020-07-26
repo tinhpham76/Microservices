@@ -1,7 +1,7 @@
-<!--Start welcome api resources-->
+<!--Header-->
 <div class="content-heading">
     <div>
-        ☁️ Api resources properties
+        ☁️ Api Resources
         <br>
         <small><b> Resources are something you want to protect with apiServer – either APIs (by doing this your
                 data will be protected as well). So to access your database content must be through an API..</b></small>
@@ -9,7 +9,7 @@
 </div>
 <button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='../edit'><i nz-icon
         nzType="rollback"></i>Go back</button>
-
+<!--Body-->
 <nz-spin [nzSpinning]="isSpinning">
     <nz-table #propertiesTable nzBordered [nzData]="itemApiProperties" [nzFrontPagination]="false">
         <thead>
@@ -48,7 +48,7 @@
                 <input nz-input formControlName="key" placeholder="Property key" />
                 <ng-template #keyErrorTpl let-control>
                     <ng-container *ngIf="control.hasError('required')">
-                        Please input your property key!
+                        Please input property key!
                     </ng-container>
                 </ng-template>
             </nz-form-control>
@@ -60,17 +60,15 @@
                 <input nz-input formControlName="value" placeholder="Property value" />
                 <ng-template #valueErrorTpl let-control>
                     <ng-container *ngIf="control.hasError('required')">
-                        Please input your property value!
+                        Please input property value!
                     </ng-container>
                 </ng-template>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item nz-row class="register-area">
             <nz-form-control [nzSpan]="14" [nzOffset]="6">
-                <button nz-button nzType="primary" [disabled]="!propertyForm.valid">Create new api
-                    property</button>
+                <button nz-button nzType="primary" [disabled]="!propertyForm.valid">Create</button>
             </nz-form-control>
         </nz-form-item>
     </form>
-    <!--End form add new api properties-->
 </div>

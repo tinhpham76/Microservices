@@ -28,9 +28,13 @@ import { AddScopeComponent } from './add-scope/add-scope.component';
 import { EditScopeComponent } from './edit-scope/edit-scope.component';
 import { ScopePropertyComponent } from './scope-property/scope-property.component';
 
-
 @NgModule({
-  declarations: [ApiScopeComponent, AddScopeComponent, EditScopeComponent, ScopePropertyComponent],
+  declarations: [
+    ApiScopeComponent,
+    AddScopeComponent,
+    EditScopeComponent,
+    ScopePropertyComponent
+  ],
   imports: [
     CommonModule,
     NzTableModule,

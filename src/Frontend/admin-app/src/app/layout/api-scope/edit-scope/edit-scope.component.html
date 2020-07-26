@@ -1,7 +1,7 @@
-<!--Start welcome api scopes-->
+<!--Header-->
 <div class="content-heading">
     <div>
-        ☁️ Api scopes
+        ☁️ Api Scopes
         <br>
         <small><b> Resources are something you want to protect with apiServer – either APIs (by doing this your
                 data will be protected as well). So to access your database content must be through an API..</b></small>
@@ -9,8 +9,7 @@
 </div>
 <button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='/api-scopes'><i nz-icon
         nzType="rollback"></i>Go back</button>
-<!--Start welcome api scopes-->
-<!--Start add new api scope-->
+<!--Body-->
 <nz-spin [nzSpinning]="isSpinning">
     <form nz-form nzSpan="12" nzOffset="6" [formGroup]="validateForm"
         (ngSubmit)="submitValidateForm(validateForm.value)">
@@ -27,7 +26,7 @@
                 <input nz-input formControlName="name" placeholder="Api scope name" />
                 <ng-template #nameErrorTpl let-control>
                     <ng-container *ngIf="control.hasError('required')">
-                        Please input your Client name api scope name!
+                        Please input api scope name!
                     </ng-container>
                 </ng-template>
             </nz-form-control>
@@ -40,7 +39,7 @@
             </nz-form-control>
             <ng-template #displayNameErrorTpl let-control>
                 <ng-container *ngIf="control.hasError('required')">
-                    Please input your Client name api scope display name!
+                    Please input your api scope display name!
                 </ng-container>
             </ng-template>
         </nz-form-item>
@@ -48,7 +47,7 @@
             <nz-form-label [nzSm]=" 6" [nzXs]="24">Description</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24">
                 <textarea formControlName="description" nz-input rows="4"
-                    placeholder="Write client description..."></textarea>
+                    placeholder="Write api scope description..."></textarea>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -104,4 +103,3 @@
         </nz-form-item>
     </form>
 </nz-spin>
-<!--End add new api scope-->

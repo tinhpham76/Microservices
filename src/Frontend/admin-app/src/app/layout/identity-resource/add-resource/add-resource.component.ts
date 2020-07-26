@@ -27,7 +27,7 @@ export class AddResourceComponent implements OnInit {
   inputClaimValue = '';
 
   @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
-  
+
   constructor(private fb: FormBuilder,
     private identityResourceServices: IdentityResourceServices,
     private notification: NzNotificationService,
@@ -46,8 +46,8 @@ export class AddResourceComponent implements OnInit {
     });
   }
 
-   // Create new identity resource
-   submitValidateForm(value:
+  // Create new identity resource
+  submitValidateForm(value:
     {
       name: string;
       displayName: string;
@@ -64,9 +64,10 @@ export class AddResourceComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_ADD,
-          'bottomRight');
+          'bottomRight'
+        );
         setTimeout(() => {
           this.isSpinning = false;
           this.router.navigate(['/identity-resources']);
@@ -74,7 +75,7 @@ export class AddResourceComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );

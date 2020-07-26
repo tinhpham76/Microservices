@@ -19,10 +19,12 @@ export class AddClientComponent implements OnInit {
 
   // Spin
   public isSpinning: boolean;
+
   // Init form
   public validateForm!: FormGroup;
 
-  api_upload = (`${environment.storage_api_url}/api/files/upload`);
+  // Api upload file url
+  public api_upload = (`${environment.storage_api_url}/api/files/upload`);
 
   // Tags
   public tags = [
@@ -77,17 +79,22 @@ export class AddClientComponent implements OnInit {
     },
   ];
 
-  logo = '';
+  // Logo uri
+  public logo = '';
+
   // Type client
   public clientType = 'empty';
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private clientServices: ClientServices,
     private notification: NzNotificationService,
     private router: Router,
-    private msg: NzMessageService) { }
+    private msg: NzMessageService
+  ) { }
 
   ngOnInit(): void {
+    // Form add client
     this.validateForm = this.fb.group({
       clientName: [null, [Validators.required]],
       description: [null],
@@ -96,6 +103,7 @@ export class AddClientComponent implements OnInit {
     });
   }
 
+  // Event add file
   handleChange(info: NzUploadChangeParam): void {
     if (info.file.status !== 'uploading') {
     }
@@ -129,9 +137,10 @@ export class AddClientComponent implements OnInit {
       this.validateForm.get('clientUri').value === '') {
       this.createNotification(
         MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-        MessageConstants.TITLE_NOTIFICATION_SSO,
+        MessageConstants.TITLE_NOTIFICATION,
         MessageConstants.NOTIFICATION_ERROR,
-        'bottomRight');
+        'bottomRight'
+      );
       this.isSpinning = false;
     } else {
       const data = {
@@ -145,9 +154,10 @@ export class AddClientComponent implements OnInit {
         .subscribe(() => {
           this.createNotification(
             MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-            MessageConstants.TITLE_NOTIFICATION_SSO,
+            MessageConstants.TITLE_NOTIFICATION,
             MessageConstants.NOTIFICATION_ADD,
-            'bottomRight');
+            'bottomRight'
+          );
           setTimeout(() => {
             this.router.navigate(['/clients']);
             this.isSpinning = false;
@@ -155,7 +165,7 @@ export class AddClientComponent implements OnInit {
         }, errorMessage => {
           this.createNotification(
             MessageConstants.TYPE_NOTIFICATION_ERROR,
-            MessageConstants.TITLE_NOTIFICATION_SSO,
+            MessageConstants.TITLE_NOTIFICATION,
             errorMessage,
             'bottomRight'
           );

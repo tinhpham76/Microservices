@@ -8,12 +8,30 @@ import { ClientPropertyComponent } from './client-property/client-property.compo
 import { ClientClaimComponent } from './client-claim/client-claim.component';
 
 const routes: Routes = [
-    { path: '', component: ClientComponent },
-    { path: 'add', component: AddClientComponent },
-    { path: ':id/edit', component: EditClientComponent },
-    { path: ':id/secrets', component: ClientSecretComponent },
-    { path: ':id/properties', component: ClientPropertyComponent },
-    { path: ':id/claims', component: ClientClaimComponent }
+    {
+        path: '',
+        component: ClientComponent
+    },
+    {
+        path: 'add',
+        component: AddClientComponent
+    },
+    {
+        path: ':id/edit',
+        component: EditClientComponent
+    },
+    {
+        path: ':id/secrets',
+        component: ClientSecretComponent
+    },
+    {
+        path: ':id/properties',
+        component: ClientPropertyComponent
+    },
+    {
+        path: ':id/claims',
+        component: ClientClaimComponent
+    }
 ];
 
 @NgModule({

@@ -8,10 +8,13 @@ import { Location } from '@angular/common';
 })
 export class ServerErrorComponent implements OnInit {
 
-  constructor(private location: Location) { }
+  constructor(
+    private location: Location
+  ) { }
 
   ngOnInit() {
   }
+
   goBack() {
     this.location.back();
   }

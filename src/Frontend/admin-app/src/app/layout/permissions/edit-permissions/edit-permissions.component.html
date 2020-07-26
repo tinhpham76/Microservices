@@ -1,4 +1,4 @@
-<!--Start welcome roles-->
+<!--Header-->
 <div class="content-heading">
   <div>
     🔑 Permissions
@@ -8,13 +8,11 @@
 </div>
 <button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='/permissions'><i nz-icon
     nzType="rollback"></i>Go back</button>
-
 <br><br>
-
 <div nz-row>
   <div nz-col nzSpan="6">
     <nz-input-group [nzSuffix]="suffixIconSearch">
-      <input placeholder="Search client with id, name,..." nz-input type="text" [(ngModel)]="searchValue"
+      <input placeholder="Search permission with id, name,..." nz-input type="text" [(ngModel)]="searchValue"
         (keydown.enter)="handleInputConfirm()" />
     </nz-input-group>
     <ng-template #suffixIconSearch>
@@ -22,11 +20,10 @@
     </ng-template>
   </div>
 </div>
-<!--End welcome roles-->
-<!--Start table roles-->
+<!--Body-->
 <nz-spin [nzSpinning]="isSpinning">
-  <nz-table #dataTable nzBordered [nzScroll]="{ x: '1000px' }" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items" [nzTotal]="totalRecords"
-    [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
+  <nz-table #dataTable nzBordered [nzScroll]="{ x: '1000px' }" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize"
+    [nzData]="items" [nzTotal]="totalRecords" [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
     <thead>
       <tr>
         <th>Index</th>
@@ -57,7 +54,7 @@
           <label nz-checkbox [(ngModel)]="data.delete"></label>
         </td>
         <td>
-          <a style="text-decoration:underline" href='javascript:void(0)' (click)='log(data)'>
+          <a style="text-decoration:underline" href='javascript:void(0)' (click)='editPermission(data)'>
             Save
           </a>
         </td>
@@ -65,4 +62,3 @@
     </tbody>
   </nz-table>
 </nz-spin>
-<!--End table role-->

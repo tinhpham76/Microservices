@@ -6,10 +6,22 @@ import { AddResourceComponent } from './add-resource/add-resource.component';
 import { EditResourceComponent } from './edit-resource/edit-resource.component';
 
 const routes: Routes = [
-    { path: '', component: IdentityResourceComponent },
-    { path: 'add', component: AddResourceComponent },
-    { path: ':name/edit', component: EditResourceComponent },
-    { path: ':name/properties', component: ResourcePropertyComponent }
+    {
+        path: '',
+        component: IdentityResourceComponent
+    },
+    {
+        path: 'add',
+        component: AddResourceComponent
+    },
+    {
+        path: ':name/edit',
+        component: EditResourceComponent
+    },
+    {
+        path: ':name/properties',
+        component: ResourcePropertyComponent
+    }
 ];
 
 @NgModule({

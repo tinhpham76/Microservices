@@ -29,17 +29,9 @@ export class UserComponent implements OnInit {
 
   // Confirm delete user
   public confirmDeleteModal?: NzModalRef;
-  public confirmResetModal?: NzModalRef;
 
-  // Drawer Edit user
-  public visibleEditUser = false;
-  public formEditUser!: FormGroup;
-
-  // Edit user role
-  public roles = [];
-  public userId: string;
-
-  searchValue = '';
+  // Search value
+  public searchValue = '';
 
   constructor(private userServices: UserServices,
     private notification: NzNotificationService,
@@ -48,16 +40,7 @@ export class UserComponent implements OnInit {
     private datePipe: DatePipe) { }
 
   ngOnInit(): void {
-    this.formEditUser = this.fb.group({
-      id: [null],
-      userName: [null],
-      firstName: [null, [Validators.required]],
-      lastName: [null, [Validators.required]],
-      email: [null, [Validators.email, Validators.required]],
-      phoneNumberPrefix: ['+84'],
-      phoneNumber: [null, [Validators.required]],
-      dob: [null, [Validators.required]]
-    });
+    // Load user data
     this.loadUserData(this.filter, this.pageIndex, this.pageSize);
   }
 
@@ -74,7 +57,7 @@ export class UserComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -84,11 +67,13 @@ export class UserComponent implements OnInit {
       });
   }
 
+  // Event page change
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
     this.loadUserData(this.searchValue, pageIndex, pageSize);
   }
 
+  // Event search
   handleInputConfirm(): void {
     this.loadUserData(this.searchValue, this.pageIndex, this.pageSize);
   }
@@ -100,13 +85,15 @@ export class UserComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_DELETE + userName + '!', 'bottomRight');
+          MessageConstants.TITLE_NOTIFICATION,
+          MessageConstants.NOTIFICATION_DELETE,
+          'bottomRight'
+        );
         this.ngOnInit();
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -117,7 +104,7 @@ export class UserComponent implements OnInit {
 
   showDeleteConfirm(userName: string, userId: string): void {
     this.confirmDeleteModal = this.modal.confirm({
-      nzTitle: 'Do you Want to delete ' + userName + '?',
+      nzTitle: 'Do you Want to delete?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>

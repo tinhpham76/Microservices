@@ -4,8 +4,14 @@ import { EditPermissionsComponent } from './edit-permissions/edit-permissions.co
 import { PermissionsComponent } from './permissions.component';
 
 const routes: Routes = [
-    { path: '', component: PermissionsComponent },
-    { path: ':id/edit', component: EditPermissionsComponent },
+    {
+        path: '',
+        component: PermissionsComponent
+    },
+    {
+        path: ':id/edit',
+        component: EditPermissionsComponent
+    },
 ];
 
 @NgModule({

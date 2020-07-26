@@ -17,18 +17,25 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class AddUserComponent implements OnInit {
 
-  avatar = '';
-  api_upload = (`${environment.storage_api_url}/api/files/upload`);
+  // Avatar uri
+  public avatar = '';
+
+  // Api upload file url
+  public api_upload = (`${environment.storage_api_url}/api/files/upload`);
+
   // Spin
   public isSpinning: boolean;
-  // Init form
+
+  // Form user
   public validateForm!: FormGroup;
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private userServices: UserServices,
     private notification: NzNotificationService,
     private router: Router,
-    private msg: NzMessageService) { }
+    private msg: NzMessageService
+  ) { }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -45,6 +52,7 @@ export class AddUserComponent implements OnInit {
     });
   }
 
+  // Event upload file
   handleChange(info: NzUploadChangeParam): void {
     if (info.file.status !== 'uploading') {
     }
@@ -86,9 +94,10 @@ export class AddUserComponent implements OnInit {
     if (value.password.length < 8) {
       this.createNotification(
         MessageConstants.TYPE_NOTIFICATION_WARNING,
-        MessageConstants.TITLE_NOTIFICATION_SSO,
+        MessageConstants.TITLE_NOTIFICATION,
         'Password required 8 charter!',
-        'bottomRight');
+        'bottomRight'
+      );
     } else {
       this.isSpinning = true;
       value.phoneNumber = value.phoneNumberPrefix + value.phoneNumber;
@@ -96,7 +105,7 @@ export class AddUserComponent implements OnInit {
         .subscribe(() => {
           this.createNotification(
             MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-            MessageConstants.TITLE_NOTIFICATION_SSO,
+            MessageConstants.TITLE_NOTIFICATION,
             MessageConstants.NOTIFICATION_ADD,
             'bottomRight');
           setTimeout(() => {
@@ -106,7 +115,7 @@ export class AddUserComponent implements OnInit {
         }, errorMessage => {
           this.createNotification(
             MessageConstants.TYPE_NOTIFICATION_ERROR,
-            MessageConstants.TITLE_NOTIFICATION_SSO,
+            MessageConstants.TITLE_NOTIFICATION,
             errorMessage,
             'bottomRight'
           );
@@ -115,7 +124,6 @@ export class AddUserComponent implements OnInit {
           }, 500);
         });
     }
-
   }
 
   // Notification

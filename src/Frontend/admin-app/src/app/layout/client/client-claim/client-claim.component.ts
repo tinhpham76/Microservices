@@ -16,39 +16,49 @@ export class ClientClaimComponent implements OnInit {
   // Spin
   public isSpinning: boolean;
 
+  // Client id
   public clientId: string;
 
-  confirmDeleteClientClaim: NzModalRef;
+  // Confirm delete
+  public confirmDeleteClientClaim: NzModalRef;
 
+  // Client claim data
   public itemClientClaims: any[];
 
+  // Form claim
   public claimForm!: FormGroup;
 
   // Claims
-  clientClaim = '';
-  claims = ['sub', 'name', 'given_name', 'family_name', 'middle_name',
-    'nickname', 'preferred_username', 'profile', 'picture', 'website', 'email', 'email_verified',
-    'gender', 'birthdate', 'zoneinfo', 'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'];
-  inputClaimVisible = false;
-  inputClaimValue = '';
+  public clientClaim = '';
+  public claims = [
+    'sub', 'name', 'given_name', 'family_name', 'middle_name',
+    'nickname', 'preferred_username', 'profile', 'picture', 'website',
+    'email', 'email_verified', 'gender', 'birthdate', 'zoneinfo',
+    'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'
+  ];
+  public inputClaimVisible = false;
+  public inputClaimValue = '';
 
   @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
 
-  constructor(private notification: NzNotificationService,
+  constructor(
+    private notification: NzNotificationService,
     private route: ActivatedRoute,
     private clientServices: ClientServices,
     private fb: FormBuilder,
     private modal: NzModalService) { }
 
   ngOnInit(): void {
+    // Get client id
     this.route.params.subscribe(params => {
       this.clientId = params['id'];
     });
-    // Init form client claims
+    // Form client claims
     this.claimForm = this.fb.group({
       type: [null, [Validators.required]],
       value: [null, [Validators.required]],
     });
+    // Get client claim
     this.getClientClaims(this.clientId);
   }
 
@@ -64,7 +74,7 @@ export class ClientClaimComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -85,7 +95,7 @@ export class ClientClaimComponent implements OnInit {
     return isLongTag ? `${tag.slice(0, 50)}...` : tag;
   }
 
-  // Create new client claim
+  // Create client claim
   submitClaimForm(value:
     {
       type: string;
@@ -98,14 +108,15 @@ export class ClientClaimComponent implements OnInit {
         this.getClientClaims(this.clientId);
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_ADD,
-          'bottomRight');
+          'bottomRight'
+        );
         this.resetForm();
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -122,7 +133,7 @@ export class ClientClaimComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_DELETE,
           'bottomRight'
         );
@@ -133,7 +144,7 @@ export class ClientClaimComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -146,7 +157,7 @@ export class ClientClaimComponent implements OnInit {
   // Delete client Claim
   showDeleteConfirmClientClaim(type: string): void {
     this.confirmDeleteClientClaim = this.modal.confirm({
-      nzTitle: 'Do you Want to delete client claim type: ' + type + '?',
+      nzTitle: 'Do you Want to delete client claim?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>

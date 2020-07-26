@@ -12,6 +12,7 @@ import { ApiScopeServices } from '@app/shared/services/api-scope.services';
   styleUrls: ['./api-scope.component.scss']
 })
 export class ApiScopeComponent implements OnInit {
+
   // Load api data
   public filter = '';
   public pageIndex = 1;
@@ -24,23 +25,29 @@ export class ApiScopeComponent implements OnInit {
   public isSpinning: boolean;
 
   // Modal
-  confirmDeleteModal?: NzModalRef;
+  public confirmDeleteModal?: NzModalRef;
 
-  searchValue = '';
+  // Search value
+  public searchValue = '';
 
-  constructor(private apiScopeServices: ApiScopeServices,
+  constructor(
+    private apiScopeServices: ApiScopeServices,
     private notification: NzNotificationService,
-    private modal: NzModalService) { }
+    private modal: NzModalService
+  ) { }
 
   ngOnInit(): void {
+    // Load scopes
     this.loadApiData(this.filter, this.pageIndex, this.pageSize);
   }
 
+  // Event change page
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
     this.loadApiData(this.searchValue, pageIndex, pageSize);
   }
 
+  // Event search
   handleInputConfirm(): void {
     this.loadApiData(this.searchValue, this.pageIndex, this.pageSize);
   }
@@ -58,7 +65,7 @@ export class ApiScopeComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -68,15 +75,17 @@ export class ApiScopeComponent implements OnInit {
       });
   }
 
-  // Delete api resource
+  // Delete api scope
   delete(name: string) {
     this.isSpinning = true;
     this.apiScopeServices.delete(name)
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_DELETE + name + ' !', 'bottomRight');
+          MessageConstants.TITLE_NOTIFICATION,
+          MessageConstants.NOTIFICATION_DELETE,
+          'bottomRight'
+        );
         this.ngOnInit();
         setTimeout(() => {
           this.isSpinning = false;
@@ -84,7 +93,7 @@ export class ApiScopeComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -96,7 +105,7 @@ export class ApiScopeComponent implements OnInit {
 
   showDeleteConfirm(name: string): void {
     this.confirmDeleteModal = this.modal.confirm({
-      nzTitle: 'Do you Want to delete api scope ' + name + ' ?',
+      nzTitle: 'Do you Want to delete api scope?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>

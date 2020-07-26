@@ -10,7 +10,7 @@ namespace auth_services.RequestModel
         public bool Enabled { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
         public string AllowedAccessTokenSigningAlgorithms { get; set; }
-        public List<string> UserClaim { get; set; }
-        public List<string> Scope { get; set; }
+        public List<string> UserClaims { get; set; }
+        public List<string> Scopes { get; set; }
     }
 }

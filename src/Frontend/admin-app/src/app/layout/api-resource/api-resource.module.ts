@@ -29,7 +29,13 @@ import { ResourceSecretComponent } from './resource-secret/resource-secret.compo
 import { ResourcePropertyComponent } from './resource-property/resource-property.component';
 
 @NgModule({
-  declarations: [ApiResourceComponent, AddResourceComponent, EditResourceComponent, ResourceSecretComponent, ResourcePropertyComponent],
+  declarations: [
+    ApiResourceComponent,
+    AddResourceComponent,
+    EditResourceComponent,
+    ResourceSecretComponent,
+    ResourcePropertyComponent
+  ],
   imports: [
     CommonModule,
     NzTableModule,

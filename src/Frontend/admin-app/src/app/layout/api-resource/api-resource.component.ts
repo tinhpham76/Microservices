@@ -5,7 +5,6 @@ import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/no
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 
-
 @Component({
   selector: 'app-api-resource',
   templateUrl: './api-resource.component.html',
@@ -25,28 +24,34 @@ export class ApiResourceComponent implements OnInit {
   public isSpinning: boolean;
 
   // Modal
-  confirmDeleteModal?: NzModalRef;
+  public confirmDeleteModal?: NzModalRef;
 
-  searchValue = '';
+  // Search
+  public searchValue = '';
 
-  constructor(private apiResourceServices: ApiResourceServices,
+  constructor(
+    private apiResourceServices: ApiResourceServices,
     private notification: NzNotificationService,
-    private modal: NzModalService) { }
+    private modal: NzModalService
+  ) { }
 
   ngOnInit(): void {
+    // Load api data
     this.loadApiData(this.filter, this.pageIndex, this.pageSize);
   }
 
+  // Event change page
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
     this.loadApiData(this.searchValue, pageIndex, pageSize);
   }
 
+  // Event search
   handleInputConfirm(): void {
     this.loadApiData(this.searchValue, this.pageIndex, this.pageSize);
   }
 
-  // Load api resource data
+  // Load api data
   loadApiData(filter: string, pageIndex: number, pageSize: number): void {
     this.isSpinning = true;
     this.apiResourceServices.getAllPaging(filter, pageIndex, pageSize)
@@ -59,7 +64,7 @@ export class ApiResourceComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -69,16 +74,17 @@ export class ApiResourceComponent implements OnInit {
       });
   }
 
-  // Delete api resource
+  // Delete api
   delete(name: string) {
     this.isSpinning = true;
     this.apiResourceServices.delete(name)
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_DELETE + ' api resource ' + name + ' !',
-          'bottomRight');
+          MessageConstants.TITLE_NOTIFICATION,
+          MessageConstants.NOTIFICATION_DELETE,
+          'bottomRight'
+        );
         this.ngOnInit();
         setTimeout(() => {
           this.isSpinning = false;
@@ -86,7 +92,7 @@ export class ApiResourceComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -98,7 +104,7 @@ export class ApiResourceComponent implements OnInit {
 
   showDeleteConfirm(name: string): void {
     this.confirmDeleteModal = this.modal.confirm({
-      nzTitle: 'Do you Want to delete api resource ' + name + ' ?',
+      nzTitle: 'Do you Want to delete api resource?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>

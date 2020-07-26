@@ -12,33 +12,41 @@ import { MessageConstants } from '@app/shared/constants/messages.constant';
 })
 export class EditResourceComponent implements OnInit {
 
-   // Init form
-   public validateForm!: FormGroup;
+  // Init form
+  public validateForm!: FormGroup;
 
-   apiName = '';
+  // Identity name
+  public identityName = '';
 
-   // Spin
-   public isSpinning: boolean;
- 
-   // Claims
-   userClaims = [];
-   claims = ['sub', 'name', 'given_name', 'family_name', 'middle_name',
-     'nickname', 'preferred_username', 'profile', 'picture', 'website', 'email', 'email_verified',
-     'gender', 'birthdate', 'zoneinfo', 'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'];
-   inputClaimVisible = false;
-   inputClaimValue = '';
- 
-   @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
+  // Spin
+  public isSpinning: boolean;
 
-  constructor(private fb: FormBuilder,
+  // Claims
+  public userClaims = [];
+  public claims = [
+    'sub', 'name', 'given_name', 'family_name', 'middle_name',
+    'nickname', 'preferred_username', 'profile', 'picture', 'website',
+    'email', 'email_verified', 'gender', 'birthdate', 'zoneinfo',
+    'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'
+  ];
+  public inputClaimVisible = false;
+  public inputClaimValue = '';
+
+  @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
+
+  constructor(
+    private fb: FormBuilder,
     private identityResourceServices: IdentityResourceServices,
     private notification: NzNotificationService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute
+    ) { }
 
   ngOnInit(): void {
+    // Get identity name
     this.route.params.subscribe(params => {
-      this.apiName = params['name'];
+      this.identityName = params['name'];
     });
+    // Form edit identity
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
       displayName: [null, Validators.required],
@@ -49,11 +57,12 @@ export class EditResourceComponent implements OnInit {
       emphasize: [false],
       userClaims: [null]
     });
-    this.getIdentityResource(this.apiName);
+    // Get identity data
+    this.getIdentityResource(this.identityName);
   }
 
-   // Get detail api resource
-   getIdentityResource(apiName: string) {
+  // Get detail identity resource
+  getIdentityResource(apiName: string) {
     this.isSpinning = true;
     this.identityResourceServices.getDetail(apiName)
       .subscribe((res: any) => {
@@ -74,7 +83,7 @@ export class EditResourceComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -97,21 +106,22 @@ export class EditResourceComponent implements OnInit {
     }): void {
     this.isSpinning = true;
     value.userClaims = this.userClaims;
-    this.identityResourceServices.update(this.apiName, value)
+    this.identityResourceServices.update(this.identityName, value)
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_UPDATE,
-          'bottomRight');
+          'bottomRight'
+        );
         setTimeout(() => {
-          this.getIdentityResource(this.apiName);
+          this.getIdentityResource(this.identityName);
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );

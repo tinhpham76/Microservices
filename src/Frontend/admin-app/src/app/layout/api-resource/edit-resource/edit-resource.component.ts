@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiResourceServices } from '@app/shared/services/api-resources.service';
 import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/notification';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 
 @Component({
@@ -12,7 +12,8 @@ import { MessageConstants } from '@app/shared/constants/messages.constant';
 })
 export class EditResourceComponent implements OnInit {
 
-  apiName = '';
+  // Api name
+  public apiName = '';
 
   // Init form
   public validateForm!: FormGroup;
@@ -21,31 +22,37 @@ export class EditResourceComponent implements OnInit {
   public isSpinning: boolean;
 
   // Scopes
-  scopes = [];
-  apiScopes = [];
-  inputScopeVisible = false;
-  inputScopeValue = '';
+  public scopes = [];
+  public apiScopes = [];
+  public inputScopeVisible = false;
+  public inputScopeValue = '';
 
   // Claims
-  userClaims = [];
-  claims = ['sub', 'name', 'given_name', 'family_name', 'middle_name',
-    'nickname', 'preferred_username', 'profile', 'picture', 'website', 'email', 'email_verified',
-    'gender', 'birthdate', 'zoneinfo', 'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'];
-  inputClaimVisible = false;
-  inputClaimValue = '';
+  public userClaims = [];
+  public claims = [
+    'sub', 'name', 'given_name', 'family_name', 'middle_name',
+    'nickname', 'preferred_username', 'profile', 'picture', 'website',
+    'email', 'email_verified', 'gender', 'birthdate', 'zoneinfo',
+    'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'
+  ];
+  public inputClaimVisible = false;
+  public inputClaimValue = '';
 
   @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private apiResourceServices: ApiResourceServices,
     private notification: NzNotificationService,
-    private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    // Get api name
     this.route.params.subscribe(params => {
       this.apiName = params['name'];
     });
+    // Form edit api
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
       displayName: [null, Validators.required],
@@ -56,10 +63,13 @@ export class EditResourceComponent implements OnInit {
       scopes: [null],
       userClaims: [null]
     });
+    // Get all scopes
     this.getApiScopes();
+    // Get api detail
     this.getApiResource(this.apiName);
   }
 
+  // Get all scopes
   getApiScopes() {
     this.apiResourceServices.getApiScopes()
       .subscribe((res: any[]) => {
@@ -67,7 +77,7 @@ export class EditResourceComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -77,7 +87,7 @@ export class EditResourceComponent implements OnInit {
       });
   }
 
-  // Get detail api resource
+  // Get api detail
   getApiResource(apiName: string) {
     this.isSpinning = true;
     this.apiResourceServices.getDetail(apiName)
@@ -100,7 +110,7 @@ export class EditResourceComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -110,7 +120,7 @@ export class EditResourceComponent implements OnInit {
       });
   }
 
-  // Save change api resource
+  // Save change api
   submitValidateForm(value:
     {
       name: string;
@@ -129,17 +139,17 @@ export class EditResourceComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_ADD,
           'bottomRight');
-          this.getApiResource(this.apiName);
+        this.getApiResource(this.apiName);
         setTimeout(() => {
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );

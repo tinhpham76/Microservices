@@ -1,7 +1,7 @@
-<!--Start welcome identity resource-->
+<!--Header-->
 <div class="content-heading">
     <div>
-        🔖 Identity resources
+        🔖 Identity Resources
         <br>
         <small><b> Identity resources are data like user ID, name, or email address of a user. An identity resource has
                 a unique name, and you can assign arbitrary claim types to it. These claims will then be included in the
@@ -9,8 +9,8 @@
     </div>
 </div>
 <button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='/identity-resources'><i nz-icon
-    nzType="rollback"></i>Go back</button>
-    <!--Start add new api scope-->
+        nzType="rollback"></i>Go back</button>
+<!--Body-->
 <nz-spin [nzSpinning]="isSpinning">
     <form nz-form nzSpan="12" nzOffset="6" [formGroup]="validateForm"
         (ngSubmit)="submitValidateForm(validateForm.value)">
@@ -24,10 +24,10 @@
             <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Name</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..."
                 [nzErrorTip]="nameErrorTpl">
-                <input nz-input formControlName="name" placeholder="Api scope name" />
+                <input nz-input formControlName="name" placeholder="Identity resource name" />
                 <ng-template #nameErrorTpl let-control>
                     <ng-container *ngIf="control.hasError('required')">
-                        Please input your Client name api scope name!
+                        Please input identity resource name!
                     </ng-container>
                 </ng-template>
             </nz-form-control>
@@ -40,7 +40,7 @@
             </nz-form-control>
             <ng-template #displayNameErrorTpl let-control>
                 <ng-container *ngIf="control.hasError('required')">
-                    Please input your Client name api scope display name!
+                    Please input identity resource display name!
                 </ng-container>
             </ng-template>
         </nz-form-item>
@@ -48,7 +48,7 @@
             <nz-form-label [nzSm]=" 6" [nzXs]="24">Description</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24">
                 <textarea formControlName="description" nz-input rows="4"
-                    placeholder="Write client description..."></textarea>
+                    placeholder="Write identity resource description..."></textarea>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -104,4 +104,3 @@
         </nz-form-item>
     </form>
 </nz-spin>
-<!--End add new api scope-->

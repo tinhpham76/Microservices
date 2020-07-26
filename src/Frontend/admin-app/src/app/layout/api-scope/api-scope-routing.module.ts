@@ -6,10 +6,22 @@ import { EditScopeComponent } from './edit-scope/edit-scope.component';
 import { ScopePropertyComponent } from './scope-property/scope-property.component';
 
 const routes: Routes = [
-    { path: '', component: ApiScopeComponent },
-    { path: 'add', component: AddScopeComponent},
-    { path: ':name/edit', component: EditScopeComponent },
-    { path: ':name/properties', component: ScopePropertyComponent}
+    {
+        path: '',
+        component: ApiScopeComponent
+    },
+    {
+        path: 'add',
+        component: AddScopeComponent
+    },
+    {
+        path: ':name/edit',
+        component: EditScopeComponent
+    },
+    {
+        path: ':name/properties',
+        component: ScopePropertyComponent
+    }
 ];
 
 @NgModule({

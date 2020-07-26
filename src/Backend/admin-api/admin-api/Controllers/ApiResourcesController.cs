@@ -139,7 +139,7 @@ namespace admin_api.Controllers
             {
                 if (!(request.UserClaims.Contains(claim)))
                 {
-                    var removeClaim = await _context.ApiResourceClaims.FirstOrDefaultAsync(x => x.Type == claim);
+                    var removeClaim = await _context.ApiResourceClaims.FirstOrDefaultAsync(x => x.Type == claim && x.ApiResourceId == apiResource.Id);
                     _context.ApiResourceClaims.Remove(removeClaim);
                 }
             }
@@ -165,7 +165,7 @@ namespace admin_api.Controllers
             {
                 if (!(request.Scopes.Contains(scope)))
                 {
-                    var removeScope = await _context.ApiResourceScopes.FirstOrDefaultAsync(x => x.Scope == scope);
+                    var removeScope = await _context.ApiResourceScopes.FirstOrDefaultAsync(x => x.Scope == scope && x.ApiResourceId == apiResource.Id);
                     _context.ApiResourceScopes.Remove(removeScope);
                 }
             }

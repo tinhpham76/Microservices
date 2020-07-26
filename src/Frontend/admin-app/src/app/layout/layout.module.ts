@@ -16,7 +16,9 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 
 @NgModule({
-  declarations: [LayoutComponent],
+  declarations: [
+    LayoutComponent
+  ],
   imports: [
     CommonModule,
     NzLayoutModule,
@@ -32,6 +34,8 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
     NzNotificationModule,
     LayoutRoutingModule
   ],
-  bootstrap: [LayoutComponent]
+  bootstrap: [
+    LayoutComponent
+  ]
 })
 export class LayoutModule { }

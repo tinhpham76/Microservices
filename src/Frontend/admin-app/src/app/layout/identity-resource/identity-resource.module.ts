@@ -29,7 +29,12 @@ import { ResourcePropertyComponent } from './resource-property/resource-property
 
 
 @NgModule({
-  declarations: [IdentityResourceComponent, EditResourceComponent, AddResourceComponent, ResourcePropertyComponent],
+  declarations: [
+    IdentityResourceComponent,
+    EditResourceComponent,
+    AddResourceComponent,
+    ResourcePropertyComponent
+  ],
   imports: [
     CommonModule,
     NzTableModule,

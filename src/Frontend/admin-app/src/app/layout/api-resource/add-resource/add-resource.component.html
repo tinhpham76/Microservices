@@ -1,7 +1,7 @@
-<!--Start welcome api resource-->
+<!--Header-->
 <div class="content-heading">
     <div>
-        ☁️ Add api resource
+        ☁️ Api Resources
         <br>
         <small><b> Resources are something you want to protect with IdentityServer – either APIs (by doing this your
                 data will be protected as well). So to access your database content must be through an API..</b></small>
@@ -9,39 +9,39 @@
 </div>
 <button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='/api-resources'><i nz-icon
         nzType="rollback"></i>Go back</button>
-<!--End welcome api resource-->
-<!--Start add new api resource-->
+<!--Body-->
 <nz-spin [nzSpinning]="isSpinning">
     <form nz-form nzSpan="12" nzOffset="6" [formGroup]="validateForm"
         (ngSubmit)="submitValidateForm(validateForm.value)">
         <nz-form-item>
-            <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Name</nz-form-label>
+            <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Api Name</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..."
                 [nzErrorTip]="nameErrorTpl">
-                <input nz-input formControlName="name" placeholder="Api resource name" />
+                <input nz-input formControlName="name" placeholder="Api name" />
                 <ng-template #nameErrorTpl let-control>
                     <ng-container *ngIf="control.hasError('required')">
-                        Please input your Client name api resource name!
+                        Please input api name!
                     </ng-container>
                 </ng-template>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
             <nz-form-label [nzSm]=" 6" [nzXs]="24" required>Display Name </nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="displayNameErrorTpl">
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..."
+                [nzErrorTip]="displayNameErrorTpl">
                 <input nz-input formControlName="displayName" placeholder="Display name" />
             </nz-form-control>
             <ng-template #displayNameErrorTpl let-control>
                 <ng-container *ngIf="control.hasError('required')">
-                    Please input your Client name api resource display name!
+                    Please input api display name!
                 </ng-container>
             </ng-template>
-        </nz-form-item>                 
+        </nz-form-item>
         <nz-form-item>
             <nz-form-label [nzSm]=" 6" [nzXs]="24">Description</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24">
                 <textarea formControlName="description" nz-input rows="4"
-                    placeholder="Write client description..."></textarea>
+                    placeholder="Write api description..."></textarea>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -59,22 +59,22 @@
         <nz-form-item>
             <nz-form-label [nzSm]=" 6" [nzXs]="24">Allowed Access Token Signing Algorithms </nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating...">
-                <input nz-input formControlName="allowedAccessTokenSigningAlgorithms" placeholder="Allowed access token signing algorithms" />
+                <input nz-input formControlName="allowedAccessTokenSigningAlgorithms"
+                    placeholder="Allowed access token signing algorithms" />
             </nz-form-control>
-        </nz-form-item>   
+        </nz-form-item>
         <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24">Scopes</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24">
                 <nz-tag nzColor="processing" *ngFor="let tag of scopes" [nzMode]="'closeable'"
-                            (nzOnClose)="closeTagScope(tag)">
-                            {{ sliceTagName(tag) }}
-                        </nz-tag>
-                        <nz-tag *ngIf="!inputScopeVisible" class="editable-tag" nzNoAnimation
-                            (click)="showScopeInput()"> <i nz-icon nzType="plus"></i> New scope </nz-tag>
-                        <input #inputElement formControlName="scopes" nz-input nzSize="small"
-                            *ngIf="inputScopeVisible" type="text" [(ngModel)]="inputScopeValue"
-                            style="width: 78px;" (blur)="inputConfirmScope()"
-                            (keydown.enter)="inputConfirmScope()" />
+                    (nzOnClose)="closeTagScope(tag)">
+                    {{ sliceTagName(tag) }}
+                </nz-tag>
+                <nz-tag *ngIf="!inputScopeVisible" class="editable-tag" nzNoAnimation (click)="showScopeInput()"> <i
+                        nz-icon nzType="plus"></i> New scope </nz-tag>
+                <input #inputElement formControlName="scopes" nz-input nzSize="small" *ngIf="inputScopeVisible"
+                    type="text" [(ngModel)]="inputScopeValue" style="width: 78px;" (blur)="inputConfirmScope()"
+                    (keydown.enter)="inputConfirmScope()" />
                 <br><br>
                 <p>Add new scope:</p>
                 <hr>
@@ -82,22 +82,20 @@
                     (nzCheckedChange)="addScope(tag)"> +
                     {{ tag }}
                 </nz-tag>
-
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24">User Claims</nz-form-label>
+            <nz-form-label [nzSm]="6" [nzXs]="24">Api Claims</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24">
                 <nz-tag nzColor="processing" *ngFor="let tag of userClaims" [nzMode]="'closeable'"
-                            (nzOnClose)="closeTagClaim(tag)">
-                            {{ sliceTagName(tag) }}
-                        </nz-tag>
-                        <nz-tag *ngIf="!inputClaimVisible" class="editable-tag" nzNoAnimation
-                            (click)="showClaimInput()"> <i nz-icon nzType="plus"></i> New claim </nz-tag>
-                        <input #inputElement formControlName="userClaims" nz-input nzSize="small"
-                            *ngIf="inputClaimVisible" type="text" [(ngModel)]="inputClaimValue"
-                            style="width: 78px;" (blur)="inputConfirmClaim()"
-                            (keydown.enter)="inputConfirmClaim()" />
+                    (nzOnClose)="closeTagClaim(tag)">
+                    {{ sliceTagName(tag) }}
+                </nz-tag>
+                <nz-tag *ngIf="!inputClaimVisible" class="editable-tag" nzNoAnimation (click)="showClaimInput()"> <i
+                        nz-icon nzType="plus"></i> New claim </nz-tag>
+                <input #inputElement formControlName="userClaims" nz-input nzSize="small" *ngIf="inputClaimVisible"
+                    type="text" [(ngModel)]="inputClaimValue" style="width: 78px;" (blur)="inputConfirmClaim()"
+                    (keydown.enter)="inputConfirmClaim()" />
                 <br><br>
                 <p>Add new claim:</p>
                 <hr>
@@ -105,10 +103,8 @@
                     (nzCheckedChange)="addClaim(tag)"> +
                     {{ tag }}
                 </nz-tag>
-
             </nz-form-control>
         </nz-form-item>
-        
         <nz-form-item>
             <nz-form-control [nzOffset]="7" [nzSpan]="12">
                 <button nz-button nzType="primary" [disabled]="!validateForm.valid">Create</button>
@@ -117,4 +113,3 @@
         </nz-form-item>
     </form>
 </nz-spin>
-<!--End add new api resource-->

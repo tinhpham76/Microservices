@@ -14,7 +14,9 @@ import { NzDrawerPlacement } from 'ng-zorro-antd/drawer';
 })
 export class PermissionsComponent implements OnInit {
 
-  validateForm!: FormGroup;
+  // Form create permission
+  public validateForm!: FormGroup;
+
   // load role data
   public filter = '';
   public pageIndex = 1;
@@ -24,20 +26,27 @@ export class PermissionsComponent implements OnInit {
 
   // button confirmModal
   public confirmModal?: NzModalRef;
+
   // Spin
   public isSpinning: boolean;
 
-  searchValue = '';
+  // Search value
+  public searchValue = '';
 
-  visible = false;
+  // Add permission
+  public visible = false;
 
-  constructor(private permissionServices: PermissionServices,
+  constructor(
+    private permissionServices: PermissionServices,
     private notification: NzNotificationService,
     private modal: NzModalService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+    // Load permission data
     this.loadRoleData(this.filter, this.pageIndex, this.pageSize);
+    // Form add permission
     this.validateForm = this.fb.group({
       id: [null, [Validators.required]],
       name: [null, [Validators.required]],
@@ -53,11 +62,12 @@ export class PermissionsComponent implements OnInit {
     this.visible = false;
   }
 
+  // Event search
   handleInputConfirm(): void {
     this.loadRoleData(this.searchValue, this.pageIndex, this.pageSize);
   }
 
-  // Load Role
+  // Load permisson
   loadRoleData(filter: string, pageIndex: number, pageSize: number): void {
     this.isSpinning = true;
     this.permissionServices.getAllPaging(filter, pageIndex, pageSize)
@@ -70,7 +80,7 @@ export class PermissionsComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -80,12 +90,12 @@ export class PermissionsComponent implements OnInit {
       });
   }
 
-  // Delete Role
+  // Delete permisson
   delete(roleId: string) {
     if (roleId === 'Admin') {
       this.createNotification(
         MessageConstants.TYPE_NOTIFICATION_ERROR,
-        MessageConstants.TITLE_NOTIFICATION_SSO,
+        MessageConstants.TITLE_NOTIFICATION,
         'Role Admin cannot delete!',
         'bottomRight'
       );
@@ -100,7 +110,7 @@ export class PermissionsComponent implements OnInit {
         }, errorMessage => {
           this.createNotification(
             MessageConstants.TYPE_NOTIFICATION_ERROR,
-            MessageConstants.TITLE_NOTIFICATION_SSO,
+            MessageConstants.TITLE_NOTIFICATION,
             errorMessage,
             'bottomRight'
           );
@@ -110,12 +120,11 @@ export class PermissionsComponent implements OnInit {
           }, 500);
         });
     }
-
   }
 
   showConfirm(roleId: string): void {
     this.confirmModal = this.modal.confirm({
-      nzTitle: 'Do you Want to delete ' + roleId + ' role ?',
+      nzTitle: 'Do you Want to delete permisson?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>
@@ -133,17 +142,19 @@ export class PermissionsComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_ADD,
-          'bottomRight');
+          'bottomRight'
+        );
         setTimeout(() => {
           this.close();
+          this.loadRoleData(this.filter, this.pageIndex, this.pageSize);
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -153,15 +164,13 @@ export class PermissionsComponent implements OnInit {
       });
   }
 
-
-
-  // Hiển thị thêm dữ liệu khác
+  // Event change page
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
     this.loadRoleData(this.filter, pageIndex, pageSize);
   }
 
-  // Tạo thông báo
+  // Notification
   createNotification(type: string, title: string, content: string, position: NzNotificationPlacement): void {
     this.notification.create(type, title, content, { nzPlacement: position });
   }

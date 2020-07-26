@@ -1,3 +1,4 @@
+<!--Header-->
 <div class="content-heading">
   <div>
     👨‍👩‍👧‍👦 Users
@@ -8,11 +9,10 @@
 <button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='add'><i nz-icon
     nzType="user-add"></i>Create new user</button>
 <br><br>
-
 <div nz-row>
   <div nz-col nzSpan="6">
     <nz-input-group [nzSuffix]="suffixIconSearch">
-      <input placeholder="Search api resource with id, name,..." nz-input type="text" [(ngModel)]="searchValue"
+      <input placeholder="Search user with id, name,..." nz-input type="text" [(ngModel)]="searchValue"
         (keydown.enter)="handleInputConfirm()" />
     </nz-input-group>
     <ng-template #suffixIconSearch>
@@ -20,10 +20,10 @@
     </ng-template>
   </div>
 </div>
-<!--Users-->
+<!--Body-->
 <nz-spin [nzSpinning]="isSpinning">
-  <nz-table #userTable [nzPageIndex]="pageIndex" nzBordered  [nzScroll]="{ x: '1000px' }" [nzPageSize]="pageSize" [nzData]="items" [nzTotal]="totalRecords"
-    [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
+  <nz-table #userTable [nzPageIndex]="pageIndex" nzBordered [nzScroll]="{ x: '1000px' }" [nzPageSize]="pageSize"
+    [nzData]="items" [nzTotal]="totalRecords" [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
     <thead>
       <tr>
         <th>Index</th>
@@ -39,7 +39,7 @@
         <td>{{ i }}</td>
         <td>
           <nz-avatar [nzSize]="64" [nzSrc]="user.avatarUri"></nz-avatar>
-      </td>
+        </td>
         <td>{{ user.userName }}</td>
         <td>{{ user.fullName }}</td>
         <td>{{ user.email }}</td>

@@ -18,25 +18,36 @@ export class EditUserComponent implements OnInit {
 
   // Spin
   public isSpinning: boolean;
+
   // Init form
   public validateForm!: FormGroup;
 
-  userId = '';
-  avatar = '';
-  api_upload = (`${environment.storage_api_url}/api/files/upload`);
+  // User id
+  public userId = '';
 
-  listOfOptionRoles: Array<{ label: string; value: string }> = [];
+  // Avatar uri
+  public avatar = '';
 
-  constructor(private fb: FormBuilder,
+  // Api upload file url
+  public api_upload = (`${environment.storage_api_url}/api/files/upload`);
+
+  // List role
+  public listOfOptionRoles: Array<{ label: string; value: string }> = [];
+
+  constructor(
+    private fb: FormBuilder,
     private userServices: UserServices,
     private notification: NzNotificationService,
     private route: ActivatedRoute,
-    private msg: NzMessageService) { }
+    private msg: NzMessageService
+  ) { }
 
   ngOnInit(): void {
+    // Get user id
     this.route.params.subscribe(params => {
       this.userId = params['id'];
     });
+    // Form user
     this.validateForm = this.fb.group({
       id: [null],
       userName: [null, [Validators.required]],
@@ -50,9 +61,11 @@ export class EditUserComponent implements OnInit {
       userRoles: [null],
       avatarUri: [null]
     });
+    // Get user detail
     this.getUserDetail(this.userId);
   }
 
+  // Get user
   getUserDetail(userId: string) {
     this.isSpinning = true;
     this.userServices.getUserWithRoles(userId)
@@ -68,7 +81,7 @@ export class EditUserComponent implements OnInit {
           createDate: res.createDate,
           lastModifiedDate: res.lastModifiedDate,
           userRoles: res.userRoles,
-          avatarUri : res.avatarUri
+          avatarUri: res.avatarUri
         });
         setTimeout(() => {
           this.avatar = res.avatarUri;
@@ -78,7 +91,7 @@ export class EditUserComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -88,6 +101,7 @@ export class EditUserComponent implements OnInit {
       });
   }
 
+  // Event upload file
   handleChange(info: NzUploadChangeParam): void {
     if (info.file.status !== 'uploading') {
     }
@@ -98,7 +112,6 @@ export class EditUserComponent implements OnInit {
       this.msg.error(`${info.file.name} file upload failed.`);
     }
   }
-
 
   // Create new user
   submitValidateForm(value: {
@@ -118,16 +131,17 @@ export class EditUserComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_ADD,
-          'bottomRight');
+          'bottomRight'
+        );
         setTimeout(() => {
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -137,22 +151,24 @@ export class EditUserComponent implements OnInit {
       });
   }
 
+  // Reset password
   resetPassword() {
     this.isSpinning = true;
     this.userServices.resetUserPassword(this.userId)
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           'Success reset password to ' + 'User@123',
-          'bottomRight');
+          'bottomRight'
+        );
         setTimeout(() => {
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );

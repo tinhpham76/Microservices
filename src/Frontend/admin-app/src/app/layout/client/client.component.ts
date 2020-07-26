@@ -2,11 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzNotificationService, NzNotificationPlacement } from 'ng-zorro-antd/notification';
 import { ClientServices } from '@app/shared/services/clients.service';
-import { catchError } from 'rxjs/operators';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
-import { throwError } from 'rxjs';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { environment } from '@environments/environment';
 
 
 @Component({
@@ -30,13 +27,16 @@ export class ClientComponent implements OnInit {
   public confirmDeleteModal?: NzModalRef;
 
   // Search
-  searchValue = '';
+  public searchValue = '';
 
-  constructor(private clientServices: ClientServices,
+  constructor(
+    private clientServices: ClientServices,
     private notification: NzNotificationService,
-    private modal: NzModalService) { }
+    private modal: NzModalService
+  ) { }
 
   ngOnInit(): void {
+    // Load client
     this.loadClientData(this.filter, this.pageIndex, this.pageSize);
   }
 
@@ -53,7 +53,7 @@ export class ClientComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -63,11 +63,13 @@ export class ClientComponent implements OnInit {
       });
   }
 
+  // Event page
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
     this.loadClientData(this.searchValue, pageIndex, pageSize);
   }
 
+  // Event search
   handleInputConfirm(): void {
     this.loadClientData(this.searchValue, this.pageIndex, this.pageSize);
   }
@@ -79,7 +81,7 @@ export class ClientComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_DELETE,
           'bottomRight'
         );
@@ -87,7 +89,7 @@ export class ClientComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -99,7 +101,7 @@ export class ClientComponent implements OnInit {
 
   showDeleteConfirm(clientId: string): void {
     this.confirmDeleteModal = this.modal.confirm({
-      nzTitle: 'Do you Want to delete ' + clientId + ' client ?',
+      nzTitle: 'Do you Want to delete client?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>

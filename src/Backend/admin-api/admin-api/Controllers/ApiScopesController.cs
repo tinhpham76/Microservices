@@ -127,7 +127,7 @@ namespace admin_api.Controllers
             {
                 if (!(request.UserClaims.Contains(claim)))
                 {
-                    var removeClaim = await _context.ApiScopeClaims.FirstOrDefaultAsync(x => x.Type == claim);
+                    var removeClaim = await _context.ApiScopeClaims.FirstOrDefaultAsync(x => x.Type == claim && x.ScopeId == apiScope.Id);
                     _context.ApiScopeClaims.Remove(removeClaim);
                 }
             }

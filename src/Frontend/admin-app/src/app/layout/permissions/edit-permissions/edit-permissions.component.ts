@@ -14,8 +14,12 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
 })
 export class EditPermissionsComponent implements OnInit {
 
-  isSpinning = false;
-  searchValue = '';
+  // Spin
+  public isSpinning = false;
+
+  // Search value
+  public searchValue = '';
+
   // load role data
   public filter = '';
   public pageIndex = 1;
@@ -23,27 +27,36 @@ export class EditPermissionsComponent implements OnInit {
   public items: any[];
   public totalRecords: number;
 
-  roleId = '';
-  constructor(private permissionServices: PermissionServices,
+  // Role id
+  public roleId = '';
+
+  constructor(
+    private permissionServices: PermissionServices,
     private notification: NzNotificationService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    // Get role id
     this.route.params.subscribe(params => {
       this.roleId = params['id'];
     });
+    // Load permission
     this.loadPermissions(this.roleId, this.filter, this.pageIndex, this.pageSize);
   }
 
+  // Event change page
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex } = params;
     this.loadPermissions(this.roleId, this.searchValue, pageIndex, pageSize);
   }
 
+  // Event search
   handleInputConfirm(): void {
     this.loadPermissions(this.roleId, this.searchValue, this.pageIndex, this.pageSize);
   }
 
+  // Load permission
   loadPermissions(roleId: string, filter: string, pageIndex: number, pageSize: number) {
     this.isSpinning = true;
     this.permissionServices.getPermissions(roleId, filter, pageIndex, pageSize)
@@ -56,7 +69,7 @@ export class EditPermissionsComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -66,29 +79,28 @@ export class EditPermissionsComponent implements OnInit {
       });
   }
 
-
-
-  // Tạo thông báo
+  // Notification
   createNotification(type: string, title: string, content: string, position: NzNotificationPlacement): void {
     this.notification.create(type, title, content, { nzPlacement: position });
   }
 
-  log(data) {
+  editPermission(data) {
     this.isSpinning = true;
     this.permissionServices.postPermissions(this.roleId, data)
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_ADD,
-          'bottomRight');
+          MessageConstants.TITLE_NOTIFICATION,
+          MessageConstants.NOTIFICATION_UPDATE,
+          'bottomRight'
+        );
         setTimeout(() => {
           this.loadPermissions(this.roleId, this.filter, this.pageIndex, this.pageSize);
         }, 500);
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );

@@ -22,7 +22,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         NzNotificationModule,
         LoginRoutingModule,
     ],
-    declarations: [LoginComponent],
-    providers:[NgxSpinnerService]
+    declarations: [
+        LoginComponent
+    ],
+    providers: [
+        NgxSpinnerService
+    ]
 })
-export class LoginModule {}
+export class LoginModule { }

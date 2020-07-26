@@ -31,8 +31,8 @@ namespace auth_server.Controllers
                 Enabled = request.Enabled,
                 AllowedAccessTokenSigningAlgorithms = { request.AllowedAccessTokenSigningAlgorithms },
                 ShowInDiscoveryDocument = request.ShowInDiscoveryDocument,
-                UserClaims = request.UserClaim,
-                Scopes = request.Scope
+                UserClaims = request.UserClaims,
+                Scopes = request.Scopes
             };
             _configurationDbContext.ApiResources.Add(apiResourceRequest.ToEntity());
             var result = await _configurationDbContext.SaveChangesAsync();

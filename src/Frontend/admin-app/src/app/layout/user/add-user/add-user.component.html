@@ -1,15 +1,14 @@
-<!--Start welcome users-->
+<!--Header-->
 <div class="content-heading">
   <div>
-    👨‍👩‍👧‍👦 Add new user
+    👨‍👩‍👧‍👦 Users
     <br>
     <small><b> A user is a person or robot that can access resources and clients..</b></small>
   </div>
 </div>
 <button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='/users'><i nz-icon
     nzType="rollback"></i>Go back</button>
-<!--End welcome users-->
-<!--Start create new user-->
+<!--Body-->
 <nz-spin [nzSpinning]="isSpinning">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitValidateForm(validateForm.value)">
     <div nz-row nzJustify="center">
@@ -86,7 +85,7 @@
                 <nz-select formControlName="phoneNumberPrefix" class="phone-select">
                   <nz-option nzLabel="+82" nzValue="+82"></nz-option>
                   <nz-option nzLabel="+83" nzValue="+83"></nz-option>
-                  <nz-option nzLabel="+84 (VN)" nzValue="+84"></nz-option>
+                  <nz-option nzLabel="+84(VN)" nzValue="+84"></nz-option>
                   <nz-option nzLabel="+85" nzValue="+85"></nz-option>
                   <nz-option nzLabel="+86" nzValue="+86"></nz-option>
                 </nz-select>
@@ -109,14 +108,10 @@
       <nz-form-label [nzSm]=" 6" [nzXs]="24">Avatar Uri</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating...">
         <input nz-input formControlName="avatarUri" placeholder="avatar uri" [ngModel]="avatar" />
-        <nz-upload
-        [nzLimit]="1"
-        nzAction="{{api_upload}}"
-        [nzHeaders]="{ authorization: 'authorization-text' }"
-        (nzChange)="handleChange($event)"
-      >
-        <a nz-button><i nz-icon nzType="upload"></i>Click to Upload</a>
-      </nz-upload>
+        <nz-upload [nzLimit]="1" nzAction="{{api_upload}}" [nzHeaders]="{ authorization: 'authorization-text' }"
+          (nzChange)="handleChange($event)">
+          <a nz-button><i nz-icon nzType="upload"></i>Click to Upload</a>
+        </nz-upload>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -143,9 +138,8 @@
     <nz-form-item>
       <nz-form-control [nzOffset]="7" [nzSpan]="12">
         <button nz-button nzType="primary" [disabled]="!validateForm.valid">Create</button>
-        <button nz-button routerLink='/api-resources'>Cancel</button>
+        <button nz-button routerLink='/users'>Cancel</button>
       </nz-form-control>
     </nz-form-item>
   </form>
 </nz-spin>
-<!--End create new user-->

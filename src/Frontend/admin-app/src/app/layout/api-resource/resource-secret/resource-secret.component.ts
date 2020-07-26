@@ -16,12 +16,16 @@ export class ResourceSecretComponent implements OnInit {
   // Spin
   public isSpinning: boolean;
 
+  // Api name
   public apiName: string;
 
-  confirmDeleteApiSecret?: NzModalRef;
+  // Confirm delete
+  public confirmDeleteApiSecret?: NzModalRef;
 
+  // Api secret data
   public itemApiSecrets: any[];
 
+  // Form secret
   public secretForm!: FormGroup;
 
   constructor(
@@ -33,10 +37,11 @@ export class ResourceSecretComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // Get api name
     this.route.params.subscribe(params => {
       this.apiName = params['name'];
     });
-    // Init form api secrets
+    // Form api secrets
     this.secretForm = this.fb.group({
       type: ['SharedSecret'],
       value: [null, [Validators.required]],
@@ -44,9 +49,10 @@ export class ResourceSecretComponent implements OnInit {
       expiration: [null],
       hashType: ['Sha256'],
     });
+    // Get api secret
     this.getApiSecret(this.apiName);
   }
-  
+
   // Get api secret
   getApiSecret(apiName: string) {
     this.isSpinning = true;
@@ -59,7 +65,7 @@ export class ResourceSecretComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -79,14 +85,15 @@ export class ResourceSecretComponent implements OnInit {
         this.getApiSecret(this.apiName);
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_ADD,
-          'bottomRight');
+          'bottomRight'
+        );
         this.resetForm();
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -103,8 +110,10 @@ export class ResourceSecretComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
-          MessageConstants.NOTIFICATION_DELETE + name + ' !', 'bottomRight');
+          MessageConstants.TITLE_NOTIFICATION,
+          MessageConstants.NOTIFICATION_DELETE,
+          'bottomRight'
+        );
         setTimeout(() => {
           this.getApiSecret(this.apiName);
           this.isSpinning = false;
@@ -112,7 +121,7 @@ export class ResourceSecretComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -125,7 +134,7 @@ export class ResourceSecretComponent implements OnInit {
   // Delete api secret
   showDeleteConfirmApiSecrets(id: string): void {
     this.confirmDeleteApiSecret = this.modal.confirm({
-      nzTitle: 'Do you Want to delete api secrets id: ' + id + '?',
+      nzTitle: 'Do you Want to delete api secrets?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>

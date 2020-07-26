@@ -16,12 +16,16 @@ export class ClientPropertyComponent implements OnInit {
   // Spin
   public isSpinning: boolean;
 
+  // Client id
   public clientId: string;
 
+  // Confirm delete
   confirmDeleteClientProperty: NzModalRef;
 
+  // Client property data
   public itemClientProperties: any[];
 
+  // Form property
   public propertyForm!: FormGroup;
 
   constructor(
@@ -33,18 +37,20 @@ export class ClientPropertyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // Get client id
     this.route.params.subscribe(params => {
       this.clientId = params['id'];
     });
-    // Init form client secrets
+    // Form client secrets
     this.propertyForm = this.fb.group({
       key: [null, [Validators.required]],
       value: [null, [Validators.required]],
     });
+    // Get client property
     this.getClientProperties(this.clientId);
   }
 
-  // Get client secret
+  // Get client property
   getClientProperties(clientId: string) {
     this.isSpinning = true;
     this.clientServices.getClientProperties(clientId)
@@ -56,7 +62,7 @@ export class ClientPropertyComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -66,25 +72,26 @@ export class ClientPropertyComponent implements OnInit {
       });
   }
 
-  // Create new client secret
+  // Create client property
   submitFormClientProperty(value: {
     key: string;
     value: string;
-    }): void {
+  }): void {
     this.isSpinning = true;
     this.clientServices.addClientProperty(this.clientId, value)
       .subscribe(() => {
         this.getClientProperties(this.clientId);
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_ADD,
-          'bottomRight');
+          'bottomRight'
+        );
         this.resetForm();
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -101,7 +108,7 @@ export class ClientPropertyComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_DELETE,
           'bottomRight'
         );
@@ -112,7 +119,7 @@ export class ClientPropertyComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -125,7 +132,7 @@ export class ClientPropertyComponent implements OnInit {
   // Delete client property
   showDeleteConfirmClientProperty(key: string): void {
     this.confirmDeleteClientProperty = this.modal.confirm({
-      nzTitle: 'Do you Want to delete client property key: ' + key + ' ?',
+      nzTitle: 'Do you Want to delete client property?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>

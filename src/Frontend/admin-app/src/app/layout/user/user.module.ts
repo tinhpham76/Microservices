@@ -28,7 +28,11 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzMessageServiceModule } from 'ng-zorro-antd/message';
 
 @NgModule({
-  declarations: [UserComponent, AddUserComponent, EditUserComponent],
+  declarations: [
+    UserComponent,
+    AddUserComponent,
+    EditUserComponent
+  ],
   imports: [
     CommonModule,
     NzTableModule,

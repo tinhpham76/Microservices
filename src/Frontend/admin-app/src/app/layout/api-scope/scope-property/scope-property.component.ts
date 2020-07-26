@@ -14,36 +14,44 @@ import { MessageConstants } from '@app/shared/constants/messages.constant';
 export class ScopePropertyComponent implements OnInit {
 
   // Spin
-   public isSpinning: boolean;
+  public isSpinning: boolean;
 
-   public apiName: string;
- 
-   confirmDeleteApiProperty: NzModalRef;
- 
-   public itemApiProperties: any[];
- 
-   public propertyForm!: FormGroup;
+  // Api name
+  public apiName: string;
 
-  constructor(private notification: NzNotificationService,
+  // Confirm delete
+  public confirmDeleteApiProperty: NzModalRef;
+
+  // Api scope property data
+  public itemApiProperties: any[];
+
+  // Form property
+  public propertyForm!: FormGroup;
+
+  constructor(
+    private notification: NzNotificationService,
     private route: ActivatedRoute,
     private apiScopeServices: ApiScopeServices,
     private fb: FormBuilder,
-    private modal: NzModalService) { }
+    private modal: NzModalService
+  ) { }
 
   ngOnInit(): void {
+    // Get api name
     this.route.params.subscribe(params => {
       this.apiName = params['name'];
     });
-    // Init form api property
+    // Form api scope property
     this.propertyForm = this.fb.group({
       key: [null, [Validators.required]],
       value: [null, [Validators.required]],
     });
+    // Get api property
     this.getApiProperties(this.apiName);
   }
 
-   // Get api property
-   getApiProperties(apiName: string) {
+  // Get api property
+  getApiProperties(apiName: string) {
     this.isSpinning = true;
     this.apiScopeServices.getApiScopeProperty(apiName)
       .subscribe((res: any[]) => {
@@ -54,7 +62,7 @@ export class ScopePropertyComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -64,25 +72,25 @@ export class ScopePropertyComponent implements OnInit {
       });
   }
 
-  // Create new api secret
+  // Create api property
   submitFormApiProperty(value: {
     key: string;
     value: string;
-    }): void {
+  }): void {
     this.isSpinning = true;
     this.apiScopeServices.addApiScopeProperty(this.apiName, value)
       .subscribe(() => {
         this.getApiProperties(this.apiName);
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_ADD,
           'bottomRight');
         this.resetForm();
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -99,7 +107,7 @@ export class ScopePropertyComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_DELETE,
           'bottomRight'
         );
@@ -110,7 +118,7 @@ export class ScopePropertyComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -123,7 +131,7 @@ export class ScopePropertyComponent implements OnInit {
   // Delete api property
   showDeleteConfirmApiProperty(key: string): void {
     this.confirmDeleteApiProperty = this.modal.confirm({
-      nzTitle: 'Do you Want to delete api property key: ' + key + '?',
+      nzTitle: 'Do you Want to delete api property key?',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () =>

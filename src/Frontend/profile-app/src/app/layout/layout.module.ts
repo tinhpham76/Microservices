@@ -14,7 +14,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 @NgModule({
-  declarations: [LayoutComponent],
+  declarations: [
+    LayoutComponent
+  ],
   imports: [
     CommonModule,
     NzAvatarModule,
@@ -29,6 +31,8 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
     NzNotificationModule,
     LayoutRoutingModule
   ],
-  bootstrap: [LayoutComponent]
+  bootstrap: [
+    LayoutComponent
+  ]
 })
 export class LayoutModule { }

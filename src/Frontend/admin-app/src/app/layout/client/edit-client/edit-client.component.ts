@@ -16,8 +16,12 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class EditClientComponent implements OnInit {
 
-  api_upload = (`${environment.storage_api_url}/api/files/upload`);
-  logo = '';
+  // Api upload file url
+  public api_upload = (`${environment.storage_api_url}/api/files/upload`);
+
+  // Logo uri
+  public logo = '';
+
   // Spin
   public isSpinning: boolean;
 
@@ -25,35 +29,36 @@ export class EditClientComponent implements OnInit {
   public clientId: string;
   // Tab basic setting
   public basicForm!: FormGroup;
-  allowedCorsOrigins = [];
-  inputAllowedCorsOriginsVisible = false;
-  inputAllowedCorsOriginsValue = '';
+  public allowedCorsOrigins = [];
+  public inputAllowedCorsOriginsVisible = false;
+  public inputAllowedCorsOriginsValue = '';
 
   // Tab setting
   public settingForm!: FormGroup;
-  allGrantTypes = [
+  public allGrantTypes = [
     'authorization_code',
     'client_credentials',
     'refresh_token',
     'implicit',
     'password',
-    'urn:ietf:params:oauth:grant-type:device_code'];
-  allScopes = [];
-  allowedScopes = [];
-  redirectUris = [];
-  allowedGrantTypes = [];
-  inputAllowedScopesVisible = false;
-  inputAllowedScopesValue = '';
-  inputRedirectUrisVisible = false;
-  inputRedirectUrisValue = '';
-  inputAllowedGrantTypesVisible = false;
-  inputAllowedGrantTypesValue = '';
+    'urn:ietf:params:oauth:grant-type:device_code'
+  ];
+  public allScopes = [];
+  public allowedScopes = [];
+  public redirectUris = [];
+  public allowedGrantTypes = [];
+  public inputAllowedScopesVisible = false;
+  public inputAllowedScopesValue = '';
+  public inputRedirectUrisVisible = false;
+  public inputRedirectUrisValue = '';
+  public inputAllowedGrantTypesVisible = false;
+  public inputAllowedGrantTypesValue = '';
 
   // Tab Authentication
   public authenticationForm!: FormGroup;
-  postLogoutRedirectUris = [];
-  inputPostLogoutRedirectUrisVisible = false;
-  inputPostLogoutRedirectUrisValue = '';
+  public postLogoutRedirectUris = [];
+  public inputPostLogoutRedirectUrisVisible = false;
+  public inputPostLogoutRedirectUrisValue = '';
   @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
 
   // Tab Token
@@ -62,13 +67,16 @@ export class EditClientComponent implements OnInit {
   // Tab Device Flow
   public deviceFlowForm!: FormGroup;
 
-  constructor(private notification: NzNotificationService,
+  constructor(
+    private notification: NzNotificationService,
     private route: ActivatedRoute,
     private clientServices: ClientServices,
     private fb: FormBuilder,
-    private msg: NzMessageService) { }
+    private msg: NzMessageService
+  ) { }
 
   ngOnInit(): void {
+    // Get client id
     this.route.params.subscribe(params => {
       this.clientId = params['id'];
     });
@@ -132,11 +140,17 @@ export class EditClientComponent implements OnInit {
       deviceCodeLifetime: [null, [Validators.required]]
     });
 
+    // Get basic
     this.getBasicSetting(this.clientId);
+    // Get setting
     this.getSettingClient(this.clientId);
+    // Get scopes
     this.getAllScopes();
+    // Get authentication
     this.getAuthenticationSetting(this.clientId);
+    // Get token
     this.getTokenSetting(this.clientId);
+    // Get device flow
     this.getDeviceFlowSetting(this.clientId);
   }
 
@@ -160,7 +174,7 @@ export class EditClientComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -170,6 +184,7 @@ export class EditClientComponent implements OnInit {
       });
   }
 
+  // Event upload file
   handleChange(info: NzUploadChangeParam): void {
     if (info.file.status !== 'uploading') {
     }
@@ -181,6 +196,7 @@ export class EditClientComponent implements OnInit {
     }
   }
 
+  // Save change basic
   submitBasicForm(value:
     {
       clientId: string;
@@ -197,16 +213,17 @@ export class EditClientComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_UPDATE,
-          'bottomRight');
+          'bottomRight'
+        );
         setTimeout(() => {
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -236,7 +253,7 @@ export class EditClientComponent implements OnInit {
     }, 10);
   }
 
-  // Client Setting
+  // Get setting
   getSettingClient(clientId: string) {
     this.isSpinning = true;
     this.clientServices.getSetting(clientId)
@@ -264,7 +281,7 @@ export class EditClientComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -274,6 +291,7 @@ export class EditClientComponent implements OnInit {
       });
   }
 
+  // Get all scope
   getAllScopes() {
     this.clientServices.getAllScope()
       .subscribe((res: any[]) => {
@@ -281,7 +299,7 @@ export class EditClientComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -291,6 +309,7 @@ export class EditClientComponent implements OnInit {
       });
   }
 
+  // Save change setting
   submitSettingForm(value:
     {
       enabled: boolean;
@@ -305,7 +324,6 @@ export class EditClientComponent implements OnInit {
       allowedScopes;
       redirectUris;
       allowedGrantTypes;
-
     }
   ): void {
     value.allowedScopes = this.allowedScopes;
@@ -316,9 +334,10 @@ export class EditClientComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_UPDATE,
-          'bottomRight');
+          'bottomRight'
+        );
         setTimeout(() => {
           this.getBasicSetting(this.clientId);
           this.isSpinning = false;
@@ -326,7 +345,7 @@ export class EditClientComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -377,7 +396,7 @@ export class EditClientComponent implements OnInit {
     }
   }
 
-  // Client authentication setting
+  // Get client authentication setting
   getAuthenticationSetting(clientId: string) {
     this.isSpinning = true;
     this.clientServices.getAuthentication(clientId)
@@ -398,7 +417,7 @@ export class EditClientComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -408,6 +427,7 @@ export class EditClientComponent implements OnInit {
       });
   }
 
+  // Save change authentication
   submitAuthenticationForm(value:
     {
       enableLocalLogin: boolean;
@@ -425,16 +445,17 @@ export class EditClientComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_UPDATE,
-          'bottomRight');
+          'bottomRight'
+        );
         setTimeout(() => {
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -464,7 +485,7 @@ export class EditClientComponent implements OnInit {
     }, 10);
   }
 
-  // Token setting
+  // Get token setting
   getTokenSetting(clientId: string) {
     this.isSpinning = true;
     this.clientServices.getToken(clientId)
@@ -491,7 +512,7 @@ export class EditClientComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -501,6 +522,7 @@ export class EditClientComponent implements OnInit {
       });
   }
 
+  // Save changes token
   submitTokenForm(value:
     {
       identityTokenLifetime: number;
@@ -524,16 +546,17 @@ export class EditClientComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_UPDATE,
-          'bottomRight');
+          'bottomRight'
+        );
         setTimeout(() => {
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -543,7 +566,7 @@ export class EditClientComponent implements OnInit {
       });
   }
 
-  // Client setting device flow
+  // Get client setting device flow
   getDeviceFlowSetting(clientId: string) {
     this.isSpinning = true;
     this.clientServices.getDeviceFlow(clientId)
@@ -558,7 +581,7 @@ export class EditClientComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -568,6 +591,7 @@ export class EditClientComponent implements OnInit {
       });
   }
 
+  // Save change device flow
   submitDeviceFlowForm(value:
     {
       userCodeType: string;
@@ -579,16 +603,17 @@ export class EditClientComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_UPDATE,
-          'bottomRight');
+          'bottomRight'
+        );
         setTimeout(() => {
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );

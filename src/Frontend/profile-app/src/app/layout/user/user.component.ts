@@ -33,7 +33,7 @@ export class UserComponent implements OnInit {
   public validateForm!: FormGroup;
 
   // User id
-  userId = '';
+  public userId = '';
 
   constructor(
     private userServices: UserServices,

@@ -37,8 +37,14 @@ import { NzMessageServiceModule } from 'ng-zorro-antd/message';
 
 
 @NgModule({
-  declarations: [ClientComponent, AddClientComponent, EditClientComponent,
-     ClientSecretComponent, ClientPropertyComponent, ClientClaimComponent],
+  declarations: [
+    ClientComponent,
+    AddClientComponent,
+    EditClientComponent,
+    ClientSecretComponent,
+    ClientPropertyComponent,
+    ClientClaimComponent
+  ],
   imports: [
     CommonModule,
     NzTableModule,

@@ -1,4 +1,4 @@
-<!--Start welcome clients-->
+<!--Header-->
 <div class="content-heading">
     <div>
         💻 Clients
@@ -10,7 +10,6 @@
 <button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='add'><i nz-icon
         nzType="desktop"></i>Create new client</button>
 <br><br>
-
 <div nz-row>
     <div nz-col nzSpan="6">
         <nz-input-group [nzSuffix]="suffixIconSearch">
@@ -23,11 +22,11 @@
     </div>
 </div>
 
-<!--End welcome clients-->
+<!--Body-->
 <nz-spin [nzSpinning]="isSpinning">
-    <!--Start table clients-->
-    <nz-table #clientTable nzBordered [nzScroll]="{ x: '1000px' }" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzData]="items"
-        [nzTotal]="totalRecords" [nzFrontPagination]="false" (nzQueryParams)="onQueryParamsChange($event)">
+    <nz-table #clientTable nzBordered [nzScroll]="{ x: '1000px' }" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize"
+        [nzData]="items" [nzTotal]="totalRecords" [nzFrontPagination]="false"
+        (nzQueryParams)="onQueryParamsChange($event)">
         <thead>
             <tr>
                 <th>Index</th>
@@ -60,5 +59,4 @@
             </tr>
         </tbody>
     </nz-table>
-    <!--End table clients-->
 </nz-spin>

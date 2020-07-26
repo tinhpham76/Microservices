@@ -9,11 +9,14 @@ import { Location } from '@angular/common';
 })
 export class AccessDeniedComponent implements OnInit {
 
-  constructor(private translate: TranslateService,
-    private location: Location) { }
+  constructor(
+    private translate: TranslateService,
+    private location: Location
+  ) { }
 
   ngOnInit() {
   }
+
   goBack() {
     this.location.back();
   }

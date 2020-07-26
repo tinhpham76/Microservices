@@ -18,28 +18,35 @@ export class EditScopeComponent implements OnInit {
   // Spin
   public isSpinning: boolean;
 
-  apiName = '';
+  // Api name
+  public apiName = '';
 
   // Claims
-  userClaims = [];
-  claims = ['sub', 'name', 'given_name', 'family_name', 'middle_name',
-    'nickname', 'preferred_username', 'profile', 'picture', 'website', 'email', 'email_verified',
-    'gender', 'birthdate', 'zoneinfo', 'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'];
-  inputClaimVisible = false;
-  inputClaimValue = '';
+  public userClaims = [];
+  public claims = [
+    'sub', 'name', 'given_name', 'family_name', 'middle_name',
+    'nickname', 'preferred_username', 'profile', 'picture', 'website',
+    'email', 'email_verified', 'gender', 'birthdate', 'zoneinfo',
+    'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'
+  ];
+  public inputClaimVisible = false;
+  public inputClaimValue = '';
 
   @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private apiScopeServices: ApiScopeServices,
     private notification: NzNotificationService,
-    private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    // Get api name
     this.route.params.subscribe(params => {
       this.apiName = params['name'];
     });
+    // Form edit
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
       displayName: [null, Validators.required],
@@ -50,10 +57,11 @@ export class EditScopeComponent implements OnInit {
       emphasize: [false],
       userClaims: [null]
     });
+    // Get api scope
     this.getApiScope(this.apiName);
   }
 
-  // Get detail api resource
+  // Get detail api scope
   getApiScope(apiName: string) {
     this.isSpinning = true;
     this.apiScopeServices.getDetail(apiName)
@@ -75,7 +83,7 @@ export class EditScopeComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
@@ -84,7 +92,8 @@ export class EditScopeComponent implements OnInit {
         }, 500);
       });
   }
-  // Create new identity resource
+
+  // Save change api scope
   submitValidateForm(value:
     {
       name: string;
@@ -102,9 +111,10 @@ export class EditScopeComponent implements OnInit {
       .subscribe(() => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           MessageConstants.NOTIFICATION_UPDATE,
-          'bottomRight');
+          'bottomRight'
+        );
         setTimeout(() => {
           this.getApiScope(this.apiName);
           this.isSpinning = false;
@@ -112,7 +122,7 @@ export class EditScopeComponent implements OnInit {
       }, errorMessage => {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_ERROR,
-          MessageConstants.TITLE_NOTIFICATION_SSO,
+          MessageConstants.TITLE_NOTIFICATION,
           errorMessage,
           'bottomRight'
         );
