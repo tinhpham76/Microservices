@@ -57,7 +57,7 @@ The profile app is angular webapp. Profile app used to manage personal informati
 
 ## Screenshot
 
-![alt tag](https://drive.google.com/file/d/1T3c8QWCwf5PJw6-xwLg4m8_QpzW5EaVW/view?usp=sharing)
+![alt tag](./src/assets/images/angular-logo.png)
 <img src="https://drive.google.com/file/d/1T3c8QWCwf5PJw6-xwLg4m8_QpzW5EaVW/view?usp=sharing" width="45%">
 </img> 
 <img src="https://drive.google.com/file/d/1OxKu-zcfSwBj0rsex0a68u-M6MJpW0kb/view?usp=sharing" width="45%"></img>
