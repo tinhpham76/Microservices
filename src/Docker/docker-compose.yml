@@ -27,28 +27,50 @@ services:
     image: "auth-server"
     container_name: "auth-server"
     build:
-      context: ../Backend/AuthServer/
+      context: ../Backend/auth-server/
       dockerfile: Dockerfile
     environment:
       TZ: "Asia/Ho_Chi_Minh"
       ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_URLS: http://+:5000
-      SwaggerAuthorityUrl: "https://localhost:5000"
-      Https: "true"
-      IssuerUri: "https://auth-server:5000"
-      ConnectionStrings:DefaultConnection: "Server=database;Database=SingleSignOn;User Id=sa;password=kAa36qDc;"  
+      ASPNETCORE_URLS: http://+:5001
+      SwaggerAuthorityUrl: "http://localhost:5001"
+      IssuerUri: "http://auth-server:5001"
+      ConnectionStrings:AuthServer: "Server=database;Database=AuthData;User Id=sa;password=kAa36qDc;"
+      ConnectionStrings:UserServer: "Server=database;Database=UserData;User Id=sa;password=kAa36qDc;"  
     volumes:
     - type: bind
-      source: ./DATA-DOCKER/Backend/SSO.Backend/logs
+      source: ./DATA-DOCKER/Backend/auth-server/logs
       target: /app/wwwroot/logs
     depends_on: 
       - "database"
-      - "reverse-proxy"
     networks: 
       - network-sso 
-    expose: 
-      - "5000"    
     restart: unless-stopped  
+  ##############################
+  ## Admin Api
+  ##############################
+  admin-api:
+    image: "admin-api"
+    container_name: "admin-api"
+    build:
+      context: ../Backend/admin-api/
+      dockerfile: Dockerfile
+    environment:
+      TZ: "Asia/Ho_Chi_Minh"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: http://+:5003
+      Authority: "http://auth-server:5001"
+      RequireHttpsMetadata: "false"
+      SwaggerAuthorityUrl: "http://localhost:5001"
+      BackendApiUrl: "http://auth-server:5001"
+      ConnectionStrings:DefaultConnection: "Server=database;Database=AuthData;User Id=sa;password=kAa36qDc;"
+    volumes:
+    - type: bind
+      source: ./DATA-DOCKER/Backend/admin-api/logs
+      target: /app/wwwroot/logs
+    networks: 
+      - network-sso 
+    restart: unless-stopped 
   ##############################
   ## User Api
   ##############################
@@ -56,27 +78,44 @@ services:
     image: "user-api"
     container_name: "user-api"
     build:
-      context: ../Backend/ApiServer/
+      context: ../Backend/user-api/
+      dockerfile: Dockerfile
+    environment:
+      TZ: "Asia/Ho_Chi_Minh"    
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: http://+:5005
+      Authority: "http://auth-server:5001"
+      RequireHttpsMetadata: "false"
+      SwaggerAuthorityUrl: "http://localhost:5001"
+      BackendApiUrl: "http://auth-server:5001"
+    volumes:
+    - type: bind
+      source: ./DATA-DOCKER/Backend/user-api/logs
+      target: /app/wwwroot/logs
+    networks: 
+      - network-sso 
+    restart: unless-stopped 
+  ##############################
+  ## Storage Api
+  ##############################
+  storage-api:
+    image: "storage-api"
+    container_name: "storage-api"
+    build:
+      context: ../Backend/storage-api/
       dockerfile: Dockerfile
     environment:
       TZ: "Asia/Ho_Chi_Minh"
       ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_URLS: http://+:5002
-      Authority: "https://auth-server:5000"
-      RequireHttpsMetadata: "false"
-      Https: "true"
-      SwaggerAuthorityUrl: "https://localhost:5000"
-      BackendApiUrl: "https://auth-server:5000"
+      ASPNETCORE_URLS: http://+:5007
+      Authority: "http://auth-server:5001"
+      SwaggerAuthorityUrl: "http://localhost:5001"
     volumes:
     - type: bind
-      source: ./DATA-DOCKER/Backend/USERAPI.Backend/logs
-      target: /app/wwwroot/logs
+      source: ./DATA-DOCKER/Backend/storage-api
+      target: /app/wwwroot
     networks: 
       - network-sso 
-    depends_on:
-      - "reverse-proxy"
-    expose:
-      - "5002" 
     restart: unless-stopped 
   ##############################
   ## Nginx proxy
@@ -85,12 +124,19 @@ services:
     container_name: project
     build:
       context: ./nginx/
-      dockerfile: nginx-pro.dockerfile
+      dockerfile: nginx.dockerfile
     environment:
       TZ: "Asia/Ho_Chi_Minh"  
     ports:
-      - '80:80'
-      - '443:443'
+      - '5001:5001'
+      - '5003:5003'
+      - '5005:5005'
+      - '5007:5007'
+    depends_on:
+      - 'auth-server'
+      - 'admin-api'
+      - 'user-api'
+      - 'storage-api'
     restart: unless-stopped    
     networks: 
         - network-sso 
@@ -108,6 +154,7 @@ services:
       - "4200:4200"
     networks:
       - network-sso
+    restart: unless-stopped 
   ##############################
   ## Profile app
   ##############################
@@ -122,6 +169,7 @@ services:
       - "4300:4300"
     networks:
       - network-sso
+    restart: unless-stopped   
 ##############################
 ## Docker NetWork
 ##############################

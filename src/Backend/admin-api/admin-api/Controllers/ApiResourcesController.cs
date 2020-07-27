@@ -1,7 +1,9 @@
-﻿using admin_api.Data;
+﻿using admin_api.Authorization;
+using admin_api.Data;
 using admin_api.Data.Entities;
 using admin_api.Services;
 using admin_services;
+using admin_services.Constants;
 using admin_services.RequestModels;
 using admin_services.ViewModels;
 using IdentityModel;
@@ -26,6 +28,7 @@ namespace admin_api.Controllers
         #region Api Resources
         // Get all api scope
         [HttpGet]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetAllApiScopes()
         {
             var apiScopes = await _context.ApiScopes.Select(x => x.Name.ToString()).ToListAsync();
@@ -34,6 +37,7 @@ namespace admin_api.Controllers
 
         // Find api resource with name or display name
         [HttpGet("filter")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetApiResourcesPaging(string filter, int pageIndex, int pageSize)
         {
             var query = _context.ApiResources.AsQueryable();
@@ -62,6 +66,7 @@ namespace admin_api.Controllers
         }
 
         [HttpPost]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostApiResource([FromBody] ApiResourceRequestModel request)
         {
             var apiScope = await _context.IdentityResources.Select(x => x.Name.ToString()).ToListAsync();
@@ -78,6 +83,7 @@ namespace admin_api.Controllers
         }
 
         [HttpDelete("{apiResourceName}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
         public async Task<IActionResult> DeleteApiResource(string apiResourceName)
         {
             var result = await _apiResourceApiClient.DeleteApiResource(apiResourceName);
@@ -89,6 +95,7 @@ namespace admin_api.Controllers
         }
 
         [HttpGet("{apiResourceName}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetDetailApiResource(string apiResourceName)
         {
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
@@ -117,6 +124,7 @@ namespace admin_api.Controllers
         }
 
         [HttpPut("{apiResourceName}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_UPDATE)]
         public async Task<IActionResult> PutApiResource(string apiResourceName, [FromBody] ApiResourceRequestModel request)
         {
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
@@ -195,6 +203,7 @@ namespace admin_api.Controllers
         #region Api Resource Secret        
         //Get api resource secrets
         [HttpGet("{apiResourceName}/secrets")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetApiResourceSecrets(string apiResourceName)
         {
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
@@ -216,6 +225,7 @@ namespace admin_api.Controllers
 
         //Post api resource secret
         [HttpPost("{apiResourceName}/secrets")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostApiResourceSecret(string apiResourceName, [FromBody] ApiResourceSecretRequestModel request)
         {
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
@@ -243,6 +253,7 @@ namespace admin_api.Controllers
 
         //Delete api resource secret
         [HttpDelete("{apiResourceName}/secrets/{secretId}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
         public async Task<IActionResult> DeleteApiResourceSecret(string apiResourceName, int secretId)
         {
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
@@ -265,6 +276,7 @@ namespace admin_api.Controllers
         // Api resource property
         //Get api resource properties
         [HttpGet("{apiResourceName}/properties")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetApiResourceProperties(string apiResourceName)
         {
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
@@ -284,6 +296,7 @@ namespace admin_api.Controllers
 
         //Post api resource property
         [HttpPost("{apiResourceName}/properties")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostApiResourceProperty(string apiResourceName, [FromBody] ApiResourcePropertyRequestModel request)
         {
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);
@@ -313,6 +326,7 @@ namespace admin_api.Controllers
 
         //Delete api resource property
         [HttpDelete("{apiResourceName}/properties/{propertyKey}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
         public async Task<IActionResult> DeleteApiResourceProperty(string apiResourceName, string propertyKey)
         {
             var apiResource = await _context.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);

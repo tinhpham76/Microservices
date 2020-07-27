@@ -1,4 +1,6 @@
-﻿using auth_services.RequestModel;
+﻿using auth_server.Authorization;
+using auth_services.Constants;
+using auth_services.RequestModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
@@ -17,6 +19,7 @@ namespace auth_server.Controllers
         }
 
         [HttpPost]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostIdentityResource([FromBody] IdentityResourceRequestModel request)
         {
             var identityResource = await _configurationDbContext.IdentityResources.FirstOrDefaultAsync(x => x.Name == request.Name);
@@ -46,6 +49,7 @@ namespace auth_server.Controllers
 
         //Delete Identity Resource
         [HttpDelete("{identityResourceName}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
         public async Task<IActionResult> DeleteIdentityResource(string identityResourceName)
         {
             var identityResource = await _configurationDbContext.IdentityResources.FirstOrDefaultAsync(x => x.Name == identityResourceName);

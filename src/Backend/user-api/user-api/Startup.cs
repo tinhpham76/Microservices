@@ -60,8 +60,8 @@ namespace user_api
             {
                 options.Authority = Configuration["Authority"];
                 options.ApiSecret = "secret";
-                options.ApiName = "USER-API";
-                options.ApiName = "AUTH-SERVER";
+                options.ApiName = "USER_API";
+                options.ApiName = "AUTH_SERVER";
                 options.RequireHttpsMetadata = bool.Parse(Configuration["RequireHttpsMetadata"]);
             });
 
@@ -71,8 +71,8 @@ namespace user_api
                 options.AddPolicy("myPolicy", builder =>
                 {
                     // require scope1
-                    builder.RequireScope("USER-API");
-                    builder.RequireScope("AUTH-SERVER");
+                    builder.RequireScope("USER_API");
+                    builder.RequireScope("AUTH_SERVER");
                 });
             });
 
@@ -88,7 +88,7 @@ namespace user_api
                         Implicit = new OpenApiOAuthFlow
                         {
                             AuthorizationUrl = new Uri(Configuration["SwaggerAuthorityUrl"] + "/connect/authorize"),
-                            Scopes = new Dictionary<string, string> { { "USER-API", "USER API Resources" }, { "AUTH-SERVER", "Auth Server API Resources" } }
+                            Scopes = new Dictionary<string, string> { { "USER_API", "USER API Resources" }, { "AUTH_SERVER", "Auth Server API Resources" } }
                         },
                     },
                 });
@@ -99,7 +99,7 @@ namespace user_api
                         {
                             Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
                         },
-                        new List<string>{ "USER-API", "AUTH-SERVER" }
+                        new List<string>{ "USER_API", "AUTH_SERVER" }
                     }
                 });
             });
@@ -145,7 +145,7 @@ namespace user_api
 
             app.UseSwaggerUI(c =>
             {
-                c.OAuthClientId("swagger-user-api");
+                c.OAuthClientId("swagger_user_api");
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "USER API V1");
             });
         }

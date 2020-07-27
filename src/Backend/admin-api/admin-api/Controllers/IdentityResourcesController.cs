@@ -1,7 +1,9 @@
-﻿using admin_api.Data;
+﻿using admin_api.Authorization;
+using admin_api.Data;
 using admin_api.Data.Entities;
 using admin_api.Services;
 using admin_services;
+using admin_services.Constants;
 using admin_services.RequestModels;
 using admin_services.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +28,7 @@ namespace admin_api.Controllers
         #region Identity Resource
         // Find identity resource with name or display name
         [HttpGet("filter")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetIdentityResourcesPaging(string filter, int pageIndex, int pageSize)
         {
             var query = _context.IdentityResources.AsQueryable();
@@ -54,6 +57,7 @@ namespace admin_api.Controllers
         }
 
         [HttpPost]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostIdentityResource([FromBody] IdentityResourceRequestModel request)
         {
             var apiScope = await _context.ApiScopes.Select(x => x.Name.ToString()).ToListAsync();
@@ -70,6 +74,7 @@ namespace admin_api.Controllers
         }
 
         [HttpDelete("{identityResourceName}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
         public async Task<IActionResult> DeleteApiResource(string identityResourceName)
         {
             var temp = new List<string>() { "address", "phone", "email", "profile", "openid" };
@@ -87,6 +92,7 @@ namespace admin_api.Controllers
 
         //Get detail info identity resource
         [HttpGet("{identityResourceName}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetIdentityResource(string identityResourceName)
         {
             var identityResource = await _context.IdentityResources.FirstOrDefaultAsync(x => x.Name == identityResourceName);
@@ -110,6 +116,7 @@ namespace admin_api.Controllers
         }
 
         [HttpPut("{identityResourceName}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_UPDATE)]
         public async Task<IActionResult> PutApiResource(string identityResourceName, [FromBody] IdentityResourceRequestModel request)
         {
             var identityResource = await _context.IdentityResources.FirstOrDefaultAsync(x => x.Name == identityResourceName);
@@ -162,6 +169,7 @@ namespace admin_api.Controllers
         #region Identity Resource Property      
         //Get identity resource properties
         [HttpGet("{identityResourceName}/properties")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetIdentityResourceProperties(string identityResourceName)
         {
             var identityResource = await _context.IdentityResources.FirstOrDefaultAsync(x => x.Name == identityResourceName);
@@ -181,6 +189,7 @@ namespace admin_api.Controllers
 
         //Post identity resource property
         [HttpPost("{identityResourceName}/properties")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostApiResourceProperty(string identityResourceName, [FromBody] IdentityResourcePropertyRequestModel request)
         {
             var identityResource = await _context.IdentityResources.FirstOrDefaultAsync(x => x.Name == identityResourceName);
@@ -210,6 +219,7 @@ namespace admin_api.Controllers
 
         //Delete api resource property
         [HttpDelete("{identityResourceName}/properties/{propertyKey}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
         public async Task<IActionResult> DeleteIdentityResourceProperty(string identityResourceName, string propertyKey)
         {
             var identityResource = await _context.IdentityResources.FirstOrDefaultAsync(x => x.Name == identityResourceName);

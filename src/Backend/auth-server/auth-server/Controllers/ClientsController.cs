@@ -1,4 +1,6 @@
-﻿using auth_services.RequestModel;
+﻿using auth_server.Authorization;
+using auth_services.Constants;
+using auth_services.RequestModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
@@ -19,6 +21,7 @@ namespace auth_server.Controllers
 
         //Post client
         [HttpPost]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostClient([FromBody] ClientRequestModel request)
         {
             var client = await _configurationDbContext.Clients.FirstOrDefaultAsync(x => x.ClientName == request.ClientName);
@@ -51,6 +54,7 @@ namespace auth_server.Controllers
 
         // Delete Client
         [HttpDelete("{clientId}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
         public async Task<IActionResult> DeleteClient(string clientId)
         {
             var client = await _configurationDbContext.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);

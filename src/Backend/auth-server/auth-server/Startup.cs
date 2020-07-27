@@ -93,7 +93,7 @@ namespace auth_server
             services.AddAuthentication()
                .AddLocalApi("Bearer", option =>
                {
-                   option.ExpectedScope = "AUTH-SERVER";
+                   option.ExpectedScope = "AUTH_SERVER";
                });
 
             // Config authorization
@@ -134,8 +134,8 @@ namespace auth_server
                     {
                         Implicit = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri(Configuration["SwaggerAuthorityUrl"] + "/connect/authorize"),
-                            Scopes = new Dictionary<string, string> { { "AUTH-SERVER", "Auth Server API Resources" } }
+                            AuthorizationUrl = new Uri(Configuration["IssuerUri"] + "/connect/authorize"),
+                            Scopes = new Dictionary<string, string> { { "AUTH_SERVER", "Auth Server API Resources" } }
                         },
                     },
                 });
@@ -146,7 +146,7 @@ namespace auth_server
                         {
                             Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
                         },
-                        new List<string>{ "AUTH-SERVER" }
+                        new List<string>{ "AUTH_SERVER" }
                     }
                 });
             });
@@ -201,7 +201,7 @@ namespace auth_server
 
             app.UseSwaggerUI(c =>
             {
-                c.OAuthClientId("swagger-auth-server");
+                c.OAuthClientId("swagger_auth_server");
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "AUTH SERVER API V1");
             });
 

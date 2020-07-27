@@ -1,7 +1,9 @@
-﻿using admin_api.Data;
+﻿using admin_api.Authorization;
+using admin_api.Data;
 using admin_api.Data.Entities;
 using admin_api.Services;
 using admin_services;
+using admin_services.Constants;
 using admin_services.RequestModels;
 using admin_services.ViewModels;
 using IdentityModel;
@@ -27,6 +29,7 @@ namespace admin_api.Controllers
         #region Clients
         // Find clients with client name or id
         [HttpGet("filter")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetClientsPaging(string filter, int pageIndex, int pageSize)
         {
             var query = _context.Clients.AsQueryable();
@@ -55,6 +58,7 @@ namespace admin_api.Controllers
         }
 
         [HttpPost]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostClient([FromBody] ClientRequestModel request)
         {
             var result = await _clientApiClient.PostClient(request);
@@ -66,6 +70,7 @@ namespace admin_api.Controllers
         }
 
         [HttpDelete("{clientId}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
         public async Task<IActionResult> DeleteClient(string clientId)
         {
             var result = await _clientApiClient.DeleteClient(clientId);
@@ -80,6 +85,7 @@ namespace admin_api.Controllers
         #region Basic Setting
         //Get basic infor client for edit
         [HttpGet("{clientId}/basics")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetClientBasic(string clientId)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -103,6 +109,7 @@ namespace admin_api.Controllers
         }
 
         [HttpPut("{clientId}/basics")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_UPDATE)]
         public async Task<IActionResult> PutClientBasic(string clientId, [FromBody] ClientBasicRequestModel request)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -162,6 +169,7 @@ namespace admin_api.Controllers
         #region Setting
         // Get all scopes
         [HttpGet]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetScopes()
         {
             var apiScope = await _context.ApiScopes
@@ -175,6 +183,7 @@ namespace admin_api.Controllers
 
         //Get setting infor client for edit
         [HttpGet("{clientId}/settings")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetClientSetting(string clientId)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -210,6 +219,7 @@ namespace admin_api.Controllers
         }
 
         [HttpPut("{clientId}/settings")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_UPDATE)]
         public async Task<IActionResult> PutClientSettings(string clientId, [FromBody] ClientSettingRequestModel request)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -325,6 +335,7 @@ namespace admin_api.Controllers
 
         // Client Secrets
         [HttpGet("{clientId}/settings/clientSecrets")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetClientSecrets(string clientId)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -344,6 +355,7 @@ namespace admin_api.Controllers
 
         // Post client secrets
         [HttpPost("{clientId}/settings/clientSecrets")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostClientSecret(string clientId, [FromBody] ClientSecretRequestModel request)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -373,6 +385,7 @@ namespace admin_api.Controllers
 
         //Delete client secret
         [HttpDelete("{clientId}/settings/clientSecrets/{secretId}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
         public async Task<IActionResult> DeleteClientSecret(string clientId, int secretId)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -395,6 +408,7 @@ namespace admin_api.Controllers
 
         // Client Properties
         [HttpGet("{clientId}/settings/properties")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetClientProperties(string clientId)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -412,6 +426,7 @@ namespace admin_api.Controllers
 
         // Post client Property
         [HttpPost("{clientId}/settings/properties")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostClientProperty(string clientId, [FromBody] ClientPropertyRequestModel request)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -443,6 +458,7 @@ namespace admin_api.Controllers
 
         //Delete client property
         [HttpDelete("{clientId}/settings/properties/{propertyKey}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
         public async Task<IActionResult> DeleteClientProperty(string clientId, string propertyKey)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -467,6 +483,7 @@ namespace admin_api.Controllers
         #region Authentication Setting
         //Get Authentication infor client for edit
         [HttpGet("{clientId}/authentications")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetClientAuthentication(string clientId)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -491,6 +508,7 @@ namespace admin_api.Controllers
         }
 
         [HttpPut("{clientId}/authentications")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_UPDATE)]
         public async Task<IActionResult> PutClientAuthentication(string clientId, [FromBody] ClientAuthenticationRequestModel request)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -553,6 +571,7 @@ namespace admin_api.Controllers
         #region Token Setting
         //Get token infor client for edit
         [HttpGet("{clientId}/tokens")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetClientToken(string clientId)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -581,6 +600,7 @@ namespace admin_api.Controllers
         }
 
         [HttpPut("{clientId}/tokens")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_UPDATE)]
         public async Task<IActionResult> PutClientToken(string clientId, [FromBody] ClientTokenRequestModel request)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -615,6 +635,7 @@ namespace admin_api.Controllers
 
         // Client Claim
         [HttpGet("{clientId}/tokens/clientClaims")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetClientClientClaims(string clientId)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -632,6 +653,7 @@ namespace admin_api.Controllers
 
         // Post client claim
         [HttpPost("{clientId}/tokens/clientClaims")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostClientClaim(string clientId, [FromBody] ClientClaimRequestModel request)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -663,6 +685,7 @@ namespace admin_api.Controllers
 
         //Delete client claim
         [HttpDelete("{clientId}/tokens/clientClaims/{claimType}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
         public async Task<IActionResult> DeleteClientClaim(string clientId, string claimType)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -686,6 +709,7 @@ namespace admin_api.Controllers
         #region Device Flow Setting
         //Get Device Flows infor client for edit
         [HttpGet("{clientId}/deviceFlows")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetClientDeviceFlow(string clientId)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);
@@ -702,6 +726,7 @@ namespace admin_api.Controllers
         }
 
         [HttpPut("{clientId}/deviceFlows")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_UPDATE)]
         public async Task<IActionResult> PutClientDeviceFlow(string clientId, [FromBody] ClientDeviceFlowRequestModel request)
         {
             var client = await _context.Clients.FirstOrDefaultAsync(x => x.ClientId == clientId);

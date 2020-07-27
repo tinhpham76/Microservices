@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { MessageConstants } from '@app/shared/constants/messages.constant';
 import { Router } from '@angular/router';
+import { environment } from '@environments/environment';
 
 @Component({
     selector: 'app-layout',
@@ -12,12 +13,13 @@ import { Router } from '@angular/router';
 })
 export class LayoutComponent implements OnInit {
 
-    subscription: Subscription;
-    UserName: string;
-    isAuthenticated: boolean;
-    FullName: string;
-    Email: string;
-    Avatar: string;
+    public authority = `${environment.authority}`;
+    public subscription: Subscription;
+    public UserName: string;
+    public isAuthenticated: boolean;
+    public FullName: string;
+    public Email: string;
+    public Avatar: string;
     constructor(
         private authServices: AuthService,
         private notification: NzNotificationService,

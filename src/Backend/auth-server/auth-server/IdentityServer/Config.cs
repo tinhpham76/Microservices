@@ -21,20 +21,20 @@ namespace auth_server.IdentityServer
         {
             return new List<ApiResource>
             {
-                new ApiResource("AUTH-SERVER", "Auth Server API Resources")
+                new ApiResource("AUTH_SERVER", "Auth Server API Resources")
                 {
                     ApiSecrets = { new Secret("secret".Sha256()) },
-                    Scopes = { "AUTH-SERVER" }
+                    Scopes = { "AUTH_SERVER" }
                 },
-                new ApiResource("ADMIN-API", "Admin API Resources")
+                new ApiResource("ADMIN_API", "Admin API Resources")
                 {
                     ApiSecrets = { new Secret("secret".Sha256()) },
-                    Scopes = { "ADMIN-API" }
+                    Scopes = { "ADMIN_API" }
                 },
-                 new ApiResource("USER-API", "User API Resources")
+                 new ApiResource("USER_API", "User API Resources")
                 {
                     ApiSecrets = { new Secret("secret".Sha256()) },
-                    Scopes = { "USER-API" }
+                    Scopes = { "USER_API" }
                 }
             };
         }
@@ -43,9 +43,9 @@ namespace auth_server.IdentityServer
             return new List<ApiScope>
             {
                 // backward compat
-                new ApiScope("AUTH-SERVER"),
-                new ApiScope("ADMIN-API"),
-                 new ApiScope("USER-API")
+                new ApiScope("AUTH_SERVER"),
+                new ApiScope("ADMIN_API"),
+                 new ApiScope("USER_API")
             };
         }
         public static IEnumerable<Client> GetClients()
@@ -53,7 +53,7 @@ namespace auth_server.IdentityServer
             return new List<Client> {
                 new Client
                 {
-                    ClientId = "swagger-auth-server",
+                    ClientId = "swagger_auth_server",
                     ClientName = "Swagger Auth Server",
                     LogoUri = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/512px-.NET_Core_Logo.svg.png",
 
@@ -69,12 +69,12 @@ namespace auth_server.IdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "AUTH-SERVER"
+                        "AUTH_SERVER"
                     }
                 },
                 new Client
                 {
-                    ClientId = "swagger-admin-api",
+                    ClientId = "swagger_admin_api",
                     ClientName = "Swagger Admin Api",
                     LogoUri = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/512px-.NET_Core_Logo.svg.png",
 
@@ -90,13 +90,13 @@ namespace auth_server.IdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "ADMIN-API",
-                        "AUTH-SERVER"
+                        "ADMIN_API",
+                        "AUTH_SERVER"
                     }
                 },
                 new Client
                 {
-                    ClientId = "swagger-user-api",
+                    ClientId = "swagger_user_api",
                     ClientName = "Swagger User Api",
                      LogoUri = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/512px-.NET_Core_Logo.svg.png",
 
@@ -112,14 +112,14 @@ namespace auth_server.IdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "USER-API",
-                        "AUTH-SERVER"
+                        "USER_API",
+                        "AUTH_SERVER"
                     }
                 },
                 new Client
                 {
                     ClientName = "Angular Admin Dashboard",
-                    ClientId = "angular-admin-dashboard",
+                    ClientId = "angular_admin_dashboard",
                     LogoUri = "https://angular.io/assets/images/logos/angular/angular.svg",
                     AccessTokenType = AccessTokenType.Reference,
                     RequireConsent = false,
@@ -146,15 +146,15 @@ namespace auth_server.IdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "AUTH-SERVER",
-                        "ADMIN-API",
-                        "USER-API"
+                        "AUTH_SERVER",
+                        "ADMIN_API",
+                        "USER_API"
                     }
                 },
                 new Client
                 {
                     ClientName = "Angular User Profile",
-                    ClientId = "angular-user-profile",
+                    ClientId = "angular_user_profile",
                     LogoUri = "https://angular.io/assets/images/logos/angular/angular.svg",
                     AccessTokenType = AccessTokenType.Reference,
                     RequireConsent = false,
@@ -181,8 +181,8 @@ namespace auth_server.IdentityServer
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "AUTH-SERVER",
-                        "USER-API"
+                        "AUTH_SERVER",
+                        "USER_API"
                     }
                 }
             };

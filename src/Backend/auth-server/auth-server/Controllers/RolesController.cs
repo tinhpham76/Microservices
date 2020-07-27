@@ -1,4 +1,5 @@
-﻿using auth_server.Data;
+﻿using auth_server.Authorization;
+using auth_server.Data;
 using auth_services;
 using auth_services.Constants;
 using auth_services.RequestModel;
@@ -28,6 +29,7 @@ namespace auth_server.Controllers
         }
 
         [HttpGet("{roleId}")]
+        [ClaimRequirement(PermissionCode.USER_API_CREATE)]
         public async Task<IActionResult> GetRole(string roleId)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
@@ -43,6 +45,7 @@ namespace auth_server.Controllers
         }
 
         [HttpGet("filter")]
+        [ClaimRequirement(PermissionCode.USER_API_VIEW)]
         public async Task<IActionResult> GetRolesPaging(string filter, int pageIndex, int pageSize)
         {
             var query = _roleManager.Roles;
@@ -68,6 +71,7 @@ namespace auth_server.Controllers
         }
 
         [HttpPost]
+        [ClaimRequirement(PermissionCode.USER_API_CREATE)]
         public async Task<IActionResult> PostRole([FromBody] RoleRequestModel request)
         {
             var role = await _roleManager.Roles.FirstOrDefaultAsync(x => x.Name == request.Name);
@@ -86,6 +90,7 @@ namespace auth_server.Controllers
         }
 
         [HttpPut("{roleId}")]
+        [ClaimRequirement(PermissionCode.USER_API_UPDATE)]
         public async Task<IActionResult> PutRole(string roleId, [FromBody] RoleRequestModel request)
         {
             if (roleId != request.Id)
@@ -106,6 +111,7 @@ namespace auth_server.Controllers
         }
 
         [HttpDelete("{roleId}")]
+        [ClaimRequirement(PermissionCode.USER_API_DELETE)]
         public async Task<IActionResult> DeleteRole(string roleId)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
@@ -121,6 +127,7 @@ namespace auth_server.Controllers
 
 
         [HttpGet("{roleId}/claims/filter")]
+        [ClaimRequirement(PermissionCode.USER_API_VIEW)]
         public async Task<IActionResult> GetRoleClaims(string roleId, string filter, int pageIndex, int pageSize)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
@@ -168,6 +175,7 @@ namespace auth_server.Controllers
         }
 
         [HttpPost("{roleId}/claims")]
+        [ClaimRequirement(PermissionCode.AUTH_SERVER_CREATE)]
         public async Task<IActionResult> PostRoleClaims(string roleId, [FromBody] RoleClaimRequestModel request)
         {
             var role = await _roleManager.FindByIdAsync(roleId);

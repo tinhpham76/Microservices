@@ -74,18 +74,18 @@ namespace auth_server.Data
                     await _userManager.AddToRoleAsync(user, AdminRoleName);
                     var role = await _roleManager.FindByIdAsync(AdminRoleName);
                     var claims = new List<Claim>();
-                    claims.Add(new Claim("AUTH-SERVER", "VIEW"));
-                    claims.Add(new Claim("AUTH-SERVER", "CREATE"));
-                    claims.Add(new Claim("AUTH-SERVER", "UPDATE"));
-                    claims.Add(new Claim("AUTH-SERVER", "DELETE"));
-                    claims.Add(new Claim("ADMIN-API", "VIEW"));
-                    claims.Add(new Claim("ADMIN-API", "CREATE"));
-                    claims.Add(new Claim("ADMIN-API", "UPDATE"));
-                    claims.Add(new Claim("ADMIN-API", "DELETE"));
-                    claims.Add(new Claim("USER-API", "VIEW"));
-                    claims.Add(new Claim("USER-API", "CREATE"));
-                    claims.Add(new Claim("USER-API", "UPDATE"));
-                    claims.Add(new Claim("USER-API", "DELETE"));
+                    claims.Add(new Claim("AUTH_SERVER", "VIEW"));
+                    claims.Add(new Claim("AUTH_SERVER", "CREATE"));
+                    claims.Add(new Claim("AUTH_SERVER", "UPDATE"));
+                    claims.Add(new Claim("AUTH_SERVER", "DELETE"));
+                    claims.Add(new Claim("ADMIN_API", "VIEW"));
+                    claims.Add(new Claim("ADMIN_API", "CREATE"));
+                    claims.Add(new Claim("ADMIN_API", "UPDATE"));
+                    claims.Add(new Claim("ADMIN_API", "DELETE"));
+                    claims.Add(new Claim("USER_API", "VIEW"));
+                    claims.Add(new Claim("USER_API", "CREATE"));
+                    claims.Add(new Claim("USER_API", "UPDATE"));
+                    claims.Add(new Claim("USER_API", "DELETE"));
                     foreach (var claim in claims)
                     {
                         await _roleManager.AddClaimAsync(role, claim);
@@ -111,9 +111,12 @@ namespace auth_server.Data
                     await _userManager.AddToRoleAsync(user, UserRoleName);
                     var role = await _roleManager.FindByIdAsync(UserRoleName);
                     var claims = new List<Claim>();
-                    claims.Add(new Claim("AUTH-SERVER", "VIEW"));
-                    claims.Add(new Claim("ADMIN-API", "VIEW"));
-                    claims.Add(new Claim("USER-API", "VIEW"));
+                    claims.Add(new Claim("AUTH_SERVER", "VIEW"));
+                    claims.Add(new Claim("ADMIN_API", "VIEW"));
+                    claims.Add(new Claim("USER_API", "VIEW"));
+                    claims.Add(new Claim("USER_API", "CREATE"));
+                    claims.Add(new Claim("USER_API", "UPDATE"));
+                    claims.Add(new Claim("USER_API", "DELETE"));
                     foreach (var claim in claims)
                     {
                         await _roleManager.AddClaimAsync(role, claim);

@@ -2,13 +2,9 @@
 {
     public enum PermissionCode
     {
-        AUTH_VIEW,
-        AUTH_CREATE,
-        AUTH_UPDATE,
-        AUTH_DELETE,
-        ADMIN_VIEW,
-        ADMIN_UPDATE,
-        ADMIN_CREATE,
-        ADMIN_DELETE
+        USER_API_VIEW,
+        USER_API_CREATE,
+        USER_API_UPDATE,
+        USER_API_DELETE,
     }
 }

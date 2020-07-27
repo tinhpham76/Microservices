@@ -1,4 +1,5 @@
-﻿using auth_server.Data.Entities;
+﻿using auth_server.Authorization;
+using auth_server.Data.Entities;
 using auth_services;
 using auth_services.Constants;
 using auth_services.RequestModel;
@@ -25,6 +26,7 @@ namespace auth_server.Controllers
 
         //Post new user
         [HttpPost]
+        [ClaimRequirement(PermissionCode.USER_API_CREATE)]
         public async Task<IActionResult> PostUser([FromBody] UserRequestModel request)
         {
             var user = new User()
@@ -52,6 +54,7 @@ namespace auth_server.Controllers
 
         //Find user with User Name, Email, First Name, Last Name, Phone Number 
         [HttpGet("filter")]
+        [ClaimRequirement(PermissionCode.USER_API_VIEW)]
         public async Task<IActionResult> GetUsersPaging(string filter, int pageIndex, int pageSize)
         {
             var query = _userManager.Users;
@@ -84,6 +87,7 @@ namespace auth_server.Controllers
 
         //Get detail user with user id
         [HttpGet("{userId}")]
+        [ClaimRequirement(PermissionCode.USER_API_VIEW)]
         public async Task<IActionResult> GetById(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -109,6 +113,7 @@ namespace auth_server.Controllers
 
         //Put user wiht user id
         [HttpPut("{userId}")]
+        [ClaimRequirement(PermissionCode.USER_API_UPDATE)]
         public async Task<IActionResult> PutUser(string userId, [FromBody] UserRequestModel request)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -133,6 +138,7 @@ namespace auth_server.Controllers
 
         //Put reset user password with user id
         [HttpPut("{userId}/reset-password")]
+        [ClaimRequirement(PermissionCode.USER_API_UPDATE)]
         public async Task<IActionResult> PutResetPassword(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -151,6 +157,7 @@ namespace auth_server.Controllers
 
         //Put user password with user id
         [HttpPut("{userId}/change-password")]
+        [ClaimRequirement(PermissionCode.USER_API_UPDATE)]
         public async Task<IActionResult> PutUserPassword(string userId, [FromBody] UserPasswordRequestModel request)
         {
             if (request.CheckPassword != request.NewPassword)
@@ -172,6 +179,7 @@ namespace auth_server.Controllers
 
         //Delete user with user id
         [HttpDelete("{userId}")]
+        [ClaimRequirement(PermissionCode.USER_API_DELETE)]
         public async Task<IActionResult> DeleteUser(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -195,6 +203,7 @@ namespace auth_server.Controllers
         }
 
         [HttpGet("{userId}/userRoles")]
+        [ClaimRequirement(PermissionCode.USER_API_VIEW)]
         public async Task<IActionResult> GetUserDetailWithRoles(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -229,6 +238,7 @@ namespace auth_server.Controllers
         }
 
         [HttpPut("{userId}/userRoles")]
+        [ClaimRequirement(PermissionCode.USER_API_UPDATE)]
         public async Task<IActionResult> PutUserDetailWithRoles(string userId, [FromBody] UserRoleRequestModel request)
         {
             if (request.UserRoles.Count == 0)

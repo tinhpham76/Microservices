@@ -8,10 +8,11 @@ export const environment = {
   admin_api_url: 'https://localhost:5002',
   user_api_url: 'https://localhost:5004',
   authority: 'https://localhost:5000',
-  client_id: 'angular-admin-dashboard',
+  profile_app_url: 'http://localhost:4300',
+  client_id: 'angular_admin_dashboard',
   redirect_uri: 'http://localhost:4200/auth-callback',
   post_logout_redirect_uri: 'http://localhost:4200/',
-  scope: 'AUTH-SERVER ADMIN-API USER-API openid profile',
+  scope: 'AUTH_SERVER ADMIN_API USER_API openid profile',
   silent_redirect_uri: 'http://localhost:4200/silent-renew.html'
 };
 

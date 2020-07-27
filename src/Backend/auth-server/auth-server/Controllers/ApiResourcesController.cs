@@ -1,4 +1,6 @@
-﻿using auth_services.RequestModel;
+﻿using auth_server.Authorization;
+using auth_services.Constants;
+using auth_services.RequestModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
@@ -18,6 +20,7 @@ namespace auth_server.Controllers
 
         //Post basic infor api resource
         [HttpPost]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostApiResource([FromBody] ApiResourceRequestModel request)
         {
             var apiResource = await _configurationDbContext.ApiResources.FirstOrDefaultAsync(x => x.Name == request.Name);
@@ -43,6 +46,8 @@ namespace auth_server.Controllers
 
         //Delete api resource
         [HttpDelete("{apiResourceName}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
+        [ClaimRequirement(PermissionCode.AUTH_SERVER_DELETE)]
         public async Task<IActionResult> DeleteApiResource(string apiResourceName)
         {
             var apiResource = await _configurationDbContext.ApiResources.FirstOrDefaultAsync(x => x.Name == apiResourceName);

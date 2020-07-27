@@ -79,7 +79,6 @@ export class ResourceSecretComponent implements OnInit {
   submitFormApiSecrets(): void {
     this.isSpinning = true;
     const data = this.secretForm.getRawValue();
-    console.log(data);
     this.apiResourceServices.addApiResourceSecret(this.apiName, data)
       .subscribe(() => {
         this.getApiSecret(this.apiName);

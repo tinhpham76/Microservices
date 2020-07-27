@@ -1,7 +1,9 @@
-﻿using admin_api.Data;
+﻿using admin_api.Authorization;
+using admin_api.Data;
 using admin_api.Data.Entities;
 using admin_api.Services;
 using admin_services;
+using admin_services.Constants;
 using admin_services.RequestModels;
 using admin_services.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +26,7 @@ namespace admin_api.Controllers
         #region Api Scope
         // Find api resource with name or display name
         [HttpGet("filter")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetApiScopesPaging(string filter, int pageIndex, int pageSize)
         {
             var query = _context.ApiScopes.AsQueryable();
@@ -52,6 +55,7 @@ namespace admin_api.Controllers
         }
 
         [HttpPost]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostApiScope([FromBody] ApiScopeRequestModel request)
         {
 
@@ -69,6 +73,7 @@ namespace admin_api.Controllers
         }
 
         [HttpDelete("{apiScopeName}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
         public async Task<IActionResult> DeleteApiScope(string apiScopeName)
         {
             var result = await _apiScopeApiClient.DeleteApiScope(apiScopeName);
@@ -80,6 +85,7 @@ namespace admin_api.Controllers
         }
 
         [HttpGet("{apiScopeName}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetDetailApiScope(string apiScopeName)
         {
             var apiScope = await _context.ApiScopes.FirstOrDefaultAsync(x => x.Name == apiScopeName);
@@ -106,6 +112,7 @@ namespace admin_api.Controllers
         }
 
         [HttpPut("{apiScopeName}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_UPDATE)]
         public async Task<IActionResult> PutApiScope(string apiScopeName, [FromBody] ApiScopeRequestModel request)
         {
             var apiScope = await _context.ApiScopes.FirstOrDefaultAsync(x => x.Name == apiScopeName);
@@ -157,6 +164,7 @@ namespace admin_api.Controllers
         // Api resource property
         //Get api resource properties
         [HttpGet("{apiScopeName}/properties")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetApiScopeProperties(string apiScopeName)
         {
             var apiScope = await _context.ApiScopes.FirstOrDefaultAsync(x => x.Name == apiScopeName);
@@ -176,6 +184,7 @@ namespace admin_api.Controllers
 
         //Post api scope property
         [HttpPost("{apiScopeName}/properties")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_CREATE)]
         public async Task<IActionResult> PostApiScopeProperty(string apiScopeName, [FromBody] ApiScopePropertyRequestModel request)
         {
             var apiScope = await _context.ApiScopes.FirstOrDefaultAsync(x => x.Name == apiScopeName);
@@ -205,6 +214,7 @@ namespace admin_api.Controllers
 
         //Delete api scope property
         [HttpDelete("{apiScopeName}/properties/{propertyKey}")]
+        [ClaimRequirement(PermissionCode.ADMIN_API_DELETE)]
         public async Task<IActionResult> DeleteApiScopeProperty(string apiScopeName, string propertyKey)
         {
             var apiScope = await _context.ApiScopes.FirstOrDefaultAsync(x => x.Name == apiScopeName);

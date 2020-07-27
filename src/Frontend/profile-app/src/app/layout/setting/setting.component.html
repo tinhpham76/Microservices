@@ -18,7 +18,7 @@
     <br>
     <br>
     <!--Body-->
-    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitValidateForm(validateForm.value)">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitValidateForm()">
         <nz-form-item>
             <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Old Password</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid!">

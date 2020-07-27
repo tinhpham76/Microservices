@@ -23,12 +23,12 @@ namespace auth_server.Authorization
                 var permissions = JsonConvert.DeserializeObject<List<string>>(permissionsClaim.Value);
                 if (!permissions.Contains(_permissionCode.ToString()))
                 {
-                    context.Result = new JsonResult("No access, please contact the administrator!");
+                    context.Result = new UnauthorizedResult();
                 }
             }
             else
             {
-                context.Result = new JsonResult("No access, please contact the administrator!");
+                context.Result = new UnauthorizedResult();
             }
         }
     }

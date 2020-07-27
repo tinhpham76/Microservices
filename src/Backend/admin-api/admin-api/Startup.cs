@@ -62,8 +62,9 @@ namespace admin_api
             {
                 options.Authority = Configuration["Authority"];
                 options.ApiSecret = "secret";
-                options.ApiName = "ADMIN-API";
-                options.ApiName = "AUTH-SERVER";
+                options.ApiName = "ADMIN_API";
+                options.ApiName = "AUTH_SERVER";
+                options.RequireHttpsMetadata = bool.Parse(Configuration["RequireHttpsMetadata"]);
 
             });
 
@@ -72,8 +73,8 @@ namespace admin_api
                 options.AddPolicy("myPolicy", builder =>
                 {
                     // require scope1
-                    builder.RequireScope("ADMIN-API");
-                    builder.RequireScope("AUTH-SERVER");
+                    builder.RequireScope("ADMIN_API");
+                    builder.RequireScope("AUTH_SERVER");
                 });
             });
 
@@ -90,7 +91,7 @@ namespace admin_api
                         Implicit = new OpenApiOAuthFlow
                         {
                             AuthorizationUrl = new Uri(Configuration["SwaggerAuthorityUrl"] + "/connect/authorize"),
-                            Scopes = new Dictionary<string, string> { { "ADMIN-API", "Admin API Resources" }, { "AUTH-SERVER", "Auth Server API Resources" } }
+                            Scopes = new Dictionary<string, string> { { "ADMIN_API", "Admin API Resources" }, { "AUTH_SERVER", "Auth Server API Resources" } }
                         },
                     },
                 });
@@ -101,7 +102,7 @@ namespace admin_api
                         {
                             Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
                         },
-                        new List<string>{ "ADMIN-API", "AUTH-SERVER" }
+                        new List<string>{ "ADMIN_API", "AUTH_SERVER" }
                     }
                 });
             });
@@ -148,7 +149,7 @@ namespace admin_api
 
             app.UseSwaggerUI(c =>
             {
-                c.OAuthClientId("swagger-admin-api");
+                c.OAuthClientId("swagger_admin_api");
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "ADMIN API V1");
             });
         }
