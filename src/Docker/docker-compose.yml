@@ -121,7 +121,7 @@ services:
   ## Nginx proxy
   ##############################
   reverse-proxy:
-    container_name: project
+    container_name: reverse-proxy
     build:
       context: ./nginx/
       dockerfile: nginx.dockerfile
@@ -139,7 +139,7 @@ services:
       - 'storage-api'
     restart: unless-stopped    
     networks: 
-        - network-sso 
+        - network-sso   
   ##############################
   ## Admin app
   ##############################
