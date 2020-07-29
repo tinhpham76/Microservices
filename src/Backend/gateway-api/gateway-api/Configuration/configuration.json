@@ -1,0 +1,1206 @@
+{
+  "Routes": [
+    ////////////////////////
+    // Auth server
+    ///////////////////////
+    //PostApiResource
+    {
+      "UpstreamPathTemplate": "/apiresources",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/apiresources",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //DeleteApiResource
+    {
+      "UpstreamPathTemplate": "/apiresources/{apiResourceName}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/apiresources/{apiResourceName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //PostApiScope
+    {
+      "UpstreamPathTemplate": "/apiscopes",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/apiscopes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //DeleteApiScope
+    {
+      "UpstreamPathTemplate": "/apiresources/{apiScopeName}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/apiresources/{apiScopeName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //PostClient
+    {
+      "UpstreamPathTemplate": "/clients",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/clients",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //DeleteClient
+    {
+      "UpstreamPathTemplate": "/clients/{clientId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/clients/{clientId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //PostIdentityResource
+    {
+      "UpstreamPathTemplate": "/IdentityResources",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/IdentityResources",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //DeleteIdentityResource
+    {
+      "UpstreamPathTemplate": "/IdentityResources/{identityResourceName}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/IdentityResources/{identityResourceName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //GetRole
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/roles/{roleId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //GetRolesPaging
+    {
+      "UpstreamPathTemplate": "/roles/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/roles/{search}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //PostRole
+    {
+      "UpstreamPathTemplate": "/roles",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/roles",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //PutRole
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/roles/{roleId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //DeleteRole
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/roles/{roleId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //GetRoleClaims
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}/claims/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/roles/{roleId}/claims/{search}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //PostRoleClaims
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}/claims",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/roles/{roleId}/claims",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    // PostUser
+    {
+      "UpstreamPathTemplate": "/users",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/users",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    // GetUsersPaging
+    {
+      "UpstreamPathTemplate": "/Users/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/Users/{search}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //GetUserDetail
+    {
+      "UpstreamPathTemplate": "/users/{userId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/users/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //PutUser
+    {
+      "UpstreamPathTemplate": "/users/{userId}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/users/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //PutResetPassword
+    {
+      "UpstreamPathTemplate": "/users/{userId}/reset-password",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/users/{userId}/reset-password",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //PutUserPassword
+    {
+      "UpstreamPathTemplate": "/users/{userId}/change-password",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/users/{userId}/change-password",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //DeleteUser
+    {
+      "UpstreamPathTemplate": "/users/{userId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/users/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //PutUserDetailWithRoles
+    {
+      "UpstreamPathTemplate": "/users/{userId}/userRoles",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/users/{userId}/userRoles",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    ////////////////////////
+    // Admin api
+    ///////////////////////
+    //GetAllApiScopes
+    {
+      "UpstreamPathTemplate": "/api/apiresources",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiresources",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetApiResourcesPaging
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiresources/{search}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PostApiResource
+    {
+      "UpstreamPathTemplate": "/api/apiresources",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/apiresources",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //DeleteApiResource
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetDetailApiResource
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PutApiResource
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetApiResourceSecrets
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}/secrets",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}/secrets",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PostApiResourceSecret
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}/secrets",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}/secrets",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //DeleteApiResourceSecret
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}/secrets/{secretId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}/secrets/{secretId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetApiResourceProperties
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}/properties",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}/properties",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PostApiResourceProperty
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}/properties",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}/properties",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //DeleteApiResourceProperty
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}/properties/{propertyKey}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}/properties/{propertyKey}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetApiScopesPaging
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{search}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PostApiScope
+    {
+      "UpstreamPathTemplate": "/api/apiscopes",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/apiscopes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //DeleteApiScope
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{apiScopeName}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{apiScopeName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetDetailApiScope
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{apiScopeName}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{apiScopeName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PutApiScope
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{apiScopeName}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{apiScopeName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetApiScopeProperties
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{apiScopeName}/properties",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{apiScopeName}/properties",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PostApiScopeProperty
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{apiScopeName}/properties",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{apiScopeName}/properties",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //DeleteApiScopeProperty
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{apiScopeName}/properties/{propertyKey}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{apiScopeName}/properties/{propertyKey}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetClientsPaging
+    {
+      "UpstreamPathTemplate": "/api/clients/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{search}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PostClient
+    {
+      "UpstreamPathTemplate": "/api/clients",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/clients",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //DeleteClient
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetClientBasic
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/basics",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/basics",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PutClientBasic
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/basics",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/basics",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetScopes
+    {
+      "UpstreamPathTemplate": "/api/clients",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetClientSetting
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PutClientSettings
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetClientSecrets
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings/clientSecrets",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings/clientSecrets",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PostClientSecret
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings/clientSecrets",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings/clientSecrets",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //DeleteClientSecret
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings/clientSecrets/{secretId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings/clientSecrets/{secretId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetClientProperties
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings/properties",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings/properties",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PostClientProperty
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings/properties",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings/properties",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //DeleteClientProperty
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings/properties/{propertyKey}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings/properties/{propertyKey}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetClientAuthentication
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/authentications",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/authentications",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PutClientAuthentication
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/authentications",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/authentications",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetClientToken
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/tokens",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/tokens",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PutClientToken
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/tokens",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/tokens",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetClientClientClaims
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/tokens/clientClaims",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/tokens/clientClaims",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PostClientClientClaims
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/tokens/clientClaims",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/tokens/clientClaims",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //DeleteClientClaim
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/tokens/clientClaims/{claimType}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/tokens/clientClaims/{claimType}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetClientDeviceFlow
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/deviceFlows",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/deviceFlows",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PutClientDeviceFlow
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/deviceFlows",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/deviceFlows",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetidentityresourcessPaging
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/identityresources/{search}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //Postidentityresources
+    {
+      "UpstreamPathTemplate": "/api/identityresources",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/identityresources",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //DeleteApiResource
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{identityresourcesName}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/identityresources/{identityresourcesName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //Getidentityresources
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{identityresourcesName}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/identityresources/{identityresourcesName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PutApiResource
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{identityresourcesName}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/identityresources/{identityresourcesName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //GetidentityresourcesProperties
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{identityresourcesName}/properties",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/identityresources/{identityresourcesName}/properties",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //PostApiResourceProperty
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{identityresourcesName}/properties",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/identityresources/{identityresourcesName}/properties",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    //DeleteidentityresourcesProperty
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{identityresourcesName}/properties/{propertyKey}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/identityresources/{identityresourcesName}/properties/{propertyKey}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5003
+        }
+      ]
+    },
+    ////////////////////////
+    // User api
+    ///////////////////////
+    //GetRole
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //GetRolesPaging
+    {
+      "UpstreamPathTemplate": "/api/roles/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/roles/{search}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //PostRole
+    {
+      "UpstreamPathTemplate": "/api/roles",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/roles",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //PutRole
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //DeleteRole
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //GetRoleClaims
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}/claims/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}/claims/{search}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //PostRoleClaims
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}/claims",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}/claims",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    // PostUser
+    {
+      "UpstreamPathTemplate": "/api/users",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/users",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    // GetUsersPaging
+    {
+      "UpstreamPathTemplate": "/api/Users/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/Users/{search}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //GetUserDetail
+    {
+      "UpstreamPathTemplate": "/api/users/{userId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/users/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //PutUser
+    {
+      "UpstreamPathTemplate": "/api/users/{userId}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/users/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //PutResetPassword
+    {
+      "UpstreamPathTemplate": "/api/users/{userId}/reset-password",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/users/{userId}/reset-password",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //PutUserPassword
+    {
+      "UpstreamPathTemplate": "/api/users/{userId}/change-password",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/users/{userId}/change-password",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //DeleteUser
+    {
+      "UpstreamPathTemplate": "/api/users/{userId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/users/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //PutUserDetailWithRoles
+    {
+      "UpstreamPathTemplate": "/api/users/{userId}/userRoles",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/users/{userId}/userRoles",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    ////////////////////////
+    // Storage api
+    ///////////////////////
+    //Upload file
+    {
+      "UpstreamPathTemplate": "/api/files/upload",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "DownstreamPathTemplate": "/api/files/upload",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5007
+        }
+      ]
+    },
+    //Get file
+    {
+      "UpstreamPathTemplate": "/multi-media/{fileName}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "DownstreamPathTemplate": "/multi-media/{fileName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5007
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "RateLimitOptions": {
+      "DisableRateLimitHeaders": false,
+      "QuotaExceededMessage": "Hey, you request too many times, slow down!!!",
+      "HttpStatusCode": 999
+    }
+  }
+}

@@ -62,7 +62,7 @@ services:
       Authority: "http://auth-server:5001"
       RequireHttpsMetadata: "false"
       SwaggerAuthorityUrl: "http://localhost:5001"
-      BackendApiUrl: "http://auth-server:5001"
+      BackendApiUrl: "http://gateway-api"
       ConnectionStrings:DefaultConnection: "Server=database;Database=AuthData;User Id=sa;password=kAa36qDc;"
     volumes:
     - type: bind
@@ -87,7 +87,7 @@ services:
       Authority: "http://auth-server:5001"
       RequireHttpsMetadata: "false"
       SwaggerAuthorityUrl: "http://localhost:5001"
-      BackendApiUrl: "http://auth-server:5001"
+      BackendApiUrl: "http://gateway-api"
     volumes:
     - type: bind
       source: ./DATA-DOCKER/Backend/user-api/logs
@@ -140,6 +140,26 @@ services:
     restart: unless-stopped    
     networks: 
         - network-sso   
+  ##############################
+  ## Api Gateway
+  ##############################
+  gateway-api:
+    container_name: gateway-api
+    build:
+      context: ../Backend/gateway-api/
+      dockerfile: Dockerfile
+    environment:
+      TZ: "Asia/Ho_Chi_Minh"
+      ASPNETCORE_ENVIRONMENT: "Development"
+    volumes:
+      - ../Backend/gateway-api/gateway-api/Configuration:/app/configuration      
+    ports:
+      - '80:80'
+    depends_on:
+      - 'reverse-proxy'
+    restart: unless-stopped    
+    networks: 
+        - network-sso           
   ##############################
   ## Admin app
   ##############################

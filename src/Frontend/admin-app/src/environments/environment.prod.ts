@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  storage_api_url: 'http://localhost:5007',
-  admin_api_url: 'http://localhost:5003',
-  user_api_url: 'http://localhost:5005',
+  storage_api_url: 'http://localhost',
+  admin_api_url: 'http://localhost',
+  user_api_url: 'http://localhost',
   authority: 'http://localhost:5001',
   profile_app_url: 'http://localhost:4300',
   client_id: 'angular_admin_dashboard',

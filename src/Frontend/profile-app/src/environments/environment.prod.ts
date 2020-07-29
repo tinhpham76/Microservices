@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  storage_api_url: 'http://localhost:5007',
-  apiUrl: 'http://localhost:5005',
+  storage_api_url: 'http://localhost',
+  apiUrl: 'http://localhost',
   authority: 'http://localhost:5001',
   client_id: 'angular_user_profile',
   redirect_uri: 'http://localhost:4300/auth-callback',
