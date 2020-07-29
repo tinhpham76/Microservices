@@ -14,5 +14,7 @@ namespace user_api.Services
         Task<bool> DeleteRole(string id);
         Task<Pagination<ApiRoleViewModel>> GetRoleClaims(string id, string filter, int pageIndex, int pageSize);
         Task<bool> PostRoleClaims(string roleId, RoleClaimRequestModel request);
+        Task<Pagination<ClientRoleViewModel>> GetClientClaims(string id, string filter, int pageIndex, int pageSize);
+        Task<bool> PostClientClaims(string roleId, ClientClaimRequestModel request);
     }
 }

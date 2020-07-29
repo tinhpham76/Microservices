@@ -29,9 +29,10 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzTransferModule } from 'ng-zorro-antd/transfer';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
+import { ClientPermissionComponent } from './client-permission/client-permission.component';
 
 @NgModule({
-  declarations: [PermissionsComponent, EditPermissionsComponent],
+  declarations: [PermissionsComponent, EditPermissionsComponent, ClientPermissionComponent],
   imports: [
     CommonModule,
     NzTableModule,

@@ -79,7 +79,7 @@
                 <nz-tag *ngIf="!inputClaimVisible" class="editable-tag" nzNoAnimation (click)="showClaimInput()"> <i
                         nz-icon nzType="plus"></i> New claim </nz-tag>
                 <input #inputElement formControlName="userClaims" nz-input nzSize="small" *ngIf="inputClaimVisible"
-                    type="text" [(ngModel)]="inputClaimValue" style="width: 78px;" (blur)="inputConfirmClaim()"
+                    type="text" [(ngModel)]="inputClaimValue" style="width: 300px;" (blur)="inputConfirmClaim()"
                     (keydown.enter)="inputConfirmClaim()" />
                 <br><br>
                 <p>Add new claim:</p>

@@ -231,5 +231,79 @@ namespace auth_server.Controllers
             var permission = await _roleManager.GetClaimsAsync(role);
             return Ok(permission);
         }
+
+        [HttpGet("{roleId}/clients/filter")]
+        [ClaimRequirement(PermissionCode.USER_API_VIEW)]
+        public async Task<IActionResult> GetClientClaims(string roleId, string filter, int pageIndex, int pageSize)
+        {
+            var role = await _roleManager.FindByIdAsync(roleId);
+            if (role == null)
+            {
+                return NotFound();
+            }
+            var claimTypes = await _configurationDbContext.Clients.Select(x => x.ClientName.ToString()).ToListAsync();
+            var claims = new List<ClientRoleViewModel>();
+            foreach (var claimType in claimTypes)
+            {
+                var claimValue = await _context.RoleClaims.Where(x => x.ClaimType == claimType && x.RoleId == roleId).Select(v => v.ClaimValue.ToString()).ToListAsync();
+                var claim = new ClientRoleViewModel()
+                {
+                    Type = claimType,
+                    Enable = claimValue.Contains(SystemConstants.True.Type) ? true : false,
+                };
+                claims.Add(claim);
+            }
+            var query = claims.AsQueryable();
+            if (!string.IsNullOrEmpty(filter))
+            {
+                query = query.Where(x => x.Type.Contains(filter));
+            }
+            var totalReconds = query.Count();
+            var items = query.Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .Select(x => new ClientRoleViewModel()
+                {
+                    Type = x.Type,
+                    Enable = x.Enable,                   
+                }).ToList();
+            var pagination = new Pagination<ClientRoleViewModel>
+            {
+                TotalRecords = totalReconds,
+                Items = items
+            };
+            return Ok(pagination);
+        }
+
+        [HttpPost("{roleId}/clients")]
+        [ClaimRequirement(PermissionCode.AUTH_SERVER_CREATE)]
+        public async Task<IActionResult> PostClientClaims(string roleId, [FromBody] ClientClaimRequestModel request)
+        {
+            var role = await _roleManager.FindByIdAsync(roleId);
+            if (role == null)
+            {
+                return NotFound();
+            }
+
+            var client = await _configurationDbContext.Clients.FirstOrDefaultAsync(x => x.ClientName == request.Type);
+            if (client == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                if (request.Enable == false)
+                {
+                    await _roleManager.RemoveClaimAsync(role, new Claim(request.Type, SystemConstants.True.Type));
+                }
+                else if (request.Enable == true)
+                {
+                    await _roleManager.RemoveClaimAsync(role, new Claim(request.Type, SystemConstants.False.Type));
+                    await _roleManager.AddClaimAsync(role, new Claim(request.Type, SystemConstants.True.Type));
+                }
+               
+            }
+            var permission = await _roleManager.GetClaimsAsync(role);
+            return Ok(permission);
+        }
     }
 }

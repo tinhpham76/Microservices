@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EditPermissionsComponent } from './edit-permissions/edit-permissions.component';
 import { PermissionsComponent } from './permissions.component';
+import { ClientPermissionComponent } from './client-permission/client-permission.component';
 
 const routes: Routes = [
     {
@@ -9,8 +10,12 @@ const routes: Routes = [
         component: PermissionsComponent
     },
     {
-        path: ':id/edit',
+        path: ':id/editPermissons',
         component: EditPermissionsComponent
+    },
+    {
+        path: ':id/clientPermissons',
+        component: ClientPermissionComponent
     },
 ];
 

@@ -38,4 +38,15 @@ export class PermissionServices extends BaseService {
             { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
+
+    getClientPermissions(roleId: string, filter, pageIndex, pageSize) {
+        return this.http.get<Pagination<any>>(`${environment.user_api_url}/api/roles/${roleId}/clients/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
+            .pipe(catchError(this.handleError));
+    }
+    postClientPermissions(roleId: string, entity: any) {
+        return this.http.post(`${environment.user_api_url}/api/roles/${roleId}/clients`,
+            JSON.stringify(entity),
+            { headers: this._sharedHeaders })
+            .pipe(catchError(this.handleError));
+    }
 }

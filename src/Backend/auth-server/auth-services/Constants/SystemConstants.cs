@@ -26,5 +26,14 @@
         {
             public const string Type = "DELETE";
         }
+
+        public class True
+        {
+            public const string Type = "true";
+        }
+        public class False
+        {
+            public const string Type = "false";
+        }
     }
 }

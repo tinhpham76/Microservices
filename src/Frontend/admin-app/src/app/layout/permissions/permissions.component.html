@@ -30,8 +30,9 @@
         <th>Index</th>
         <th>Id</th>
         <th>Name</th>
-        <th>Normalized Name</th>
-        <th>Action</th>
+        <th>User Permissions</th>
+        <th>Client Permissions</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -39,13 +40,22 @@
         <td> {{i}}</td>
         <td>{{ role.id }}</td>
         <td>{{ role.name }}</td>
-        <td>{{ role.normalizedName }}</td>
         <td>
           <div class="table-action">
-
-            <a style="text-decoration:underline; margin-right: 5px;" [routerLink]="[role.id,'edit']">
-              Permissions
+            <a style="text-decoration:underline; margin-right: 5px;" [routerLink]="[role.id,'editPermissons']">
+              Edit
             </a>
+          </div>
+        </td>
+        <td>
+          <div class="table-action">
+            <a style="text-decoration:underline; margin-right: 5px;" [routerLink]="[role.id,'clientPermissons']">
+              Edit
+            </a>
+          </div>
+        </td>
+        <td>
+          <div class="table-action">
             <a style="text-decoration:underline" href='javascript:void(0)' (click)='showConfirm(role.id)'>
               Delete
             </a>

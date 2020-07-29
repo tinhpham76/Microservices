@@ -1,4 +1,5 @@
 ﻿using auth_server.Data.Entities;
+using auth_services.Constants;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
@@ -43,8 +44,17 @@ namespace auth_server.Services
             {
                 var role = await _roleManager.FindByIdAsync(userRole);
                 var claim = await _roleManager.GetClaimsAsync(role);
-                var permission = claim.Select(t => t.Type + "_" + t.Value).ToList();
+                var permission = claim.Where(x=> 
+                    x.Value.Equals(SystemConstants.View.Type) ||
+                    x.Value.Equals(SystemConstants.Create.Type) ||
+                    x.Value.Equals(SystemConstants.Update.Type) ||
+                    x.Value.Equals(SystemConstants.Delete.Type)).
+                    Select(t => t.Type + "_" + t.Value).ToList();
+                var clientpermission = claim.Where(x => x.Value.Equals(SystemConstants.True.Type) ||
+                    x.Value.Equals(SystemConstants.False.Type)).
+                    Select(t => t.Type.ToString()).ToList();
                 Permissions.AddRange(permission);
+                Permissions.AddRange(clientpermission);
             }
             var avatar = user.AvatarUri == null ? "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" : user.AvatarUri;
 

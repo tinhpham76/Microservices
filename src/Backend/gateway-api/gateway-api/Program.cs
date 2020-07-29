@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-
+using Serilog;
 
 namespace gateway_api
 {
@@ -39,8 +39,13 @@ namespace gateway_api
             })
             .ConfigureLogging((hostingContext, logging) =>
             {
-                   //add your logging
-               })
+                Log.Logger = new LoggerConfiguration()
+                        .Enrich.FromLogContext()
+                        .WriteTo.Console()
+                        .CreateLogger();
+            })
+            .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
+                .ReadFrom.Configuration(hostingContext.Configuration))
             .UseIISIntegration()
             .Configure(app =>
             {

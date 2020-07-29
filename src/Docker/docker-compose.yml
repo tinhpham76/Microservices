@@ -152,7 +152,10 @@ services:
       TZ: "Asia/Ho_Chi_Minh"
       ASPNETCORE_ENVIRONMENT: "Development"
     volumes:
-      - ../Backend/gateway-api/gateway-api/Configuration:/app/configuration      
+    - ../Backend/gateway-api/gateway-api/Configuration:/app/configuration
+    - type: bind
+      source: ./DATA-DOCKER/Backend/admin-api/logs
+      target: /app/wwwroot/logs      
     ports:
       - '80:80'
     depends_on:

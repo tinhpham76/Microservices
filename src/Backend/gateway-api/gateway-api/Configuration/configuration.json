@@ -198,6 +198,32 @@
         }
       ]
     },
+    //GetClientClaims
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}/clients/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/roles/{roleId}/clients/{search}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
+    //PostClientClaims
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}/clients",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/roles/{roleId}/clients",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5001
+        }
+      ]
+    },
     // PostUser
     {
       "UpstreamPathTemplate": "/users",
@@ -1054,6 +1080,32 @@
       "UpstreamPathTemplate": "/api/roles/{roleId}/claims",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/roles/{roleId}/claims",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //GetClientClaims
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}/clients/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}/clients/{search}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reverse-proxy",
+          "Port": 5005
+        }
+      ]
+    },
+    //PostClientClaims
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}/clients",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}/clients",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {

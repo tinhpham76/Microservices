@@ -86,5 +86,25 @@ namespace user_api.Controllers
                 return Ok(result);
             return BadRequest(result);
         }
+
+        // Get roles with claims
+        [HttpGet("{roleId}/clients/filter")]
+        [ClaimRequirement(PermissionCode.USER_API_VIEW)]
+        public async Task<IActionResult> GetClientClaims(string roleId, string filter, int pageIndex, int pageSize)
+        {
+            var roleClaims = await _roleApiClient.GetClientClaims(roleId, filter, pageIndex, pageSize);
+            return Ok(roleClaims);
+        }
+
+        // Post claims to role
+        [HttpPost("{roleId}/clients")]
+        [ClaimRequirement(PermissionCode.USER_API_CREATE)]
+        public async Task<IActionResult> PostClientClaims(string roleId, [FromBody] ClientClaimRequestModel request)
+        {
+            var result = await _roleApiClient.PostClientClaims(roleId, request);
+            if (result == true)
+                return Ok(result);
+            return BadRequest(result);
+        }
     }
 }

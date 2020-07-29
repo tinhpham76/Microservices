@@ -140,7 +140,7 @@ export class EditResourceComponent implements OnInit {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
           MessageConstants.TITLE_NOTIFICATION,
-          MessageConstants.NOTIFICATION_ADD,
+          MessageConstants.NOTIFICATION_UPDATE,
           'bottomRight');
         this.getApiResource(this.apiName);
         setTimeout(() => {

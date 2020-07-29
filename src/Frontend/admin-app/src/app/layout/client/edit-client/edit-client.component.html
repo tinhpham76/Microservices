@@ -74,7 +74,7 @@
                         </nz-tag>
                         <input formControlName="allowedCorsOrigins" #inputElement nz-input nzSize="small"
                             *ngIf="inputAllowedCorsOriginsVisible" type="text"
-                            [(ngModel)]="inputAllowedCorsOriginsValue" style="width: 78px;"
+                            [(ngModel)]="inputAllowedCorsOriginsValue" style="width: 300px;"
                             (blur)="inputConfirmAllowedCorsOrigins()"
                             (keydown.enter)="inputConfirmAllowedCorsOrigins()" />
                     </nz-form-control>
@@ -126,7 +126,7 @@
                             (click)="showRedirectUrisInput()"> <i nz-icon nzType="plus"></i> New Redirect Uri </nz-tag>
                         <input #inputElement formControlName="redirectUris" nz-input nzSize="small"
                             *ngIf="inputRedirectUrisVisible" type="text" [(ngModel)]="inputRedirectUrisValue"
-                            style="width: 78px;" (blur)="inputConfirmRedirectUris()"
+                            style="width: 300px;" (blur)="inputConfirmRedirectUris()"
                             (keydown.enter)="inputConfirmRedirectUris()" />
                     </nz-form-control>
                 </nz-form-item>
@@ -237,7 +237,7 @@
                         </nz-tag>
                         <input formControlName="postLogoutRedirectUris" #inputElement nz-input nzSize="small"
                             *ngIf="inputPostLogoutRedirectUrisVisible" type="text"
-                            [(ngModel)]="inputPostLogoutRedirectUrisValue" style="width: 78px;"
+                            [(ngModel)]="inputPostLogoutRedirectUrisValue" style="width: 300px;"
                             (blur)="inputConfirmPostLogoutRedirectUris()"
                             (keydown.enter)="inputConfirmPostLogoutRedirectUris()" />
                     </nz-form-control>

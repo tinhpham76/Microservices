@@ -45,6 +45,11 @@ namespace user_api.Services
             return await GetAsync<Pagination<ApiRoleViewModel>>($"/roles/{id}/claims/filter?filter={filter}&pageIndex={pageIndex}&pageSize={pageSize}", true);
         }
 
+        public async Task<Pagination<ClientRoleViewModel>> GetClientClaims(string id, string filter, int pageIndex, int pageSize)
+        {
+            return await GetAsync<Pagination<ClientRoleViewModel>>($"/roles/{id}/clients/filter?filter={filter}&pageIndex={pageIndex}&pageSize={pageSize}", true);
+        }
+
         public async Task<Pagination<RoleViewModel>> GetRolesPaging(string filter, int pageIndex, int pageSize)
         {
             return await GetAsync<Pagination<RoleViewModel>>($"/roles/filter?filter={filter}&pageIndex={pageIndex}&pageSize={pageSize}", true);
@@ -63,6 +68,22 @@ namespace user_api.Services
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await client.PostAsync($"/roles", data);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> PostClientClaims(string roleId, ClientClaimRequestModel request)
+        {
+            var client = _httpClientFactory.CreateClient("BackendApi");
+
+            client.BaseAddress = new Uri(_configuration["BackendApiUrl"]);
+
+            var json = JsonConvert.SerializeObject(request);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.PostAsync($"/roles/{roleId}/clients", data);
             return response.IsSuccessStatusCode;
         }
 
