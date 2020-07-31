@@ -151,13 +151,14 @@ services:
     environment:
       TZ: "Asia/Ho_Chi_Minh"
       ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: http://+:80
     volumes:
     - ../Backend/gateway-api/gateway-api/Configuration:/app/configuration
     - type: bind
       source: ./DATA-DOCKER/Backend/admin-api/logs
       target: /app/wwwroot/logs      
     ports:
-      - '80:80'
+      - '8001:80'
     depends_on:
       - 'reverse-proxy'
     restart: unless-stopped    

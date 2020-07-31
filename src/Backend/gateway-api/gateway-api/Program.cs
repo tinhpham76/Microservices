@@ -22,7 +22,10 @@ namespace gateway_api
                 config
                     .SetBasePath(hostingContext.HostingEnvironment.ContentRootPath)
                     .AddJsonFile("appsettings.json", true, true)
+                    // Enable for docker
                     .AddJsonFile(Path.Combine("configuration", "configuration.json"))
+                    // Enable for devs
+                     //.AddJsonFile(Path.Combine("configuration", "conf.json"))
                     .AddEnvironmentVariables();
             })
             .ConfigureServices(services => {

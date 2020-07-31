@@ -4,16 +4,21 @@
 
 export const environment = {
   production: false,
-  storage_api_url: 'http://localhost',
-  admin_api_url: 'http://localhost',
-  user_api_url: 'http://localhost',
-  authority: 'http://localhost:5001',
+
+  api_url: 'http://localhost:8001',
+
   profile_app_url: 'http://localhost:4300',
+
+  authority: 'http://localhost:5001',
   client_id: 'angular_admin_dashboard',
   redirect_uri: 'http://localhost:4200/auth-callback',
   post_logout_redirect_uri: 'http://localhost:4200/',
   scope: 'AUTH_SERVER ADMIN_API USER_API openid profile',
-  silent_redirect_uri: 'http://localhost:4200/silent-renew.html'
+  silent_redirect_uri: 'http://localhost:4200/silent-renew.html',
+  response_type: 'code',
+  filterProtocolClaims: true,
+  loadUserInfo: true,
+  automaticSilentRenew: true,
 };
 
 

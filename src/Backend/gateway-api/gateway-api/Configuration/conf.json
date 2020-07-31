@@ -1,0 +1,1258 @@
+{
+  "Routes": [
+    ////////////////////////
+    // Auth server
+    ///////////////////////
+    //PostApiResource
+    {
+      "UpstreamPathTemplate": "/apiresources",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/apiresources",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //DeleteApiResource
+    {
+      "UpstreamPathTemplate": "/apiresources/{apiResourceName}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/apiresources/{apiResourceName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //PostApiScope
+    {
+      "UpstreamPathTemplate": "/apiscopes",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/apiscopes",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //DeleteApiScope
+    {
+      "UpstreamPathTemplate": "/apiresources/{apiScopeName}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/apiresources/{apiScopeName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //PostClient
+    {
+      "UpstreamPathTemplate": "/clients",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/clients",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //DeleteClient
+    {
+      "UpstreamPathTemplate": "/clients/{clientId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/clients/{clientId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //PostIdentityResource
+    {
+      "UpstreamPathTemplate": "/IdentityResources",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/IdentityResources",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //DeleteIdentityResource
+    {
+      "UpstreamPathTemplate": "/IdentityResources/{identityResourceName}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/IdentityResources/{identityResourceName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //GetRole
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/roles/{roleId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //GetRolesPaging
+    {
+      "UpstreamPathTemplate": "/roles/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/roles/{search}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //PostRole
+    {
+      "UpstreamPathTemplate": "/roles",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/roles",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //PutRole
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/roles/{roleId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //DeleteRole
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/roles/{roleId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //GetRoleClaims
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}/claims/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/roles/{roleId}/claims/{search}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //PostRoleClaims
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}/claims",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/roles/{roleId}/claims",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //GetClientClaims
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}/clients/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/roles/{roleId}/clients/{search}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //PostClientClaims
+    {
+      "UpstreamPathTemplate": "/roles/{roleId}/clients",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/roles/{roleId}/clients",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    // PostUser
+    {
+      "UpstreamPathTemplate": "/users",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/users",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    // GetUsersPaging
+    {
+      "UpstreamPathTemplate": "/Users/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/Users/{search}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //GetUserDetail
+    {
+      "UpstreamPathTemplate": "/users/{userId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/users/{userId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //PutUser
+    {
+      "UpstreamPathTemplate": "/users/{userId}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/users/{userId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //PutResetPassword
+    {
+      "UpstreamPathTemplate": "/users/{userId}/reset-password",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/users/{userId}/reset-password",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //PutUserPassword
+    {
+      "UpstreamPathTemplate": "/users/{userId}/change-password",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/users/{userId}/change-password",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //DeleteUser
+    {
+      "UpstreamPathTemplate": "/users/{userId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/users/{userId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    //PutUserDetailWithRoles
+    {
+      "UpstreamPathTemplate": "/users/{userId}/userRoles",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/users/{userId}/userRoles",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    ////////////////////////
+    // Admin api
+    ///////////////////////
+    //GetAllApiScopes
+    {
+      "UpstreamPathTemplate": "/api/apiresources",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiresources",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetApiResourcesPaging
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiresources/{search}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PostApiResource
+    {
+      "UpstreamPathTemplate": "/api/apiresources",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/apiresources",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //DeleteApiResource
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetDetailApiResource
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PutApiResource
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetApiResourceSecrets
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}/secrets",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}/secrets",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PostApiResourceSecret
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}/secrets",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}/secrets",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //DeleteApiResourceSecret
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}/secrets/{secretId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}/secrets/{secretId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetApiResourceProperties
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}/properties",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}/properties",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PostApiResourceProperty
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}/properties",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}/properties",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //DeleteApiResourceProperty
+    {
+      "UpstreamPathTemplate": "/api/apiresources/{apiResourceName}/properties/{propertyKey}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/apiresources/{apiResourceName}/properties/{propertyKey}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetApiScopesPaging
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{search}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PostApiScope
+    {
+      "UpstreamPathTemplate": "/api/apiscopes",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/apiscopes",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //DeleteApiScope
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{apiScopeName}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{apiScopeName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetDetailApiScope
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{apiScopeName}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{apiScopeName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PutApiScope
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{apiScopeName}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{apiScopeName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetApiScopeProperties
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{apiScopeName}/properties",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{apiScopeName}/properties",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PostApiScopeProperty
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{apiScopeName}/properties",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{apiScopeName}/properties",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //DeleteApiScopeProperty
+    {
+      "UpstreamPathTemplate": "/api/apiscopes/{apiScopeName}/properties/{propertyKey}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/apiscopes/{apiScopeName}/properties/{propertyKey}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetClientsPaging
+    {
+      "UpstreamPathTemplate": "/api/clients/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{search}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PostClient
+    {
+      "UpstreamPathTemplate": "/api/clients",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/clients",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //DeleteClient
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetClientBasic
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/basics",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/basics",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PutClientBasic
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/basics",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/basics",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetScopes
+    {
+      "UpstreamPathTemplate": "/api/clients",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetClientSetting
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PutClientSettings
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetClientSecrets
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings/clientSecrets",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings/clientSecrets",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PostClientSecret
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings/clientSecrets",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings/clientSecrets",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //DeleteClientSecret
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings/clientSecrets/{secretId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings/clientSecrets/{secretId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetClientProperties
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings/properties",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings/properties",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PostClientProperty
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings/properties",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings/properties",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //DeleteClientProperty
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/settings/properties/{propertyKey}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/settings/properties/{propertyKey}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetClientAuthentication
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/authentications",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/authentications",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PutClientAuthentication
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/authentications",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/authentications",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetClientToken
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/tokens",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/tokens",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PutClientToken
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/tokens",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/tokens",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetClientClientClaims
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/tokens/clientClaims",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/tokens/clientClaims",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PostClientClientClaims
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/tokens/clientClaims",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/tokens/clientClaims",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //DeleteClientClaim
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/tokens/clientClaims/{claimType}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/tokens/clientClaims/{claimType}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetClientDeviceFlow
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/deviceFlows",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/deviceFlows",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PutClientDeviceFlow
+    {
+      "UpstreamPathTemplate": "/api/clients/{clientId}/deviceFlows",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/clients/{clientId}/deviceFlows",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetidentityresourcessPaging
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/identityresources/{search}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //Postidentityresources
+    {
+      "UpstreamPathTemplate": "/api/identityresources",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/identityresources",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //DeleteApiResource
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{identityresourcesName}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/identityresources/{identityresourcesName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //Getidentityresources
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{identityresourcesName}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/identityresources/{identityresourcesName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PutApiResource
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{identityresourcesName}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/identityresources/{identityresourcesName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //GetidentityresourcesProperties
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{identityresourcesName}/properties",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/identityresources/{identityresourcesName}/properties",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //PostApiResourceProperty
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{identityresourcesName}/properties",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/identityresources/{identityresourcesName}/properties",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    //DeleteidentityresourcesProperty
+    {
+      "UpstreamPathTemplate": "/api/identityresources/{identityresourcesName}/properties/{propertyKey}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/identityresources/{identityresourcesName}/properties/{propertyKey}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ]
+    },
+    ////////////////////////
+    // User api
+    ///////////////////////
+    //GetRole
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //GetRolesPaging
+    {
+      "UpstreamPathTemplate": "/api/roles/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/roles/{search}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //PostRole
+    {
+      "UpstreamPathTemplate": "/api/roles",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/roles",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //PutRole
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //DeleteRole
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //GetRoleClaims
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}/claims/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}/claims/{search}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //PostRoleClaims
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}/claims",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}/claims",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //GetClientClaims
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}/clients/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}/clients/{search}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //PostClientClaims
+    {
+      "UpstreamPathTemplate": "/api/roles/{roleId}/clients",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/roles/{roleId}/clients",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    // PostUser
+    {
+      "UpstreamPathTemplate": "/api/users",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/users",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    // GetUsersPaging
+    {
+      "UpstreamPathTemplate": "/api/Users/{search}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/Users/{search}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //GetUserDetail
+    {
+      "UpstreamPathTemplate": "/api/users/{userId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/users/{userId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //PutUser
+    {
+      "UpstreamPathTemplate": "/api/users/{userId}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/users/{userId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //PutResetPassword
+    {
+      "UpstreamPathTemplate": "/api/users/{userId}/reset-password",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/users/{userId}/reset-password",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //PutUserPassword
+    {
+      "UpstreamPathTemplate": "/api/users/{userId}/change-password",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/users/{userId}/change-password",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //DeleteUser
+    {
+      "UpstreamPathTemplate": "/api/users/{userId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/users/{userId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    //PutUserDetailWithRoles
+    {
+      "UpstreamPathTemplate": "/api/users/{userId}/userRoles",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/users/{userId}/userRoles",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ]
+    },
+    ////////////////////////
+    // Storage api
+    ///////////////////////
+    //Upload file
+    {
+      "UpstreamPathTemplate": "/api/files/upload",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "DownstreamPathTemplate": "/api/files/upload",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ]
+    },
+    //Get file
+    {
+      "UpstreamPathTemplate": "/multi-media/{fileName}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "DownstreamPathTemplate": "/multi-media/{fileName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "RateLimitOptions": {
+      "DisableRateLimitHeaders": false,
+      "QuotaExceededMessage": "Hey, you request too many times, slow down!!!",
+      "HttpStatusCode": 999
+    }
+  }
+}

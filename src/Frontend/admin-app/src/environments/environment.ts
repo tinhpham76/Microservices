@@ -2,18 +2,24 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const webUrl = window.location.origin;
 export const environment = {
   production: false,
-  storage_api_url: 'https://localhost:5006',
-  admin_api_url: 'https://localhost:5002',
-  user_api_url: 'https://localhost:5004',
-  authority: 'https://localhost:5000',
+
+  api_url: 'https://localhost:8080',
+
   profile_app_url: 'http://localhost:4300',
+
+  authority: 'https://localhost:5000',
   client_id: 'angular_admin_dashboard',
   redirect_uri: 'http://localhost:4200/auth-callback',
   post_logout_redirect_uri: 'http://localhost:4200/',
+  response_type: 'code',
   scope: 'AUTH_SERVER ADMIN_API USER_API openid profile',
-  silent_redirect_uri: 'http://localhost:4200/silent-renew.html'
+  silent_redirect_uri: 'http://localhost:4200/silent-renew.html',
+  filterProtocolClaims: true,
+  loadUserInfo: true,
+  automaticSilentRenew: true,
 };
 
 

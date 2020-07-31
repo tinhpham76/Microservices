@@ -94,6 +94,7 @@ export class ClientPermissionComponent implements OnInit {
         );
         setTimeout(() => {
           this.loadPermissions(this.roleId, this.filter, this.pageIndex, this.pageSize);
+          this.isSpinning = false;
         }, 500);
       }, errorMessage => {
         this.createNotification(

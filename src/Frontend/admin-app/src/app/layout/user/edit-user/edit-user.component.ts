@@ -29,7 +29,7 @@ export class EditUserComponent implements OnInit {
   public avatar = '';
 
   // Api upload file url
-  public api_upload = (`${environment.storage_api_url}/api/files/upload`);
+  public api_upload = (`${environment.api_url}/api/files/upload`);
 
   // List role
   public listOfOptionRoles: Array<{ label: string; value: string }> = [];
@@ -107,7 +107,7 @@ export class EditUserComponent implements OnInit {
     }
     if (info.file.status === 'done') {
       this.msg.success(`${info.file.name} file uploaded successfully`);
-      this.avatar = (`${environment.storage_api_url}${info.file.response.filePath}`);
+      this.avatar = (`${environment.api_url}${info.file.response.filePath}`);
     } else if (info.file.status === 'error') {
       this.msg.error(`${info.file.name} file upload failed.`);
     }
@@ -132,10 +132,11 @@ export class EditUserComponent implements OnInit {
         this.createNotification(
           MessageConstants.TYPE_NOTIFICATION_SUCCESS,
           MessageConstants.TITLE_NOTIFICATION,
-          MessageConstants.NOTIFICATION_ADD,
+          MessageConstants.NOTIFICATION_UPDATE,
           'bottomRight'
         );
         setTimeout(() => {
+          this.getUserDetail(this.userId);
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {
@@ -163,6 +164,7 @@ export class EditUserComponent implements OnInit {
           'bottomRight'
         );
         setTimeout(() => {
+          this.getUserDetail(this.userId);
           this.isSpinning = false;
         }, 500);
       }, errorMessage => {

@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '@environments/environment';
@@ -17,68 +17,68 @@ export class ApiResourceServices extends BaseService {
     }
 
     add(entity: any) {
-        return this.http.post(`${environment.admin_api_url}/api/ApiResources`,
+        return this.http.post(`${environment.api_url}/api/ApiResources`,
             JSON.stringify(entity),
             { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
 
     update(name: string, entity: any) {
-        return this.http.put(`${environment.admin_api_url}/api/ApiResources/${name}`,
+        return this.http.put(`${environment.api_url}/api/ApiResources/${name}`,
             JSON.stringify(entity),
             { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
 
     getDetail(name: string) {
-        return this.http.get<AnyMxRecord>(`${environment.admin_api_url}/api/ApiResources/${name}`,
+        return this.http.get<AnyMxRecord>(`${environment.api_url}/api/ApiResources/${name}`,
             { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
 
     }
 
     getAllPaging(filter, pageIndex, pageSize) {
-        return this.http.get<Pagination<any>>(`${environment.admin_api_url}/api/ApiResources/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`,
+        return this.http.get<Pagination<any>>(`${environment.api_url}/api/ApiResources/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`,
             { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
 
     delete(name: string) {
-        return this.http.delete(`${environment.admin_api_url}/api/ApiResources/${name}`,
+        return this.http.delete(`${environment.api_url}/api/ApiResources/${name}`,
             { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
 
     getApiScopes() {
-        return this.http.get(`${environment.admin_api_url}/api/ApiResources`,
+        return this.http.get(`${environment.api_url}/api/ApiResources`,
             { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
 
     getApiResourceSecret(name: string) {
-        return this.http.get(`${environment.admin_api_url}/api/ApiResources/${name}/secrets`,
+        return this.http.get(`${environment.api_url}/api/ApiResources/${name}/secrets`,
             { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
 
     addApiResourceSecret(name: string, entity: any) {
-        return this.http.post(`${environment.admin_api_url}/api/ApiResources/${name}/secrets`,
+        return this.http.post(`${environment.api_url}/api/ApiResources/${name}/secrets`,
             JSON.stringify(entity),
             { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
 
     deleteApiResourceSecret(name: string, secretId: number) {
-        return this.http.delete(`${environment.admin_api_url}/api/ApiResources/${name}/secrets/${secretId}`,
+        return this.http.delete(`${environment.api_url}/api/ApiResources/${name}/secrets/${secretId}`,
             { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
 
     getApiResourceProperty(name: string) {
-        return this.http.get(`${environment.admin_api_url}/api/ApiResources/${name}/properties`,
+        return this.http.get(`${environment.api_url}/api/ApiResources/${name}/properties`,
             { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
 
     addApiResourceProperty(name: string, entity: any) {
-        return this.http.post(`${environment.admin_api_url}/api/ApiResources/${name}/properties`,
+        return this.http.post(`${environment.api_url}/api/ApiResources/${name}/properties`,
             JSON.stringify(entity),
             { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
 
     deleteApiResourceProperty(name: string, propertyKey: string) {
-        return this.http.delete(`${environment.admin_api_url}/api/ApiResources/${name}/properties/${propertyKey}`,
+        return this.http.delete(`${environment.api_url}/api/ApiResources/${name}/properties/${propertyKey}`,
             { headers: this._sharedHeaders }).pipe(catchError(this.handleError));
     }
 }

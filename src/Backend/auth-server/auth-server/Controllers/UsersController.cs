@@ -146,6 +146,7 @@ namespace auth_server.Controllers
                 return NotFound($"Cannot found user with id: {userId}");
             var newPassword = _userManager.PasswordHasher.HashPassword(user, "User@123");
             user.PasswordHash = newPassword;
+            user.LastModifiedDate = DateTime.Now;
             var result = await _userManager.UpdateAsync(user);
 
             if (result.Succeeded)
@@ -169,9 +170,12 @@ namespace auth_server.Controllers
                 return NotFound($"Cannot found user with id: {userId}");
 
             var result = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+           
 
             if (result.Succeeded)
             {
+                user.LastModifiedDate = DateTime.Now;
+                await _userManager.UpdateAsync(user);
                 return NoContent();
             }
             return BadRequest();

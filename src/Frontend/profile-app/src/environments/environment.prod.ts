@@ -4,14 +4,19 @@
 
 export const environment = {
   production: false,
-  storage_api_url: 'http://localhost',
-  apiUrl: 'http://localhost',
+
+  api_url: 'http://localhost:8001',
+
   authority: 'http://localhost:5001',
   client_id: 'angular_user_profile',
   redirect_uri: 'http://localhost:4300/auth-callback',
   post_logout_redirect_uri: 'http://localhost:4300/',
   scope: 'USER_API AUTH_SERVER openid profile',
-  silent_redirect_uri: 'http://localhost:4300/silent-refresh.html'
+  silent_redirect_uri: 'http://localhost:4300/silent-renew.html',
+  response_type: 'code',
+  filterProtocolClaims: true,
+  loadUserInfo: true,
+  automaticSilentRenew: true,
 };
 
 

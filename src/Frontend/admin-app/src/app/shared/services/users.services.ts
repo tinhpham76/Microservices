@@ -16,32 +16,32 @@ export class UserServices extends BaseService {
 
     }
     add(entity: any) {
-        return this.http.post(`${environment.user_api_url}/api/users`, JSON.stringify(entity), { headers: this._sharedHeaders })
+        return this.http.post(`${environment.api_url}/api/users`, JSON.stringify(entity), { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     getAllPaging(filter, pageIndex, pageSize) {
-        return this.http.get<Pagination<any>>(`${environment.user_api_url}/api/users/filter?pageIndex=${pageIndex}&pageSize=${pageSize}&filter=${filter}`, { headers: this._sharedHeaders })
+        return this.http.get<Pagination<any>>(`${environment.api_url}/api/users/filter?pageIndex=${pageIndex}&pageSize=${pageSize}&filter=${filter}`, { headers: this._sharedHeaders })
             .pipe(map((response: Pagination<any>) => {
                 return response;
             }), catchError(this.handleError));
     }
     delete(id) {
-        return this.http.delete(environment.user_api_url + '/api/users/' + id, { headers: this._sharedHeaders })
+        return this.http.delete(environment.api_url + '/api/users/' + id, { headers: this._sharedHeaders })
             .pipe(
                 catchError(this.handleError)
             );
     }
     getUserWithRoles(userId: string) {
-        return this.http.get(`${environment.user_api_url}/api/users/${userId}/userRoles`, { headers: this._sharedHeaders })
+        return this.http.get(`${environment.api_url}/api/users/${userId}/userRoles`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     updateUserWithRoles(id: string, entity: any) {
-        return this.http.put(`${environment.user_api_url}/api/users/${id}/userRoles`,
+        return this.http.put(`${environment.api_url}/api/users/${id}/userRoles`,
          JSON.stringify(entity), { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     resetUserPassword(userId: string) {
-        return this.http.put(`${environment.user_api_url}/api/users/${userId}/reset-password`, { headers: this._sharedHeaders })
+        return this.http.put(`${environment.api_url}/api/users/${userId}/reset-password`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
 }

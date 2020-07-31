@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '@environments/environment';
@@ -13,38 +13,38 @@ export class PermissionServices extends BaseService {
         this._sharedHeaders = this._sharedHeaders.set('Content-Type', 'application/json');
     }
     add(entity: any) {
-        return this.http.post(`${environment.user_api_url}/api/roles`, JSON.stringify(entity), { headers: this._sharedHeaders })
+        return this.http.post(`${environment.api_url}/api/roles`, JSON.stringify(entity), { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     getDetail(id: string) {
-        return this.http.get<any>(`${environment.user_api_url}/api/roles/${id}`, { headers: this._sharedHeaders })
+        return this.http.get<any>(`${environment.api_url}/api/roles/${id}`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     getAllPaging(filter, pageIndex, pageSize) {
-        return this.http.get<Pagination<any>>(`${environment.user_api_url}/api/roles/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
+        return this.http.get<Pagination<any>>(`${environment.api_url}/api/roles/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     delete(id) {
-        return this.http.delete(`${environment.user_api_url}/api/roles/${id}`, { headers: this._sharedHeaders })
+        return this.http.delete(`${environment.api_url}/api/roles/${id}`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     getPermissions(roleId: string, filter, pageIndex, pageSize) {
-        return this.http.get<Pagination<any>>(`${environment.user_api_url}/api/roles/${roleId}/claims/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
+        return this.http.get<Pagination<any>>(`${environment.api_url}/api/roles/${roleId}/claims/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     postPermissions(roleId: string, entity: any) {
-        return this.http.post(`${environment.user_api_url}/api/roles/${roleId}/claims`,
+        return this.http.post(`${environment.api_url}/api/roles/${roleId}/claims`,
             JSON.stringify(entity),
             { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
 
     getClientPermissions(roleId: string, filter, pageIndex, pageSize) {
-        return this.http.get<Pagination<any>>(`${environment.user_api_url}/api/roles/${roleId}/clients/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
+        return this.http.get<Pagination<any>>(`${environment.api_url}/api/roles/${roleId}/clients/filter?filter=${filter}&pageIndex=${pageIndex}&pageSize=${pageSize}`, { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
     postClientPermissions(roleId: string, entity: any) {
-        return this.http.post(`${environment.user_api_url}/api/roles/${roleId}/clients`,
+        return this.http.post(`${environment.api_url}/api/roles/${roleId}/clients`,
             JSON.stringify(entity),
             { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));

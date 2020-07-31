@@ -15,27 +15,27 @@ export class UserServices extends BaseService {
     }
 
     update(id: string, entity: any) {
-        return this.http.put(`${environment.apiUrl}/api/users/${id}`,
+        return this.http.put(`${environment.api_url}/api/users/${id}`,
             JSON.stringify(entity),
             { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
 
     changePassword(id: string, entity: any) {
-        return this.http.put(`${environment.apiUrl}/api/users/${id}/change-password`
+        return this.http.put(`${environment.api_url}/api/users/${id}/change-password`
             , JSON.stringify(entity),
             { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
 
     getDetail(id) {
-        return this.http.get<any>(`${environment.apiUrl}/api/users/${id}`,
+        return this.http.get<any>(`${environment.api_url}/api/users/${id}`,
             { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }
 
     delete(id) {
-        return this.http.delete(environment.apiUrl + '/api/users/' + id,
+        return this.http.delete(environment.api_url + '/api/users/' + id,
             { headers: this._sharedHeaders })
             .pipe(catchError(this.handleError));
     }

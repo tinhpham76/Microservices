@@ -21,7 +21,7 @@ export class AddUserComponent implements OnInit {
   public avatar = '';
 
   // Api upload file url
-  public api_upload = (`${environment.storage_api_url}/api/files/upload`);
+  public api_upload = (`${environment.api_url}/api/files/upload`);
 
   // Spin
   public isSpinning: boolean;
@@ -58,7 +58,7 @@ export class AddUserComponent implements OnInit {
     }
     if (info.file.status === 'done') {
       this.msg.success(`${info.file.name} file uploaded successfully`);
-      this.avatar = (`${environment.storage_api_url}${info.file.response.filePath}`);
+      this.avatar = (`${environment.api_url}${info.file.response.filePath}`);
     } else if (info.file.status === 'error') {
       this.msg.error(`${info.file.name} file upload failed.`);
     }
