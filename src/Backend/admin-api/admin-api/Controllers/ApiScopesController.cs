@@ -161,8 +161,7 @@ namespace admin_api.Controllers
         #endregion
 
         #region Api Scope Property
-        // Api resource property
-        //Get api resource properties
+        //Get api scope properties
         [HttpGet("{apiScopeName}/properties")]
         [ClaimRequirement(PermissionCode.ADMIN_API_VIEW)]
         public async Task<IActionResult> GetApiScopeProperties(string apiScopeName)
