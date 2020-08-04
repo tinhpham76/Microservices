@@ -1,0 +1,62 @@
+<!--Header-->
+<div class="content-heading">
+    <div>
+        💻 Clients
+        <br>
+        <small><b> The Client class represents an OpenID Connect or OAuth 2.0 client - e.g. a native application, a web
+                application or a JS-based application..</b></small>
+    </div>
+</div>
+<button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='add'><i nz-icon
+        nzType="desktop"></i>Create new client</button>
+<br><br>
+<div nz-row>
+    <div nz-col nzSpan="6">
+        <nz-input-group [nzSuffix]="suffixIconSearch">
+            <input placeholder="Search client with id, name,..." nz-input type="text" [(ngModel)]="searchValue"
+                (keydown.enter)="handleInputConfirm()" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+            <i nz-icon nzType="search"></i>
+        </ng-template>
+    </div>
+</div>
+
+<!--Body-->
+<nz-spin [nzSpinning]="isSpinning">
+    <nz-table #clientTable nzBordered [nzScroll]="{ x: '1000px' }" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize"
+        [nzData]="items" [nzTotal]="totalRecords" [nzFrontPagination]="false"
+        (nzQueryParams)="onQueryParamsChange($event)">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Client Id</th>
+                <th>Logo</th>
+                <th>Client Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let client of clientTable.data; let i = index">
+                <td>{{ i }}</td>
+                <td>{{ client.clientId }}</td>
+                <td>
+                    <nz-avatar [nzSize]="64" [nzSrc]="client.logoUri"></nz-avatar>
+                </td>
+                <td>{{ client.clientName }}</td>
+                <td>
+                    <div class="table-action">
+                        <a style="text-decoration:underline; margin-right: 5px;"
+                            [routerLink]="[client.clientId,'edit']">
+                            Edit
+                        </a>
+                        <a style="text-decoration:underline" href='javascript:void(0)'
+                            (click)='showDeleteConfirm(client.clientId)'>
+                            Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-spin>

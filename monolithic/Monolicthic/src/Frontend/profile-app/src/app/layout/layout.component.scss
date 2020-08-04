@@ -1,0 +1,35 @@
+img {
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+nz-header {
+  background: #fff;
+  padding: 0;
+  height: auto;
+  overflow: auto;
+}
+
+nz-content {
+  margin: 0 16px;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+.inner-content {
+  padding: 24px;
+  background: #fff;
+  min-height: 500px;
+  overflow: auto;
+}
+
+nz-footer {
+  text-align: center;
+}
+.item{
+  overflow: auto;
+  position: fixed;
+  height: calc(100% - 55px);
+}

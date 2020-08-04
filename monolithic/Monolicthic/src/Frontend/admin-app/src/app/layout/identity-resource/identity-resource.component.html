@@ -1,0 +1,60 @@
+<!--Header-->
+<div class="content-heading">
+    <div>
+        🔖 Identity Resources
+        <br>
+        <small><b> Identity resources are data like user ID, name, or email address of a user. An identity resource has
+                a unique name, and you can assign arbitrary claim types to it. These claims will then be included in the
+                identity token for the user..</b></small>
+    </div>
+</div>
+<button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='add'><i nz-icon
+        nzType="file-add"></i>Add new resource</button>
+<br><br>
+<div nz-row>
+    <div nz-col nzSpan="6">
+        <nz-input-group [nzSuffix]="suffixIconSearch">
+            <input placeholder="Search identity resource with id, name,..." nz-input type="text"
+                [(ngModel)]="searchValue" (keydown.enter)="handleInputConfirm()" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+            <i nz-icon nzType="search"></i>
+        </ng-template>
+    </div>
+</div>
+<!--Body-->
+<nz-spin [nzSpinning]="isSpinning">
+    <nz-table nzBordered #identityTable [nzScroll]="{ x: '1000px' }" [nzPageIndex]="pageIndex" [nzPageSize]="pageSize"
+        [nzData]="items" [nzTotal]="totalRecords" [nzFrontPagination]="false"
+        (nzQueryParams)="onQueryParamsChange($event)">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let identity of identityTable.data; let i = index">
+                <td>{{ i }}</td>
+                <td>{{ identity.name }}</td>
+                <td>{{ identity.description }}</td>
+                <td>
+                    <div class="table-action">
+                        <div class="table-action">
+                            <a style="text-decoration:underline; margin-right: 5px;"
+                                [routerLink]="[identity.name,'edit']">
+                                Edit
+                            </a>
+                            <a style="text-decoration:underline" href='javascript:void(0)'
+                                (click)='showDeleteConfirm(identity.name)'>
+                                Delete
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-spin>

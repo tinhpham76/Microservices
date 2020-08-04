@@ -1,0 +1,105 @@
+<!--Header-->
+<div class="content-heading">
+    <div>
+        ☁️ Api Scopes
+        <br>
+        <small><b> Resources are something you want to protect with apiServer – either APIs (by doing this your
+                data will be protected as well). So to access your database content must be through an API..</b></small>
+    </div>
+</div>
+<button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='/api-scopes'><i nz-icon
+        nzType="rollback"></i>Go back</button>
+<!--Body-->
+<nz-spin [nzSpinning]="isSpinning">
+    <form nz-form nzSpan="12" nzOffset="6" [formGroup]="validateForm"
+        (ngSubmit)="submitValidateForm(validateForm.value)">
+        <nz-form-item>
+            <nz-form-label [nzSm]=" 6" [nzXs]="24">Enable</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+                <nz-switch formControlName="enabled"></nz-switch>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Name</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..."
+                [nzErrorTip]="nameErrorTpl">
+                <input nz-input formControlName="name" placeholder="Api scope name" />
+                <ng-template #nameErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">
+                        Please input api scope name!
+                    </ng-container>
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]=" 6" [nzXs]="24" required>Display Name </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating..."
+                [nzErrorTip]="displayNameErrorTpl">
+                <input nz-input formControlName="displayName" placeholder="Display name" />
+            </nz-form-control>
+            <ng-template #displayNameErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">
+                    Please input your api scope display name!
+                </ng-container>
+            </ng-template>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]=" 6" [nzXs]="24">Description</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+                <textarea formControlName="description" nz-input rows="4"
+                    placeholder="Write api scope description..."></textarea>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]=" 6" [nzXs]="24">Required</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+                <nz-switch formControlName="required"></nz-switch>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]=" 6" [nzXs]="24">Emphasize</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+                <nz-switch formControlName="emphasize"></nz-switch>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]=" 6" [nzXs]="24">Show In Discovery Document</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+                <nz-switch formControlName="showInDiscoveryDocument"></nz-switch>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24">User Claims</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+                <nz-tag nzColor="processing" *ngFor="let tag of userClaims" [nzMode]="'closeable'"
+                    (nzOnClose)="closeTagClaim(tag)">
+                    {{ sliceTagName(tag) }}
+                </nz-tag>
+                <nz-tag *ngIf="!inputClaimVisible" class="editable-tag" nzNoAnimation (click)="showClaimInput()"> <i
+                        nz-icon nzType="plus"></i> New claim </nz-tag>
+                <input #inputElement formControlName="userClaims" nz-input nzSize="small" *ngIf="inputClaimVisible"
+                    type="text" [(ngModel)]="inputClaimValue" style="width: 300px;" (blur)="inputConfirmClaim()"
+                    (keydown.enter)="inputConfirmClaim()" />
+                <br><br>
+                <p>Add new claim:</p>
+                <hr>
+                <nz-tag nz-row *ngFor="let tag of claims" nzMode="checkable" nzColor="warning"
+                    (nzCheckedChange)="addClaim(tag)"> +
+                    {{ tag }}
+                </nz-tag>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]=" 6" [nzXs]="24">Properties</nz-form-label>
+            <nz-form-control [nzSm]="24">
+                <button nz-button nzType="primary" [routerLink]="['../properties']">Properties</button>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control [nzOffset]="7" [nzSpan]="12">
+                <button nz-button nzType="primary" [disabled]="!validateForm.valid">Save changes</button>
+                <button nz-button routerLink='/api-scopes'>Cancel</button>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</nz-spin>

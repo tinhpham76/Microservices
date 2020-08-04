@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "auth-server", "auth-server\auth-server.csproj", "{768BF4BF-09E9-4D68-BCDB-2793725A5BCE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "auth-services", "auth-services\auth-services.csproj", "{77983B7F-2FDC-4A7E-96F1-9626124F422A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ABB90CA7-A77C-44E3-8AED-57C985AF5F2A}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{768BF4BF-09E9-4D68-BCDB-2793725A5BCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{768BF4BF-09E9-4D68-BCDB-2793725A5BCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{768BF4BF-09E9-4D68-BCDB-2793725A5BCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{768BF4BF-09E9-4D68-BCDB-2793725A5BCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77983B7F-2FDC-4A7E-96F1-9626124F422A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77983B7F-2FDC-4A7E-96F1-9626124F422A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77983B7F-2FDC-4A7E-96F1-9626124F422A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77983B7F-2FDC-4A7E-96F1-9626124F422A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0A8C9905-ADB7-440C-8D79-58762C1A676C}
+	EndGlobalSection
+EndGlobal

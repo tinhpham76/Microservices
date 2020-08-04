@@ -1,0 +1,466 @@
+<!--Header-->
+<div class="content-heading">
+    <div>
+        💻 Clients
+        <br>
+        <small><b> The Client class represents an OpenID Connect or OAuth 2.0 client - e.g. a native application, a web
+                application or a JS-based application..</b></small>
+    </div>
+</div>
+<button nz-button nzType="primary" nzButtonSize="large" nzShape="round" routerLink='/clients'><i nz-icon
+        nzType="rollback"></i>Go back</button>
+<!--Body-->
+<nz-tabset>
+    <nz-tab nzTitle="Basic">
+        <nz-spin [nzSpinning]="isSpinning">
+            <form nz-form nzSpan="12" nzOffset="6" [formGroup]="basicForm"
+                (ngSubmit)="submitBasicForm(basicForm.value)">
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">ClientId</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <input nz-input formControlName="clientId" readonly />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Client Name</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating..."
+                        [nzErrorTip]="clientNameErrorTpl">
+                        <input nz-input formControlName="clientName" placeholder="Client name" />
+                        <ng-template #clientNameErrorTpl let-control>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please input client name!
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Description</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <textarea formControlName="description" nz-input rows="4"
+                            placeholder="Write client description..."></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Client Uri</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating..."
+                        [nzErrorTip]="clientUriErrorTpl">
+                        <input nz-input formControlName="clientUri" placeholder="Client uri" />
+                        <ng-template #clientUriErrorTpl let-control>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please input client uri!
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Logo Uri</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="Validating...">
+                        <input nz-input formControlName="logoUri" placeholder="Logo uri" [ngModel]="logo" />
+                        <nz-upload [nzLimit]="1" nzAction="{{api_upload}}"
+                            [nzHeaders]="{ authorization: 'authorization-text' }" (nzChange)="handleChange($event)">
+                            <a nz-button><i nz-icon nzType="upload"></i>Click to Upload</a>
+                        </nz-upload>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24">Allowed Cors Origins</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">
+                        <nz-tag nzColor="processing" *ngFor="let tag of allowedCorsOrigins" [nzMode]="'closeable'"
+                            (nzOnClose)="closeTagAllowedCorsOrigins(tag)">
+                            {{ sliceTagName(tag) }}
+                        </nz-tag>
+                        <nz-tag *ngIf="!inputAllowedCorsOriginsVisible" class="editable-tag" nzNoAnimation
+                            (click)="showAllowedCorsOriginsInput()"> <i nz-icon nzType="plus"></i> New Cors Origins
+                        </nz-tag>
+                        <input formControlName="allowedCorsOrigins" #inputElement nz-input nzSize="small"
+                            *ngIf="inputAllowedCorsOriginsVisible" type="text"
+                            [(ngModel)]="inputAllowedCorsOriginsValue" style="width: 300px;"
+                            (blur)="inputConfirmAllowedCorsOrigins()"
+                            (keydown.enter)="inputConfirmAllowedCorsOrigins()" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+                        <button nz-button nzType="primary" [disabled]="!basicForm.valid">Save Changes</button>
+                        <button nz-button routerLink='/clients'>Cancel</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </nz-spin>
+    </nz-tab>
+    <nz-tab nzTitle="Setting">
+        <nz-spin [nzSpinning]="isSpinning">
+            <form nz-form nzSpan="12" nzOffset="6" [formGroup]="settingForm"
+                (ngSubmit)="submitSettingForm(settingForm.value)">
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Enable</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="enabled"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24">Allowed Scopes</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">
+                        <nz-tag nzColor="processing" *ngFor="let tag of allowedScopes" [nzMode]="'closeable'"
+                            (nzOnClose)="closeTagAllowedScopes(tag)">
+                            {{ sliceTagName(tag) }}
+                        </nz-tag>
+                        <br><br>
+                        <p>Add new scope:</p>
+                        <hr>
+                        <nz-tag nz-row *ngFor="let tag of allScopes" nzMode="checkable" nzColor="warning"
+                            (nzCheckedChange)="addAllowedScope(tag)"> +
+                            {{ tag }}
+                        </nz-tag>
+
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24">Redirect Uri's</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">
+                        <nz-tag nzColor="processing" *ngFor="let tag of redirectUris" [nzMode]="'closeable'"
+                            (nzOnClose)="closeTagRedirectUris(tag)">
+                            {{ sliceTagName(tag) }}
+                        </nz-tag>
+                        <nz-tag *ngIf="!inputRedirectUrisVisible" class="editable-tag" nzNoAnimation
+                            (click)="showRedirectUrisInput()"> <i nz-icon nzType="plus"></i> New Redirect Uri </nz-tag>
+                        <input #inputElement formControlName="redirectUris" nz-input nzSize="small"
+                            *ngIf="inputRedirectUrisVisible" type="text" [(ngModel)]="inputRedirectUrisValue"
+                            style="width: 300px;" (blur)="inputConfirmRedirectUris()"
+                            (keydown.enter)="inputConfirmRedirectUris()" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Client Secrets</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <button nz-button nzType="primary" [routerLink]="['../secrets']">Client Secrets</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24">Allowed Grant Types</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">
+                        <nz-tag nzColor="processing" *ngFor="let tag of allowedGrantTypes" [nzMode]="'closeable'"
+                            (nzOnClose)="closeTagAllowedGrantTypes(tag)">
+                            {{ sliceTagName(tag) }}
+                        </nz-tag>
+                        <br><br>
+                        <p>Add new grant type:</p>
+                        <hr>
+                        <nz-tag nz-row *ngFor="let tag of allGrantTypes" nzMode="checkable" nzColor="warning"
+                            (nzCheckedChange)="addAllowedGrantTypes(tag)"> +
+                            {{ tag }}
+                        </nz-tag>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Require Consent Screen</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="requireConsent"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Remember Consent</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="allowRememberConsent"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Allow Offline Access</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="allowOfflineAccess"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Require Client Secret</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="requireClientSecret"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Protocol Type</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <input nz-input formControlName="protocolType" id="protocolType" readonly />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Require Pkce</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="requirePkce"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Allow Plain Text Pkce</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="allowPlainTextPkce"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Allow Access Token Via Browser</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="allowAccessTokensViaBrowser"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Properties</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <button nz-button nzType="primary" [routerLink]="['../properties']">Properties</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+                        <button nz-button nzType="primary" [disabled]="!settingForm.valid">Save Changes</button>
+                        <button nz-button routerLink='/clients'>Cancel</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </nz-spin>
+    </nz-tab>
+    <nz-tab nzTitle="Authentication">
+        <nz-spin [nzSpinning]="isSpinning">
+            <form nz-form nzSpan="12" nzOffset="6" [formGroup]="authenticationForm"
+                (ngSubmit)="submitAuthenticationForm(authenticationForm.value)">
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">User Sso Lifetime </nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">
+                        <input nz-input type="number" formControlName="userSsoLifetime" placeholder="Logo uri" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24">Logout Url</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">
+                        <nz-tag nzColor="processing" *ngFor="let tag of postLogoutRedirectUris" [nzMode]="'closeable'"
+                            (nzOnClose)="closeTagPostLogoutRedirectUris(tag)">
+                            {{ sliceTagName(tag) }}
+                        </nz-tag>
+                        <nz-tag *ngIf="!inputPostLogoutRedirectUrisVisible" class="editable-tag" nzNoAnimation
+                            (click)="showPostLogoutRedirectUrisInput()"> <i nz-icon nzType="plus"></i> New logout url
+                        </nz-tag>
+                        <input formControlName="postLogoutRedirectUris" #inputElement nz-input nzSize="small"
+                            *ngIf="inputPostLogoutRedirectUrisVisible" type="text"
+                            [(ngModel)]="inputPostLogoutRedirectUrisValue" style="width: 300px;"
+                            (blur)="inputConfirmPostLogoutRedirectUris()"
+                            (keydown.enter)="inputConfirmPostLogoutRedirectUris()" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Front Channel Logout Uri</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">
+                        <input nz-input formControlName="frontChannelLogoutUri" placeholder="Logo uri" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Front Channel Logout Session</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="frontChannelLogoutSessionRequired"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Back Channel Logout Uri</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">
+                        <input nz-input formControlName="backChannelLogoutUri" placeholder="Logo uri" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Back Channel Logout Session</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="backChannelLogoutSessionRequired"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">User Sso Lifetime </nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">
+                        <input nz-input type="number" formControlName="userSsoLifetime" placeholder="Logo uri" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+                        <button nz-button nzType="primary" [disabled]="!authenticationForm.valid">Save Changes</button>
+                        <button nz-button routerLink='/clients'>Cancel</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </nz-spin>
+    </nz-tab>
+    <nz-tab nzTitle="Token">
+        <nz-spin [nzSpinning]="isSpinning">
+            <form nz-form nzSpan="12" nzOffset="6" [formGroup]="tokenForm"
+                (ngSubmit)="submitTokenForm(tokenForm.value)">
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Identity Token Lifetime</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating..."
+                        [nzErrorTip]="identityTokenLifetimeErrorTpl">
+                        <input type="number" nz-input formControlName="identityTokenLifetime"
+                            placeholder="Identity Token Lifetime" />
+                        <ng-template #identityTokenLifetimeErrorTpl let-control>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please input your identity token lifetime!
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Access Token Lifetime</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating..."
+                        [nzErrorTip]="accessTokenLifetimeErrorTpl">
+                        <input type="number" nz-input formControlName="accessTokenLifetime"
+                            placeholder="Access Token Lifetime" />
+                        <ng-template #accessTokenLifetimeErrorTpl let-control>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please input your access token lifetime!
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Access Token Type</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">
+                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person"
+                            formControlName="accessTokenType">
+                            <nz-option nzLabel="Jwt" nzValue="Jwt"></nz-option>
+                            <nz-option nzLabel="Reference" nzValue="Reference"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Authorization Code Lifetime</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating..."
+                        [nzErrorTip]="authorizationCodeLifetimeErrorTpl">
+                        <input type="number" nz-input formControlName="authorizationCodeLifetime"
+                            placeholder="AuthorizationCode Lifetime" />
+                        <ng-template #authorizationCodeLifetimeErrorTpl let-control>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please input your authorization code lifetime!
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Absolute Refresh Token Lifetime</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating..."
+                        [nzErrorTip]="absoluteRefreshTokenLifetimeErrorTpl">
+                        <input type="number" nz-input formControlName="absoluteRefreshTokenLifetime"
+                            placeholder="Absolute Refresh Token Lifetime" />
+                        <ng-template #absoluteRefreshTokenLifetimeErrorTpl let-control>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please input your absolute refresh token Lifetime!
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Sliding Refresh Token Lifetime</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating..."
+                        [nzErrorTip]="slidingRefreshTokenLifetimeErrorTpl">
+                        <input type="number" nz-input formControlName="slidingRefreshTokenLifetime"
+                            placeholder="Sliding Refresh Token Lifetime" />
+                        <ng-template #slidingRefreshTokenLifetimeErrorTpl let-control>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please input your sliding refresh token lifetime!
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Refresh Token Usage</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">
+                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person"
+                            formControlName="refreshTokenUsage">
+                            <nz-option nzLabel="ReUse" nzValue="ReUse"></nz-option>
+                            <nz-option nzLabel="OneTimeOnly" nzValue="OneTimeOnly"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Refresh Token Expiration</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating...">
+                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person"
+                            formControlName="refreshTokenExpiration">
+                            <nz-option nzLabel="Sliding" nzValue="Sliding"></nz-option>
+                            <nz-option nzLabel="Absolute" nzValue="Absolute"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Update Access Token Claims On Refresh</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="updateAccessTokenClaimsOnRefresh"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Include Jwt Id</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="includeJwtId"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Always Send Client Claims</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="alwaysSendClientClaims"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Always Include User Claims In Id Token</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <nz-switch formControlName="alwaysIncludeUserClaimsInIdToken"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Pair Wise Subject Salt</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <input nz-input formControlName="pairWiseSubjectSalt" placeholder="Pair Wise Subject Salt" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Client Claims Prefix </nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <input nz-input formControlName="clientClaimsPrefix" placeholder="Client Claims Prefix" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">Claims</nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <button nz-button nzType="primary" [routerLink]="['../claims']">Claims</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+                        <button nz-button nzType="primary" [disabled]="!tokenForm.valid">Save Changes</button>
+                        <button nz-button routerLink='/clients'>Cancel</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </nz-spin>
+    </nz-tab>
+    <nz-tab nzTitle="Device Flow">
+        <nz-spin [nzSpinning]="isSpinning">
+            <form nz-form nzSpan="12" nzOffset="6" [formGroup]="deviceFlowForm"
+                (ngSubmit)="submitDeviceFlowForm(deviceFlowForm.value)">
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24">User Code Type </nz-form-label>
+                    <nz-form-control [nzSm]="24">
+                        <input nz-input formControlName="userCodeType" placeholder="User Code Type" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]=" 6" [nzXs]="24" nzRequired>Device Code Lifetime</nz-form-label>
+                    <nz-form-control [nzSm]="24" nzHasFeedback nzValidatingTip="Validating..."
+                        [nzErrorTip]="deviceCodeLifetimeErrorTpl">
+                        <input type="number" nz-input formControlName="deviceCodeLifetime"
+                            placeholder="Device Code Lifetime" />
+                        <ng-template #deviceCodeLifetimeErrorTpl let-control>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please input your device code lifetime!
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+                        <button nz-button nzType="primary" [disabled]="!deviceFlowForm.valid">Save Changes</button>
+                        <button nz-button routerLink='/clients'>Cancel</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </nz-spin>
+    </nz-tab>
+</nz-tabset>

@@ -1,0 +1,118 @@
+<nz-layout>
+  <!--Sider-->
+  <nz-sider nzCollapsible [nzCollapsed]="true" nzWidth="200px">
+    <div class="item">
+      <ul nz-menu nzTheme="dark" [nzMode]="'inline'">
+        <li nz-menu-item>
+          <a routerLink="" nzTooltipTitle="Home" nzTooltipPlacement="right" nz-tooltip>
+            <i nz-icon nzType="home"></i>
+            <span>Home</span>
+          </a>
+        </li>
+        <li nz-menu-item>
+          <a routerLink='/clients' nzTooltipTitle="Clients" nzTooltipPlacement="right" nz-tooltip>
+            <i nz-icon nzType="desktop"></i>
+            <span>Clients</span>
+          </a>
+        </li>
+        <li nz-submenu nzTitle="Protected Apis" nzIcon="cloud">
+          <ul>
+            <li nz-menu-item>
+              <a routerLink='/api-resources'>
+                <i nz-icon nzType="api"></i>
+                <span>Api Resources</span>
+              </a>
+            </li>
+            <li nz-menu-item>
+              <a routerLink='/api-scopes'>
+                <i nz-icon nzType="cloud"></i>
+                <span>Api Scopes</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li nz-menu-item>
+          <a routerLink='/identity-resources' nzTooltipTitle="Identity Resources" nzTooltipPlacement="right" nz-tooltip>
+            <i nz-icon nzType="key"></i>
+            <span>Identity Resources</span>
+          </a>
+        </li>
+        <li nz-menu-item>
+          <a routerLink='/users' nzTooltipTitle="Users" nzTooltipPlacement="right" nz-tooltip>
+            <i nz-icon nzType="contacts"></i>
+            <span>Users</span>
+          </a>
+        </li>
+        <li nz-menu-item>
+          <a routerLink='/permissions' nzTooltipTitle="Permissions" nzTooltipPlacement="right" nz-tooltip>
+            <i nz-icon nzType="safety-certificate"></i>
+            <span>Permissions</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nz-sider>
+  <!--header-->
+  <nz-layout>
+    <nz-header>
+      <div nz-row>
+        <div nz-col nzSpan="8">
+          <a href="{{authority}}" target="_blank">
+            <img src="./assets/images/is4-logo.png" alt="">
+          </a>
+        </div>
+        <div nz-col nzSpan="6" nzOffset="10">
+          <div nz-row nzJustify="space-around">
+            <ul nz-menu [nzMode]="'horizontal'">
+              <li nz-submenu nzTitle={{FullName}} style="min-width: 250px; text-align: center;">
+                <ul style="min-height: auto;">
+                  <ul>
+                    <div nz-row nzJustify="space-around">
+                      <div nz-col style="margin-top: 5px;">
+                        <a href="{{profile_app_url}}">
+                          <nz-avatar [nzSize]="70" [nzSrc]="Avatar"></nz-avatar>
+                        </a>
+                      </div>
+                    </div>
+                    <div nz-row nzJustify="space-around">
+                      <div nz-col>
+                        <span>
+                          <li nz-menu-group nzTitle={{UserName}}></li>
+                        </span>
+                      </div>
+                    </div>
+                    <div nz-row nzJustify="space-around">
+                      <div nz-col>
+                        <span>
+                          <li nz-menu-group nzTitle={{Email}}></li>
+                        </span>
+                      </div>
+                    </div>
+                    <div nz-row nzJustify="space-around">
+                      <div nz-col>
+                        <a href="javascript:void(0)" (click)="signOut()">
+                          <li nz-menu-item>Logout</li>
+                        </a>
+                      </div>
+                    </div>
+                  </ul>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nz-header>
+    <!--Content-->
+    <nz-content>
+      <nz-breadcrumb>
+        <nz-breadcrumb-item></nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+    <!--Footer-->
+    <nz-footer>Zorro Design ©2020 Implement By Angular</nz-footer>
+  </nz-layout>
+</nz-layout>
