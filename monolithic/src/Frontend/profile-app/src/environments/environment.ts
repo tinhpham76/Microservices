@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
 
-  api_url: 'https://localhost:8080',
+  api_url: 'https://localhost:5000',
 
   authority: 'https://localhost:5000',
   client_id: 'angular_user_profile',
   redirect_uri: 'http://localhost:4300/auth-callback',
   post_logout_redirect_uri: 'http://localhost:4300/',
-  scope: 'USER_API AUTH_SERVER openid profile',
+  scope: 'SSO_SERVER openid profile',
   silent_redirect_uri: 'http://localhost:4300/silent-refresh.html',
   response_type: 'code',
   filterProtocolClaims: true,

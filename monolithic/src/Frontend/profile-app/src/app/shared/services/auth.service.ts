@@ -71,6 +71,6 @@ export function getClientSettings(): UserManagerSettings {
     filterProtocolClaims: environment.filterProtocolClaims,
     loadUserInfo: environment.loadUserInfo,
     automaticSilentRenew: environment.automaticSilentRenew,
-    silent_redirect_uri: environment.silent_redirect_uri
+    silent_redirect_uri: environment.silent_redirect_uri,
   };
 }

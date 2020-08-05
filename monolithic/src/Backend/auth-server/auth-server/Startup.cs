@@ -121,6 +121,7 @@ namespace auth_server
 
             services.AddTransient<DbInitializer>();
             services.AddTransient<IEmailSender, EmailSenderService>();
+            services.AddTransient<IStorageService, FileStorageService>();
 
             // Config swagger
             services.AddSwaggerGen(c =>
